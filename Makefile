@@ -1,9 +1,13 @@
-.PHONY: up down logs dev test init clean
+.PHONY: up down logs dev test seed init clean
 
 up:
 	@test -f .env || cp .env.example .env
+	mkdir -p data
 	docker compose up --build -d
 	@echo "дашборд: http://localhost:8000"
+
+seed:
+	docker compose exec pulse python -m tools.seed_demo --seed 42 --reset
 
 down:
 	docker compose down

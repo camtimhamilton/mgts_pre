@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Пульс · импорт</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="import-page">
+  <header class="top">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">◉</span>
+      <span id="team-name">ПУЛЬС</span>
+      <span class="tag">импорт · фаза 1</span>
+    </div>
+    <div class="status" data-state="ok"><a href="/">← на дашборд</a></div>
+  </header>
+
+  <main>
+    <section class="panel import-panel" aria-labelledby="upload-title">
+      <h2 id="upload-title">Файл с анкетами</h2>
+
+      <input class="visually-hidden" type="file" id="file-input" name="file"
+             accept=".xlsx,.xlsm,.csv" tabindex="-1">
+
+      <label class="drop" id="dropzone" for="file-input" tabindex="0">
+        <span class="drop-title">Перетащи файл сюда</span>
+        <span class="muted">.xlsx, .xlsm или .csv — или выбери файл на диске</span>
+        <span class="mono muted" id="file-picked">файл не выбран</span>
+      </label>
+
+      <div class="grid-2 import-options">
+        <div class="field">
+          <label for="sheet-select">Лист</label>
+          <select id="sheet-select" name="sheet" disabled>
+            <option value="">— первый непустой —</option>
+          </select>
+          <div class="hint">Для книги с несколькими листами. Список появится после разбора.</div>
+        </div>
+        <div class="field">
+          <label for="default-role">Роль по умолчанию</label>
+          <select id="default-role" name="default_role">
+            <option value="">— не задана —</option>
+            <option value="intern">Стажёр</option>
+            <option value="mentor">Наставник</option>
+          </select>
+          <div class="hint">Пригодится, если в файле нет колонки роли.</div>
+        </div>
+      </div>
+
+      <div class="import-actions">
+        <button type="button" id="preview-btn" disabled>Разобрать</button>
+        <button type="button" id="commit-btn" class="secondary" disabled>Загрузить</button>
+        <span class="result" id="status-line" role="status" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <section class="panel import-panel" id="preview-panel" aria-labelledby="preview-title" hidden>
+      <div class="panel-head">
+        <h2 id="preview-title">Что в файле</h2>
+        <span class="badge" id="format-badge" data-kind="muted">—</span>
+      </div>
+
+      <dl class="kv">
+        <dt>Файл</dt><dd id="file-name">—</dd>
+        <dt>Размер</dt><dd id="file-size">—</dd>
+        <dt>Листы</dt><dd id="file-sheets">—</dd>
+        <dt>Строк</dt><dd id="rows-total">—</dd>
+        <dt>Уверенность</dt>
+        <dd>
+          <span id="confidence-value">—</span>
+          <span class="meter" aria-hidden="true"><span class="meter-fill" id="confidence-fill"></span></span>
+        </dd>
+      </dl>
+
+      <ul class="warn-list" id="warnings" hidden></ul>
+
+      <h3 class="section-title">Пример строк</h3>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead><tr id="sample-head"></tr></thead>
+          <tbody id="sample-body"></tbody>
+        </table>
+      </div>
+      <p class="hint" id="sample-note"></p>
+
+      <h3 class="section-title">Маппинг колонок</h3>
+      <p class="hint">Укажи, какая колонка файла отвечает за каждое поле. «— нет —» значит, что такого поля в файле нет.</p>
+      <div id="mapping" class="mapping"></div>
+    </section>
+
+    <section class="panel import-panel" id="commit-result" aria-labelledby="result-title" hidden>
+      <h2 id="result-title">Результат загрузки</h2>
+      <div class="counters" id="result-counters"></div>
+      <div id="errors-wrap" hidden>
+        <h3 class="section-title">Ошибки по строкам</h3>
+        <p class="hint" id="errors-note"></p>
+        <div class="table-scroll">
+          <table class="data-table errors-table">
+            <thead><tr><th>Строка</th><th>Ошибка</th></tr></thead>
+            <tbody id="errors"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span id="foot-team">ПУЛЬС</span> ·
+    <span class="muted">предпросмотр ничего не пишет; повторная загрузка не создаёт дублей</span>
+  </footer>
+
+  <script type="module" src="/static/import.js"></script>
+</body>
+</html>

@@ -34,3 +34,8 @@ def index() -> FileResponse:
 @app.get("/form", include_in_schema=False)
 def form_page() -> FileResponse:
     return FileResponse(STATIC / "form.html")
+
+
+@app.get("/import", include_in_schema=False)
+def import_page() -> FileResponse:
+    return FileResponse(STATIC / "import.html")

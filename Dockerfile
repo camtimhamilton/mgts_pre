@@ -11,6 +11,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app ./app
 COPY fixtures ./fixtures
+COPY tools ./tools
+
+# Файлы в рабочей копии могут быть созданы с правами 600. В контейнере процесс
+# работает не от root, поэтому чтение надо разрешить явно.
+RUN chmod -R a+rX /app
 
 RUN mkdir -p /data
 

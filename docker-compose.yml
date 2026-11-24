@@ -2,6 +2,9 @@ services:
   pulse:
     build: .
     container_name: pulse
+    # Тот же uid, что у владельца каталога data/: тогда и контейнер, и локальный
+    # `python -m tools.seed_demo` пишут в одну базу без root-овых файлов.
+    user: "${PULSE_UID:-1000}:${PULSE_GID:-1000}"
     ports:
       - "8000:8000"
     env_file:

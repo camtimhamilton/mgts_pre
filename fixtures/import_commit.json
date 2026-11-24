@@ -1,0 +1,8 @@
+{
+  "created": 57,
+  "updated": 0,
+  "duplicates": 3,
+  "errors_total": 1,
+  "unmatched": 1,
+  "errors": [{ "row": 42, "error": "не удалось определить месяц" }]
+}

@@ -9,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 
 from . import api
 from .db import init_db
+from .routers import imports
 
 STATIC = Path(__file__).with_name("static")
 
@@ -21,6 +22,7 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(title="Пульс программы", version="0.2", lifespan=lifespan)
 app.include_router(api.router)
+app.include_router(imports.router)
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
 

@@ -1,0 +1,48 @@
+{
+  "id": 1,
+  "month": "M5",
+  "intern_name": "Иванов Пётр",
+  "mentor_name": "Сидоров А.",
+  "direction": "Техподдержка",
+  "program": { "month_current": 5, "months_total": 6 },
+  "risk": 72,
+  "delta": 10,
+  "band": "critical",
+  "trend": { "key": "fast_growth", "label": "быстро растёт" },
+  "score_origin": "answer",
+  "summary": "Наставник видит инициативного стажёра, сам стажёр говорит о неясных задачах и отсутствии обратной связи. Разрыв по ясности задач — шесть баллов из десяти, это главный вклад в индекс.",
+  "factors": [
+    { "key": "motivation", "label": "Мотивация", "points": 12.5, "score_intern": 4, "score_mentor": 6, "gap": 2, "quote": "интересно, но не понимаю, зачем это всё" },
+    { "key": "clarity", "label": "Ясность задач", "points": 12, "score_intern": 1, "score_mentor": 7, "gap": 6, "quote": "не понимаю, что от меня хотят" },
+    { "key": "mentor", "label": "Наставник", "points": 10, "score_intern": 5, "score_mentor": 5, "gap": 0, "quote": "созваниваемся раз в неделю" },
+    { "key": "workload", "label": "Нагрузка", "points": 7.5, "score_intern": 4, "score_mentor": 6, "gap": 2, "quote": "задач много, приоритеты не расставлены" },
+    { "key": "inclusion", "label": "Включённость", "points": 5, "score_intern": 5, "score_mentor": 5, "gap": 0, "quote": "" },
+    { "key": "future", "label": "Будущее", "points": 5, "score_intern": 4, "score_mentor": 6, "gap": 2, "quote": "не знаю, возьмут ли в штат" }
+  ],
+  "gap_penalty": 16,
+  "text_penalty": 4,
+  "signals": [
+    { "key": "conflict", "label": "разрыв картины мира", "points": 4, "quote": "наставник хвалит, а я не понимаю, что делаю" }
+  ],
+  "steps": [
+    { "key": "clarity", "text": "Согласовать письменный список задач и критерии готовности на месяц", "reduction": 8, "owner": "наставник", "due": "2 недели" },
+    { "key": "motivation", "text": "Показать, как задача связана с результатом команды", "reduction": 7, "owner": "наставник", "due": "1 месяц" },
+    { "key": "mentor", "text": "Ввести короткую встречу раз в неделю с фиксированной обратной связью", "reduction": 6, "owner": "HR", "due": "2 недели" }
+  ],
+  "history": [
+    { "month": "M1", "risk": 22 },
+    { "month": "M2", "risk": 31 },
+    { "month": "M3", "risk": 45 },
+    { "month": "M4", "risk": 62 },
+    { "month": "M5", "risk": 72 }
+  ],
+  "scenarios": {
+    "base": [{ "month": "M6", "risk": 85, "low": 79, "high": 91 }],
+    "with_actions": [{ "month": "M6", "risk": 64, "low": 58, "high": 70 }]
+  },
+  "observation": { "months": 5, "with_both_forms": 4 },
+  "originals": {
+    "intern": { "received_at": "2026-11-24T10:12:00+03:00", "source": "form" },
+    "mentor": { "received_at": "2026-11-24T11:03:00+03:00", "source": "form" }
+  }
+}

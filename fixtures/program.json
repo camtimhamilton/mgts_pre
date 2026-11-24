@@ -1,0 +1,75 @@
+{
+  "month": "M5",
+  "months": ["M1", "M2", "M3", "M4", "M5"],
+  "kpi": {
+    "at_risk": 2,
+    "total_pairs": 5,
+    "avg_risk": 47,
+    "gap_pairs": 2,
+    "submitted": { "done": 9, "expected": 10 },
+    "last_signal_sec": 18
+  },
+  "bands": { "low": 1, "watch": 2, "critical": 2 },
+  "top_causes": [
+    { "key": "clarity", "label": "неясные задачи", "count": 3 },
+    { "key": "future", "label": "нет ясности по офферу", "count": 2 },
+    { "key": "mentor", "label": "мало обратной связи", "count": 2 }
+  ],
+  "heatmap": [
+    {
+      "pair_id": 1,
+      "name": "Иванов Пётр",
+      "cells": [
+        { "month": "M1", "risk": 22 },
+        { "month": "M2", "risk": 31 },
+        { "month": "M3", "risk": 45 },
+        { "month": "M4", "risk": 62 },
+        { "month": "M5", "risk": 72 }
+      ]
+    },
+    {
+      "pair_id": 2,
+      "name": "Петрова Анна",
+      "cells": [
+        { "month": "M1", "risk": 30 },
+        { "month": "M2", "risk": 34 },
+        { "month": "M3", "risk": 40 },
+        { "month": "M4", "risk": 52 },
+        { "month": "M5", "risk": 61 }
+      ]
+    },
+    {
+      "pair_id": 3,
+      "name": "Сидоров Илья",
+      "cells": [
+        { "month": "M1", "risk": 50 },
+        { "month": "M2", "risk": 48 },
+        { "month": "M3", "risk": 45 },
+        { "month": "M4", "risk": 44 },
+        { "month": "M5", "risk": 44 }
+      ]
+    },
+    {
+      "pair_id": 4,
+      "name": "Кузнецов Марк",
+      "cells": [
+        { "month": "M1", "risk": 56 },
+        { "month": "M2", "risk": 52 },
+        { "month": "M3", "risk": 48 },
+        { "month": "M4", "risk": 44 },
+        { "month": "M5", "risk": 38 }
+      ]
+    },
+    {
+      "pair_id": 5,
+      "name": "Алексеев Тимур",
+      "cells": [
+        { "month": "M1", "risk": 30 },
+        { "month": "M2", "risk": 28 },
+        { "month": "M3", "risk": 26 },
+        { "month": "M4", "risk": 24 },
+        { "month": "M5", "risk": 22 }
+      ]
+    }
+  ]
+}

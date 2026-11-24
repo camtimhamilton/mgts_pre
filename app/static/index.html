@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Пульс программы</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">◉</span>
+      <span id="team-name">ПУЛЬС</span>
+      <span class="tag">фаза 0 · скелет</span>
+    </div>
+    <div class="status" id="status" data-state="loading">проверяю…</div>
+  </header>
+
+  <main>
+    <section class="cards">
+      <article class="card">
+        <h2>Приёмник</h2>
+        <pre>POST /api/ingest</pre>
+        <p class="muted" id="card-ingest">—</p>
+      </article>
+      <article class="card">
+        <h2>Канал</h2>
+        <p>Яндекс Формы → HTTP-запрос</p>
+        <p class="muted">Резерв: <a href="/form">своя страница формы</a></p>
+      </article>
+      <article class="card">
+        <h2>Данные</h2>
+        <p id="card-source">—</p>
+        <p class="muted">Пока пусто: контракт отдаётся из фикстур</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Лог приёмника</h2>
+        <span class="muted" id="log-total"></span>
+      </div>
+      <div id="log" class="log"><p class="muted">Пока ничего не приходило.</p></div>
+    </section>
+  </main>
+
+  <footer>
+    <span id="foot-team">ПУЛЬС</span> · <span class="muted">контракт API: /docs</span>
+  </footer>
+
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>

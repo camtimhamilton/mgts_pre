@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Пульс · анкета</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">◉</span>
+      <span id="team-name">ПУЛЬС</span>
+      <span class="tag">своя форма · резерв</span>
+    </div>
+    <div class="status" data-state="ok"><a href="/">← на дашборд</a></div>
+  </header>
+
+  <main class="form-wrap">
+    <form id="survey" novalidate>
+      <div class="grid-2">
+        <div class="field">
+          <label for="s_role">Кто заполняет</label>
+          <select id="s_role" name="s_role">
+            <option value="intern">Стажёр</option>
+            <option value="mentor">Наставник</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="s_month">Месяц стажировки</label>
+          <select id="s_month" name="s_month">
+            <option>M1</option><option>M2</option><option selected>M3</option>
+            <option>M4</option><option>M5</option><option>M6</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="s_name">Фамилия и имя стажёра</label>
+          <input type="text" id="s_name" name="s_name" autocomplete="off" required>
+        </div>
+        <div class="field">
+          <label for="s_mentor">Наставник</label>
+          <input type="text" id="s_mentor" name="s_mentor" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="s_direction">Направление</label>
+        <input type="text" id="s_direction" name="s_direction" autocomplete="off">
+      </div>
+
+      <h2 class="muted" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:26px 0 12px">
+        Оценки · 1 — совсем нет, 10 — полностью
+      </h2>
+
+      <div id="ranges"></div>
+
+      <div class="field">
+        <label for="q_better">Что за последний месяц изменилось к лучшему?</label>
+        <textarea id="q_better" name="q_better"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="q_barrier">Что мешает работать или снижает желание продолжать?</label>
+        <textarea id="q_barrier" name="q_barrier"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="ingest_key">Ключ приёма (если задан в .env)</label>
+        <input type="text" id="ingest_key" name="ingest_key" autocomplete="off" placeholder="оставь пустым, если INGEST_KEY не задан">
+        <div class="hint">Нужен, чтобы посторонние не писали в приёмник.</div>
+      </div>
+
+      <button type="submit" id="submit">Отправить</button>
+      <div class="result" id="result"></div>
+    </form>
+  </main>
+
+  <footer><span id="foot-team">ПУЛЬС</span> · <span class="muted">эта страница — резервный канал на случай проблем с внешней формой</span></footer>
+
+  <script type="module" src="/static/form.js"></script>
+</body>
+</html>

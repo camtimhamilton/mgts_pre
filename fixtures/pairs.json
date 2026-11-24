@@ -1,0 +1,75 @@
+{
+  "month": "M5",
+  "items": [
+    {
+      "id": 1,
+      "intern_name": "Иванов Пётр",
+      "mentor_name": "Сидоров А.",
+      "direction": "Техподдержка",
+      "risk": 72,
+      "delta": 10,
+      "band": "critical",
+      "urgency": 87,
+      "gap": 6,
+      "sparkline": [22, 31, 45, 62, 72],
+      "missing": null,
+      "photo_url": null
+    },
+    {
+      "id": 2,
+      "intern_name": "Петрова Анна",
+      "mentor_name": "Кузнецова М.",
+      "direction": "Аналитика",
+      "risk": 61,
+      "delta": 9,
+      "band": "critical",
+      "urgency": 74.5,
+      "gap": 5,
+      "sparkline": [30, 34, 40, 52, 61],
+      "missing": null,
+      "photo_url": null
+    },
+    {
+      "id": 3,
+      "intern_name": "Сидоров Илья",
+      "mentor_name": "Орлов Д.",
+      "direction": "Сети",
+      "risk": 44,
+      "delta": 0,
+      "band": "watch",
+      "urgency": 44,
+      "gap": 2,
+      "sparkline": [50, 48, 45, 44, 44],
+      "missing": "mentor",
+      "photo_url": null
+    },
+    {
+      "id": 4,
+      "intern_name": "Кузнецов Марк",
+      "mentor_name": "Фёдорова Е.",
+      "direction": "Биллинг",
+      "risk": 38,
+      "delta": -6,
+      "band": "watch",
+      "urgency": 38,
+      "gap": 1,
+      "sparkline": [56, 52, 48, 44, 38],
+      "missing": null,
+      "photo_url": null
+    },
+    {
+      "id": 5,
+      "intern_name": "Алексеев Тимур",
+      "mentor_name": "Белов К.",
+      "direction": "Мобильные",
+      "risk": 22,
+      "delta": -2,
+      "band": "low",
+      "urgency": 22,
+      "gap": 0,
+      "sparkline": [30, 28, 26, 24, 22],
+      "missing": null,
+      "photo_url": null
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+services:
+  pulse:
+    build: .
+    container_name: pulse
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DB_PATH: /data/app.db
+    volumes:
+      - ./data:/data
+    restart: unless-stopped

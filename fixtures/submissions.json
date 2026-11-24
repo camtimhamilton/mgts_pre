@@ -1,0 +1,68 @@
+{
+  "pair_id": 1,
+  "items": [
+    {
+      "id": 101,
+      "role": "intern",
+      "month": "M5",
+      "source": "form",
+      "received_at": "2026-11-24T10:12:00+03:00",
+      "s_name": "Иванов Пётр",
+      "s_mentor": "Сидоров А.",
+      "answers": {
+        "f_motivation": 4,
+        "f_clarity": 1,
+        "f_mentor": 5,
+        "f_workload": 4,
+        "f_inclusion": 5,
+        "f_future": 4
+      },
+      "open": {
+        "q_better": "Стало больше самостоятельных задач, это плюс.",
+        "q_barrier": "Не понимаю, что от меня хотят и по каким критериям оценивают. Наставник занят, обратной связи почти нет. Наставник хвалит, а я не понимаю, что делаю."
+      }
+    },
+    {
+      "id": 102,
+      "role": "mentor",
+      "month": "M5",
+      "source": "form",
+      "received_at": "2026-11-24T11:03:00+03:00",
+      "s_name": "Иванов Пётр",
+      "s_mentor": "Сидоров А.",
+      "answers": {
+        "f_motivation": 6,
+        "f_clarity": 7,
+        "f_mentor": 5,
+        "f_workload": 6,
+        "f_inclusion": 5,
+        "f_future": 6
+      },
+      "open": {
+        "q_better": "Начал сам брать задачи из очереди, меньше спрашивает по мелочам.",
+        "q_barrier": "Пока не вижу проблем: задачи понятны, темп нормальный."
+      }
+    },
+    {
+      "id": 71,
+      "role": "mentor",
+      "month": "M4",
+      "source": "form",
+      "received_at": "2026-10-25T09:40:00+03:00",
+      "s_name": "Иванов Пётр",
+      "s_mentor": "Сидоров А.",
+      "answers": {
+        "f_motivation": 6,
+        "f_clarity": 7,
+        "f_mentor": 6,
+        "f_workload": 6,
+        "f_inclusion": 6,
+        "f_future": 7
+      },
+      "open": {
+        "q_better": "Аккуратнее работает с тикетами.",
+        "q_barrier": "Иногда теряется, если задача нетиповая."
+      }
+    }
+  ]
+}

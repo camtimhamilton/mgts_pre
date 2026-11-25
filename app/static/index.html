@@ -5,49 +5,109 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Пульс программы</title>
   <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/dashboard.css">
 </head>
-<body>
+<body class="dash" data-view="hr">
   <header class="top">
     <div class="brand">
       <span class="logo" aria-hidden="true">◉</span>
       <span id="team-name">ПУЛЬС</span>
-      <span class="tag">фаза 0 · скелет</span>
+      <span class="tag" id="view-tag">мониторинг стажировки</span>
     </div>
-    <div class="status" id="status" data-state="loading">проверяю…</div>
+
+    <div class="top-mid">
+      <label class="month-picker" for="month">
+        <span>Месяц</span>
+        <select id="month" aria-label="Месяц стажировки"></select>
+      </label>
+      <span class="muted" id="month-hint"></span>
+    </div>
+
+    <div class="top-right">
+      <span class="status" id="status" data-state="loading">загрузка…</span>
+    </div>
   </header>
 
-  <main>
-    <section class="cards">
-      <article class="card">
-        <h2>Приёмник</h2>
-        <pre>POST /api/ingest</pre>
-        <p class="muted" id="card-ingest">—</p>
-      </article>
-      <article class="card">
-        <h2>Канал</h2>
-        <p>Яндекс Формы → HTTP-запрос</p>
-        <p class="muted">Резерв: <a href="/form">своя страница формы</a></p>
-      </article>
-      <article class="card">
-        <h2>Данные</h2>
-        <p id="card-source">—</p>
-        <p class="muted">Пока пусто: контракт отдаётся из фикстур · <a href="/import">импорт из файла</a></p>
-      </article>
-    </section>
+  <section class="kpi" id="kpi" aria-label="Общая картина"></section>
 
-    <section class="panel">
-      <div class="panel-head">
-        <h2>Лог приёмника</h2>
-        <span class="muted" id="log-total"></span>
+  <section class="kpi-extra" id="kpi-extra" aria-label="Аналитика для руководителя">
+    <div class="bands" style="display:flex;align-items:center;gap:10px">
+      <span class="muted">распределение</span>
+      <div class="bands-bar" id="bands-bar"></div>
+      <span class="muted" id="bands-legend"></span>
+    </div>
+    <div class="hypothesis" id="hypothesis"></div>
+  </section>
+
+  <main class="layout">
+    <aside class="rail">
+      <div class="rail-tools">
+        <input type="search" id="search" placeholder="Поиск по имени" aria-label="Поиск по имени">
+        <div class="segmented" id="sort" role="group" aria-label="Сортировка">
+          <button data-sort="urgency" class="active">Срочность</button>
+          <button data-sort="risk">Индекс</button>
+          <button data-sort="delta">Рост</button>
+        </div>
+        <div class="filters" id="filters" role="group" aria-label="Фильтр">
+          <button data-filter="all" class="active">Все</button>
+          <button data-filter="risk">В зоне риска</button>
+          <button data-filter="gap">Разрыв</button>
+          <button data-filter="missing">Нет анкеты</button>
+        </div>
       </div>
-      <div id="log" class="log"><p class="muted">Пока ничего не приходило.</p></div>
+
+      <div class="list" id="list" aria-live="polite"></div>
+
+      <div class="rail-bottom">
+        <section class="pulse">
+          <h3>Пульс программы</h3>
+          <div id="heatmap" class="heatmap"></div>
+        </section>
+        <section class="causes" id="causes-box">
+          <h3>Топ причин</h3>
+          <div id="causes"></div>
+        </section>
+      </div>
+    </aside>
+
+    <section class="card" id="card" aria-live="polite">
+      <div class="empty" id="empty">
+        <div class="empty-icon" aria-hidden="true">◎</div>
+        <h2>Выберите человека</h2>
+        <p class="muted">Слева — список пар, отсортированный по срочности. Сверху те, с кем надо работать в первую очередь.</p>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <span id="foot-team">ПУЛЬС</span> · <span class="muted">контракт API: /docs</span>
+  <footer class="foot">
+    <span><span id="foot-team">ПУЛЬС</span> · <span id="source-note" class="muted">данные загружаются</span></span>
+    <span class="links">
+      <button id="open-log" class="linklike">журнал приёма</button>
+      <span class="muted">·</span>
+      <a href="/import">импорт из файла</a>
+    </span>
   </footer>
 
-  <script type="module" src="/static/app.js"></script>
+  <div class="toast" id="toast" hidden></div>
+
+  <aside class="drawer" id="originals" hidden aria-label="Оригиналы ответов">
+    <header>
+      <h2>Оригиналы ответов</h2>
+      <button class="linklike" data-close="originals">закрыть</button>
+    </header>
+    <div class="drawer-body" id="originals-body"></div>
+  </aside>
+
+  <aside class="drawer" id="log" hidden aria-label="Журнал приёма">
+    <header>
+      <h2>Журнал приёма</h2>
+      <button class="linklike" data-close="log">закрыть</button>
+    </header>
+    <div class="drawer-body" id="log-body"><p class="muted">загрузка…</p></div>
+  </aside>
+
+  <div class="scrim" id="scrim" hidden></div>
+
+  <script type="module" src="/static/dashboard.js"></script>
 </body>
 </html>

@@ -150,6 +150,7 @@ def _persist_snapshot(
         "photo_url": pair["photo_url"],
         "program": {"month_current": _idx(month), "months_total": len(MONTHS)},
         "risk": core["risk"],
+        "base": core["base"],
         "delta": delta,
         "band": core["band"],
         "trend": _trend(delta),

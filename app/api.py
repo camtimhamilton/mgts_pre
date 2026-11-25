@@ -40,8 +40,8 @@ def health() -> dict[str, Any]:
     return {
         "status": "ok",
         "app": "pulse",
-        "version": "0.4",
-        "phase": 2,
+        "version": "0.5",
+        "phase": 3,
         "db": ping(),
         "view": settings.app_view,
         "team": settings.team_name,

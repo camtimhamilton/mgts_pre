@@ -1,4 +1,5 @@
 .venv/
+.playwright/
 .dockercfg/
 __pycache__/
 *.pyc

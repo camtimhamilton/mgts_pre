@@ -17,7 +17,7 @@ def test_health_ok():
         body = res.json()
         assert body["status"] == "ok"
         assert body["db"] is True
-        assert body["version"] == "0.4"
+        assert body["version"] == "0.5"
 
 
 def test_index_and_form_are_served():

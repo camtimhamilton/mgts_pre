@@ -161,5 +161,5 @@ def test_index_links_to_import_once():
     assert 'href="/import"' in html
     assert html.count('href="/import"') == 1
     # Ссылка не должна ломать работающий дашборд.
-    assert 'src="/static/app.js"' in html
+    assert 'src="/static/dashboard.js"' in html
     assert 'href="/static/styles.css"' in html

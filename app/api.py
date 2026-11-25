@@ -150,24 +150,41 @@ async def ingest(request: Request) -> JSONResponse:
     headers = {key.lower(): value for key, value in request.headers.items()}
     raw = body.decode("utf-8", errors="replace")
 
-    key_ok = not settings.ingest_key or headers.get("x-ingest-key") == settings.ingest_key
-    status = "accepted" if key_ok else "rejected"
-    error = None if key_ok else "bad ingest key"
-
     parsed: Any = None
     is_rpc = False
+    error = None
     try:
         parsed = json.loads(raw) if raw.strip() else None
         is_rpc = isinstance(parsed, dict) and parsed.get("jsonrpc") == "2.0"
     except json.JSONDecodeError as exc:
-        status = "unparsed"
         error = f"json: {exc.msg}"
+
+    payload = _payload_from_request(parsed, is_rpc)
+
+    # Ключ ищем в заголовке или в params.key: JSON-RPC-интеграция Яндекс Форм
+    # не поддерживает произвольные заголовки, а поле в теле — поддерживает.
+    supplied_key = headers.get("x-ingest-key")
+    if not supplied_key and isinstance(payload, dict):
+        supplied_key = payload.get("key")
+    key_ok = not settings.ingest_key or supplied_key == settings.ingest_key
+
+    if error:
+        status = "unparsed"
+    else:
+        status = "accepted" if key_ok else "rejected"
+    if not key_ok and not error:
+        error = "bad ingest key"
+
+    # Секрет не должен оседать в журнале приёма.
+    logged_raw = raw
+    if settings.ingest_key and settings.ingest_key in logged_raw:
+        logged_raw = logged_raw.replace(settings.ingest_key, "***")
 
     row_id, duplicate = _log_ingest(
         source="webhook",
         delivery_id=headers.get("x-delivery-id"),
         status=status,
-        raw=raw,
+        raw=logged_raw,
         headers=headers,
         error=error,
     )
@@ -179,7 +196,6 @@ async def ingest(request: Request) -> JSONResponse:
         "status": "duplicate" if duplicate else status,
     }
 
-    payload = _payload_from_request(parsed, is_rpc)
     if key_ok and payload is not None and not duplicate:
         try:
             submission = from_payload(payload, source="form")

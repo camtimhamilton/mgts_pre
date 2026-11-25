@@ -185,6 +185,19 @@ def from_payload(payload: dict, source: str = "form", origin: str = "answer") ->
     )
 
 
+def normalize_name(value: object) -> str:
+    """Имя из формы: убираем лишние пробелы, но не трогаем регистр для показа."""
+    return " ".join(str(value or "").split()).strip()
+
+
+def name_key(value: object) -> str:
+    """Ключ сравнения имён: без регистра, ё и лишних пробелов.
+
+    Нужен, чтобы «Иванов Пётр», «иванов петр» и «Иванов  Пётр» были одной парой.
+    """
+    return normalize_name(value).casefold().replace("ё", "е")
+
+
 def _optional(value: object) -> str | None:
     if value is None:
         return None

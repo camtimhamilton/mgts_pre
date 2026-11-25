@@ -9,7 +9,7 @@ from __future__ import annotations
 import json
 import sqlite3
 
-from .normalize import Submission, content_hash
+from .normalize import Submission, content_hash, name_key, normalize_name
 
 
 def get_or_create_pair(
@@ -18,22 +18,27 @@ def get_or_create_pair(
     mentor_name: str | None = None,
     direction: str | None = None,
 ) -> int:
-    row = conn.execute("SELECT id FROM pairs WHERE intern_name = ?", (intern_name,)).fetchone()
-    if row:
-        conn.execute(
-            """
-            UPDATE pairs
-               SET mentor_name = COALESCE(?, mentor_name),
-                   direction   = COALESCE(?, direction)
-             WHERE id = ?
-            """,
-            (mentor_name, direction, row["id"]),
-        )
-        return int(row["id"])
+    pretty = normalize_name(intern_name)
+    target = name_key(pretty)
+
+    # Сравнение в Python: SQLite без ICU не умеет lower() для кириллицы.
+    # Пар десятки, так что перебор дешевле, чем ещё одна колонка с ключом.
+    for row in conn.execute("SELECT id, intern_name FROM pairs").fetchall():
+        if name_key(row["intern_name"]) == target:
+            conn.execute(
+                """
+                UPDATE pairs
+                   SET mentor_name = COALESCE(?, mentor_name),
+                       direction   = COALESCE(?, direction)
+                 WHERE id = ?
+                """,
+                (mentor_name, direction, row["id"]),
+            )
+            return int(row["id"])
 
     cur = conn.execute(
         "INSERT INTO pairs (intern_name, mentor_name, direction) VALUES (?, ?, ?)",
-        (intern_name, mentor_name, direction),
+        (pretty, mentor_name, direction),
     )
     return int(cur.lastrowid or 0)
 

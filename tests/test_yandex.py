@@ -130,3 +130,38 @@ def test_ingest_key_can_come_in_params():
             assert with_key.json()["result"]["submission"]["status"] == "created"
     finally:
         settings.ingest_key = previous
+
+
+def test_two_roles_in_one_second_both_land_in_snapshot():
+    """Анкеты стажёра и наставника приходят подряд: вторая не должна потеряться."""
+    name = f"Пара Тестов {uuid.uuid4().hex[:8]}"
+    intern = _rpc_params(name, "M4", "intern")
+    mentor = _rpc_params(name, "M4", "mentor")
+    mentor["f_clarity"] = "8"
+
+    with TestClient(app) as client:
+        client.post("/api/ingest", json=_rpc(intern), headers={"x-delivery-id": uuid.uuid4().hex})
+        client.post("/api/ingest", json=_rpc(mentor), headers={"x-delivery-id": uuid.uuid4().hex})
+
+        conn = connect()
+        try:
+            pair_id = conn.execute(
+                "SELECT id FROM pairs WHERE intern_name = ?", (name,)
+            ).fetchone()["id"]
+        finally:
+            conn.close()
+
+        card = None
+        for _ in range(60):
+            response = client.get(f"/api/pairs/{pair_id}", params={"month": "M4"})
+            if response.status_code == 200:
+                card = response.json()
+                if all(factor["score_mentor"] is not None for factor in card["factors"]):
+                    break
+            import time
+
+            time.sleep(0.1)
+
+    assert card is not None
+    assert all(factor["score_mentor"] is not None for factor in card["factors"]), card["factors"]
+    assert card["gap_penalty"] > 0

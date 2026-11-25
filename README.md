@@ -112,6 +112,7 @@ docs/           спека, план, анкеты, канал приёма, к�
 - [docs/form-channel.md](docs/form-channel.md) — как ответы попадают в дашборд
 - [docs/api.md](docs/api.md) — контракт API
 - [docs/yandex-forms.md](docs/yandex-forms.md) — как подключить Яндекс Форму
+- [docs/form-kit.md](docs/form-kit.md) — мок-набор ответов и пошаговая настройка формы
 
 ## Расчёт и LLM
 

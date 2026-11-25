@@ -27,8 +27,11 @@ logger = logging.getLogger("pulse.api")
 router = APIRouter()
 FIXTURES = Path(__file__).resolve().parent.parent / "fixtures"
 
-# Пары, которые уже считаются: защита от двойного пересчёта по одному событию.
+# Пары, которые уже считаются, и те, что попросили пересчитать ещё раз.
+# Если анкеты стажёра и наставника пришли в одну секунду, второй запрос не должен
+# потеряться: он ставит пару в очередь, и после текущего прохода она считается снова.
 _inflight: set[tuple[int, str]] = set()
+_pending: set[tuple[int, str]] = set()
 
 
 # ---------------------------------------------------------------- служебное
@@ -110,30 +113,37 @@ def _payload_from_request(parsed: Any, is_rpc: bool) -> dict | None:
 async def _recompute_in_background(pair_id: int, month: str) -> None:
     key = (pair_id, month)
     if key in _inflight:
+        _pending.add(key)
         return
     _inflight.add(key)
-    try:
-        def work() -> dict | None:
-            conn = connect()
-            try:
-                return service.recompute_pair_month(conn, pair_id, month)
-            finally:
-                conn.close()
 
-        data = await asyncio.to_thread(work)
-        if data:
-            broker.publish(
-                {
-                    "event": "snapshot.ready",
-                    "pair_id": pair_id,
-                    "month": month,
-                    "risk": data["risk"],
-                    "band": data["band"],
-                }
-            )
+    def work() -> dict | None:
+        conn = connect()
+        try:
+            return service.recompute_pair_month(conn, pair_id, month)
+        finally:
+            conn.close()
+
+    try:
+        while True:
+            data = await asyncio.to_thread(work)
+            if data:
+                broker.publish(
+                    {
+                        "event": "snapshot.ready",
+                        "pair_id": pair_id,
+                        "month": month,
+                        "risk": data["risk"],
+                        "band": data["band"],
+                    }
+                )
+            if key not in _pending:
+                break
+            _pending.discard(key)
     except Exception:  # noqa: BLE001 — фоновая задача не должна ронять процесс
         logger.exception("не удалось пересчитать пару %s за %s", pair_id, month)
     finally:
+        _pending.discard(key)
         _inflight.discard(key)
 
 

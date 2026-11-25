@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mgts-internship-ml"
+version = "0.1.1"
+description = "Offline explainable internship support index prototype"
+requires-python = ">=3.11"
+dependencies = ["fastapi==0.115.14", "pydantic==2.11.7", "PyYAML==6.0.2", "uvicorn==0.34.3", "httpx==0.28.1"]
+
+[project.optional-dependencies]
+dev = ["pytest==8.4.1"]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["live: external paid API, skipped without explicit opt-in and env key"]

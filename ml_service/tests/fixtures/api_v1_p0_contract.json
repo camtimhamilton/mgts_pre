@@ -1,0 +1,755 @@
+{
+  "schemas": {
+    "SurveyPeriod": {
+      "properties": {
+        "program_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$",
+          "title": "Program Id"
+        },
+        "intern_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$",
+          "title": "Intern Id"
+        },
+        "period": {
+          "type": "integer",
+          "maximum": 6.0,
+          "minimum": 1.0,
+          "title": "Period"
+        },
+        "program_day": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "maximum": 366.0,
+              "minimum": 1.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Program Day"
+        },
+        "context": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "type": "object",
+          "maxProperties": 1,
+          "title": "Context"
+        },
+        "mapping_version": {
+          "type": "string",
+          "title": "Mapping Version",
+          "default": "demo-1"
+        },
+        "knowledge_version": {
+          "type": "string",
+          "title": "Knowledge Version",
+          "default": "0.1.0"
+        },
+        "responses": {
+          "items": {
+            "$ref": "#/components/schemas/Response"
+          },
+          "type": "array",
+          "maxItems": 2,
+          "title": "Responses"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "program_id",
+        "intern_id",
+        "period",
+        "responses"
+      ],
+      "title": "SurveyPeriod"
+    },
+    "Response": {
+      "properties": {
+        "response_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$",
+          "title": "Response Id"
+        },
+        "respondent_role": {
+          "type": "string",
+          "enum": [
+            "intern",
+            "mentor"
+          ],
+          "title": "Respondent Role"
+        },
+        "mentor_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mentor Id"
+        },
+        "submitted_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Submitted At"
+        },
+        "answers": {
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TextAnswer"
+              },
+              {
+                "$ref": "#/components/schemas/RatingAnswer"
+              }
+            ],
+            "discriminator": {
+              "propertyName": "type",
+              "mapping": {
+                "rating": "#/components/schemas/RatingAnswer",
+                "text": "#/components/schemas/TextAnswer"
+              }
+            }
+          },
+          "type": "array",
+          "maxItems": 100,
+          "title": "Answers"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "response_id",
+        "respondent_role",
+        "answers"
+      ],
+      "title": "Response"
+    },
+    "TextAnswer": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "text",
+          "title": "Type"
+        },
+        "question_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$",
+          "title": "Question Id"
+        },
+        "question_text": {
+          "type": "string",
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Question Text"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 12000
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "type",
+        "question_id",
+        "question_text",
+        "value"
+      ],
+      "title": "TextAnswer"
+    },
+    "RatingAnswer": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "rating",
+          "title": "Type"
+        },
+        "question_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$",
+          "title": "Question Id"
+        },
+        "question_text": {
+          "type": "string",
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Question Text"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        },
+        "scale_min": {
+          "type": "number",
+          "title": "Scale Min"
+        },
+        "scale_max": {
+          "type": "number",
+          "title": "Scale Max"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "type",
+        "question_id",
+        "question_text",
+        "value",
+        "scale_min",
+        "scale_max"
+      ],
+      "title": "RatingAnswer"
+    },
+    "ScenarioRequest": {
+      "properties": {
+        "analysis_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$",
+          "title": "Analysis Id"
+        },
+        "action_ids": {
+          "items": {
+            "type": "string",
+            "pattern": "^A\\d{2}$"
+          },
+          "type": "array",
+          "maxItems": 50,
+          "title": "Action Ids"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "analysis_id",
+        "action_ids"
+      ],
+      "title": "ScenarioRequest"
+    },
+    "ScenarioResult": {
+      "properties": {
+        "analysis_id": {
+          "type": "string",
+          "title": "Analysis Id"
+        },
+        "current_score": {
+          "type": "number",
+          "title": "Current Score"
+        },
+        "scenario_score": {
+          "type": "number",
+          "title": "Scenario Score"
+        },
+        "potential_reduction": {
+          "type": "number",
+          "title": "Potential Reduction"
+        },
+        "covered_factor_ids": {
+          "items": {
+            "type": "string",
+            "pattern": "^R(0[1-9]|10)$"
+          },
+          "type": "array",
+          "title": "Covered Factor Ids"
+        },
+        "factor_reductions": {
+          "patternProperties": {
+            "^R(0[1-9]|10)$": {
+              "type": "number"
+            }
+          },
+          "type": "object",
+          "title": "Factor Reductions"
+        },
+        "assumption": {
+          "type": "string",
+          "const": "full_resolution",
+          "title": "Assumption",
+          "default": "full_resolution"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "analysis_id",
+        "current_score",
+        "scenario_score",
+        "potential_reduction",
+        "covered_factor_ids",
+        "factor_reductions"
+      ],
+      "title": "ScenarioResult"
+    },
+    "Risk": {
+      "properties": {
+        "score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Score"
+        },
+        "max_score": {
+          "type": "integer",
+          "title": "Max Score",
+          "default": 100
+        },
+        "score_band": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "routine",
+                "elevated",
+                "high"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Score Band"
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "routine",
+            "elevated",
+            "high",
+            "insufficient_data",
+            "pending_review"
+          ],
+          "title": "Priority"
+        },
+        "data_coverage": {
+          "type": "number",
+          "title": "Data Coverage"
+        },
+        "coverage_status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "incomplete"
+          ],
+          "title": "Coverage Status"
+        },
+        "critical_flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Critical Flags"
+        },
+        "missing_factors": {
+          "items": {
+            "type": "string",
+            "pattern": "^R(0[1-9]|10)$"
+          },
+          "type": "array",
+          "title": "Missing Factors"
+        },
+        "missing_required_roles": {
+          "items": {
+            "type": "string",
+            "enum": [
+              "intern",
+              "mentor"
+            ]
+          },
+          "type": "array",
+          "title": "Missing Required Roles"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "score",
+        "score_band",
+        "priority",
+        "data_coverage",
+        "coverage_status",
+        "critical_flags",
+        "missing_factors",
+        "missing_required_roles"
+      ],
+      "title": "Risk"
+    },
+    "FactorResult": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^R(0[1-9]|10)$",
+          "title": "Id"
+        },
+        "name": {
+          "type": "string",
+          "title": "Name"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "active",
+            "observed_no_signal",
+            "unknown",
+            "conflicting"
+          ],
+          "title": "State"
+        },
+        "severity": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "none",
+                "moderate",
+                "high"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Severity"
+        },
+        "weight": {
+          "type": "integer",
+          "title": "Weight"
+        },
+        "weight_origin": {
+          "type": "string",
+          "title": "Weight Origin"
+        },
+        "contribution": {
+          "type": "number",
+          "title": "Contribution"
+        },
+        "covered": {
+          "type": "boolean",
+          "title": "Covered"
+        },
+        "missing_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Missing Reason"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/components/schemas/ValidatedSignal"
+          },
+          "type": "array",
+          "title": "Evidence"
+        },
+        "max_signal_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Max Signal Ids"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "state",
+        "severity",
+        "weight",
+        "weight_origin",
+        "contribution",
+        "covered",
+        "missing_reason",
+        "evidence",
+        "max_signal_ids"
+      ],
+      "title": "FactorResult"
+    },
+    "AnalysisResult": {
+      "properties": {
+        "analysis_id": {
+          "type": "string",
+          "title": "Analysis Id"
+        },
+        "program_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$",
+          "title": "Program Id"
+        },
+        "intern_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$",
+          "title": "Intern Id"
+        },
+        "period": {
+          "type": "integer",
+          "title": "Period"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "completed",
+            "partial",
+            "insufficient_data"
+          ],
+          "title": "Status"
+        },
+        "risk": {
+          "$ref": "#/components/schemas/Risk"
+        },
+        "factors": {
+          "items": {
+            "$ref": "#/components/schemas/FactorResult"
+          },
+          "type": "array",
+          "title": "Factors"
+        },
+        "recommendations": {
+          "items": {
+            "$ref": "#/components/schemas/Recommendation"
+          },
+          "type": "array",
+          "title": "Recommendations"
+        },
+        "discrepancies": {
+          "items": {
+            "$ref": "#/components/schemas/Discrepancy"
+          },
+          "type": "array",
+          "title": "Discrepancies"
+        },
+        "signals": {
+          "items": {
+            "$ref": "#/components/schemas/ValidatedSignal"
+          },
+          "type": "array",
+          "title": "Signals"
+        },
+        "unclassified_fragments": {
+          "items": {
+            "$ref": "#/components/schemas/ValidatedFragment"
+          },
+          "type": "array",
+          "title": "Unclassified Fragments"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Warnings"
+        },
+        "capabilities": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "type": "object",
+          "title": "Capabilities"
+        },
+        "stages": {
+          "items": {
+            "$ref": "#/components/schemas/StageEvent"
+          },
+          "type": "array",
+          "title": "Stages"
+        },
+        "metadata": {
+          "$ref": "#/components/schemas/Metadata"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "analysis_id",
+        "program_id",
+        "intern_id",
+        "period",
+        "status",
+        "risk",
+        "factors",
+        "recommendations",
+        "discrepancies",
+        "signals",
+        "unclassified_fragments",
+        "warnings",
+        "capabilities",
+        "stages",
+        "metadata"
+      ],
+      "title": "AnalysisResult"
+    },
+    "Recommendation": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "name": {
+          "type": "string",
+          "title": "Name"
+        },
+        "target_factors": {
+          "items": {
+            "type": "string",
+            "pattern": "^R(0[1-9]|10)$"
+          },
+          "type": "array",
+          "title": "Target Factors"
+        },
+        "potential_reduction": {
+          "type": "number",
+          "title": "Potential Reduction"
+        },
+        "responsible": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Responsible"
+        },
+        "completion_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Completion Criteria"
+        },
+        "resolution_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Resolution Criteria"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Evidence Refs"
+        },
+        "status": {
+          "type": "string",
+          "const": "proposed",
+          "title": "Status",
+          "default": "proposed"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "target_factors",
+        "potential_reduction",
+        "responsible",
+        "completion_criteria",
+        "resolution_criteria",
+        "evidence_refs"
+      ],
+      "title": "Recommendation"
+    },
+    "Discrepancy": {
+      "properties": {
+        "factor_id": {
+          "type": "string",
+          "pattern": "^R(0[1-9]|10)$",
+          "title": "Factor Id"
+        },
+        "comparison_key": {
+          "type": "string",
+          "title": "Comparison Key"
+        },
+        "type": {
+          "type": "string",
+          "const": "rating_gap",
+          "title": "Type",
+          "default": "rating_gap"
+        },
+        "intern_rating": {
+          "type": "number",
+          "title": "Intern Rating"
+        },
+        "mentor_rating": {
+          "type": "number",
+          "title": "Mentor Rating"
+        },
+        "normalized_gap": {
+          "type": "number",
+          "title": "Normalized Gap"
+        },
+        "threshold_exceeded": {
+          "type": "boolean",
+          "title": "Threshold Exceeded"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "factor_id",
+        "comparison_key",
+        "intern_rating",
+        "mentor_rating",
+        "normalized_gap",
+        "threshold_exceeded"
+      ],
+      "title": "Discrepancy"
+    }
+  },
+  "metadata_required": [
+    "knowledge_version",
+    "policy_version",
+    "mapping_version",
+    "profile",
+    "trace_id",
+    "input_hash",
+    "knowledge_hash",
+    "mapping_hash",
+    "prompt_hash",
+    "extraction_hash",
+    "analysis_key",
+    "created_at",
+    "latency_ms",
+    "accepted_count",
+    "rejected_count",
+    "review_count"
+  ]
+}

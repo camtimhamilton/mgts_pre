@@ -1,0 +1,26 @@
+﻿version: demo-1
+entries:
+  - role: intern
+    question_id: q01
+    type: rating
+    factor_id: R01
+    comparison_key: mentor_support
+    direction: higher_is_better
+    scale_min: 1
+    scale_max: 5
+    levels: {1: high, 2: moderate, 3: none, 4: none, 5: none}
+  - role: mentor
+    question_id: q03
+    type: rating
+    factor_id: R01
+    comparison_key: mentor_support
+    direction: higher_is_better
+    scale_min: 1
+    scale_max: 5
+    levels: {1: high, 2: moderate, 3: none, 4: none, 5: none}
+  - role: intern
+    question_id: q02
+    type: text
+  - role: mentor
+    question_id: q04
+    type: text

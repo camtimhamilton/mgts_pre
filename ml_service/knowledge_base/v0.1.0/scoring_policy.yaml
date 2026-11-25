@@ -1,0 +1,21 @@
+﻿version: 0.1.0
+weights:
+  R01: 12
+  R02: 8
+  R03: 10
+  R04: 8
+  R05: 10
+  R06: 8
+  R07: 7
+  R08: 7
+  R09: 10
+  R10: 20
+coefficients:
+  none: 0
+  moderate: 0.5
+  high: 1
+routine_below: 20
+high_from: 40
+min_coverage: 0.6
+required_roles: [intern, mentor]
+weight_origin: DEMO_AUTHOR_001

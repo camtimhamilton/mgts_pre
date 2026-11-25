@@ -1,0 +1,42 @@
+{
+  "program_id": "demo_program",
+  "intern_id": "intern_014",
+  "period": 3,
+  "mapping_version": "demo-1",
+  "responses": [
+    {
+      "response_id": "response_001",
+      "respondent_role": "intern",
+      "answers": [
+        {
+          "question_id": "q01",
+          "question_text": "Как вы оцениваете поддержку наставника?",
+          "type": "rating",
+          "value": 2,
+          "scale_min": 1,
+          "scale_max": 5
+        },
+        {
+          "question_id": "q02",
+          "question_text": "Какие сложности возникли?",
+          "type": "text",
+          "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+        }
+      ]
+    },
+    {
+      "response_id": "response_002",
+      "respondent_role": "mentor",
+      "answers": [
+        {
+          "question_id": "q03",
+          "question_text": "Достаточно ли поддержки получает стажёр?",
+          "type": "rating",
+          "value": 5,
+          "scale_min": 1,
+          "scale_max": 5
+        }
+      ]
+    }
+  ]
+}

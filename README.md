@@ -113,6 +113,8 @@ docs/           спека, план, анкеты, канал приёма, к�
 - [docs/api.md](docs/api.md) — контракт API
 - [docs/yandex-forms.md](docs/yandex-forms.md) — как подключить Яндекс Форму
 - [docs/form-kit.md](docs/form-kit.md) — мок-набор ответов и пошаговая настройка формы
+- [docs/ml-integration.md](docs/ml-integration.md) — план интеграции ML-сервиса из ветки ml
+- [TODO.md](TODO.md) — что осталось до финала и бэклог
 
 ## Расчёт и LLM
 

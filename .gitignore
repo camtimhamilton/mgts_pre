@@ -1,0 +1,17 @@
+.venv/
+.uv-cache/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+data/
+*.sqlite*
+*.db
+*.log
+real_data/
+dist/
+build/

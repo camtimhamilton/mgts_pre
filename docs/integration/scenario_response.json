@@ -1,0 +1,13 @@
+{
+  "analysis_id": "analysis_8caf44f0cf344af298f1bc4e0e50ba8c",
+  "current_score": 17.0,
+  "scenario_score": 5.0,
+  "potential_reduction": 12.0,
+  "covered_factor_ids": [
+    "R01"
+  ],
+  "factor_reductions": {
+    "R01": 12.0
+  },
+  "assumption": "full_resolution"
+}

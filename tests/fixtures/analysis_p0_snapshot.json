@@ -1,0 +1,601 @@
+{
+  "analysis_id": "analysis_5cdffd36d2024fac8c8dd471f5c0a1e5",
+  "program_id": "demo_program",
+  "intern_id": "intern_014",
+  "period": 3,
+  "status": "completed",
+  "risk": {
+    "score": 17.0,
+    "max_score": 100,
+    "score_band": "routine",
+    "priority": "insufficient_data",
+    "data_coverage": 0.22,
+    "coverage_status": "incomplete",
+    "critical_flags": [],
+    "missing_factors": [
+      "R02",
+      "R04",
+      "R05",
+      "R06",
+      "R07",
+      "R08",
+      "R09",
+      "R10"
+    ],
+    "missing_required_roles": []
+  },
+  "factors": [
+    {
+      "id": "R01",
+      "name": "Поддержка наставника",
+      "state": "conflicting",
+      "severity": "high",
+      "weight": 12,
+      "weight_origin": "DEMO_AUTHOR_001",
+      "contribution": 12.0,
+      "covered": true,
+      "missing_reason": null,
+      "evidence": [
+        {
+          "signal_id": "s_6368d501538aa0a25e40a6cd",
+          "response_id": "response_001",
+          "role": "intern",
+          "question_id": "q01",
+          "factor_id": "R01",
+          "rule_id": "MAPPING_demo-1_intern_q01",
+          "source_kind": "rating",
+          "quote": null,
+          "start": null,
+          "end": null,
+          "value": 2.0,
+          "scale_min": 1.0,
+          "scale_max": 5.0,
+          "mapping_id": "demo-1:intern:q01",
+          "polarity": "negative",
+          "severity": "moderate",
+          "assertion": "explicit",
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "checks": [
+            "V1",
+            "V2",
+            "numeric_mapping"
+          ],
+          "reason": "configured_rating_mapping",
+          "semantic_verification": "deterministic_mapping",
+          "source_refs": []
+        },
+        {
+          "signal_id": "s_73fb1810097d9ad6306b1916",
+          "response_id": "response_002",
+          "role": "mentor",
+          "question_id": "q03",
+          "factor_id": "R01",
+          "rule_id": "MAPPING_demo-1_mentor_q03",
+          "source_kind": "rating",
+          "quote": null,
+          "start": null,
+          "end": null,
+          "value": 5.0,
+          "scale_min": 1.0,
+          "scale_max": 5.0,
+          "mapping_id": "demo-1:mentor:q03",
+          "polarity": "neutral",
+          "severity": "none",
+          "assertion": "explicit",
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "checks": [
+            "V1",
+            "V2",
+            "numeric_mapping"
+          ],
+          "reason": "configured_rating_mapping",
+          "semantic_verification": "deterministic_mapping",
+          "source_refs": []
+        },
+        {
+          "signal_id": "s_ed0e15383e5bb4759080f517",
+          "response_id": "response_001",
+          "role": "intern",
+          "question_id": "q02",
+          "factor_id": "R01",
+          "rule_id": "RULE_R01_001",
+          "source_kind": "text",
+          "quote": "Наставник регулярно не отвечает",
+          "start": 0,
+          "end": 31,
+          "value": null,
+          "scale_min": null,
+          "scale_max": null,
+          "mapping_id": null,
+          "polarity": "negative",
+          "severity": "high",
+          "assertion": "explicit",
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "checks": [
+            "V1",
+            "V2",
+            "V3"
+          ],
+          "reason": "provisional_text_classification",
+          "semantic_verification": "not_run",
+          "source_refs": [
+            {
+              "source_id": "DEMO_AUTHOR_001",
+              "relationship": "author_demo"
+            }
+          ]
+        }
+      ],
+      "max_signal_ids": [
+        "s_ed0e15383e5bb4759080f517"
+      ]
+    },
+    {
+      "id": "R02",
+      "name": "Обратная связь",
+      "state": "unknown",
+      "severity": null,
+      "weight": 8,
+      "weight_origin": "DEMO_AUTHOR_001",
+      "contribution": 0.0,
+      "covered": false,
+      "missing_reason": "no_accepted_factor_specific_evidence",
+      "evidence": [],
+      "max_signal_ids": []
+    },
+    {
+      "id": "R03",
+      "name": "Понимание роли и задач",
+      "state": "active",
+      "severity": "moderate",
+      "weight": 10,
+      "weight_origin": "DEMO_AUTHOR_001",
+      "contribution": 5.0,
+      "covered": true,
+      "missing_reason": null,
+      "evidence": [
+        {
+          "signal_id": "s_e6ed05adbd2dce217aeec285",
+          "response_id": "response_001",
+          "role": "intern",
+          "question_id": "q02",
+          "factor_id": "R03",
+          "rule_id": "RULE_R03_001",
+          "source_kind": "text",
+          "quote": "Не совсем понимаю, какого результата от меня ждут",
+          "start": 33,
+          "end": 82,
+          "value": null,
+          "scale_min": null,
+          "scale_max": null,
+          "mapping_id": null,
+          "polarity": "negative",
+          "severity": "moderate",
+          "assertion": "explicit",
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "checks": [
+            "V1",
+            "V2",
+            "V3"
+          ],
+          "reason": "provisional_text_classification",
+          "semantic_verification": "not_run",
+          "source_refs": [
+            {
+              "source_id": "DEMO_AUTHOR_001",
+              "relationship": "author_demo"
+            }
+          ]
+        }
+      ],
+      "max_signal_ids": [
+        "s_e6ed05adbd2dce217aeec285"
+      ]
+    },
+    {
+      "id": "R04",
+      "name": "Рабочая нагрузка",
+      "state": "unknown",
+      "severity": null,
+      "weight": 8,
+      "weight_origin": "DEMO_AUTHOR_001",
+      "contribution": 0.0,
+      "covered": false,
+      "missing_reason": "no_accepted_factor_specific_evidence",
+      "evidence": [],
+      "max_signal_ids": []
+    },
+    {
+      "id": "R05",
+      "name": "Профессиональное развитие",
+      "state": "unknown",
+      "severity": null,
+      "weight": 10,
+      "weight_origin": "DEMO_AUTHOR_001",
+      "contribution": 0.0,
+      "covered": false,
+      "missing_reason": "no_accepted_factor_specific_evidence",
+      "evidence": [],
+      "max_signal_ids": []
+    },
+    {
+      "id": "R06",
+      "name": "Соответствие ожиданиям",
+      "state": "unknown",
+      "severity": null,
+      "weight": 8,
+      "weight_origin": "DEMO_AUTHOR_001",
+      "contribution": 0.0,
+      "covered": false,
+      "missing_reason": "no_accepted_factor_specific_evidence",
+      "evidence": [],
+      "max_signal_ids": []
+    },
+    {
+      "id": "R07",
+      "name": "Интеграция в коллектив",
+      "state": "unknown",
+      "severity": null,
+      "weight": 7,
+      "weight_origin": "DEMO_AUTHOR_001",
+      "contribution": 0.0,
+      "covered": false,
+      "missing_reason": "no_accepted_factor_specific_evidence",
+      "evidence": [],
+      "max_signal_ids": []
+    },
+    {
+      "id": "R08",
+      "name": "Рабочие ресурсы и процессы",
+      "state": "unknown",
+      "severity": null,
+      "weight": 7,
+      "weight_origin": "DEMO_AUTHOR_001",
+      "contribution": 0.0,
+      "covered": false,
+      "missing_reason": "no_accepted_factor_specific_evidence",
+      "evidence": [],
+      "max_signal_ids": []
+    },
+    {
+      "id": "R09",
+      "name": "Перспективы сотрудничества",
+      "state": "unknown",
+      "severity": null,
+      "weight": 10,
+      "weight_origin": "DEMO_AUTHOR_001",
+      "contribution": 0.0,
+      "covered": false,
+      "missing_reason": "no_accepted_factor_specific_evidence",
+      "evidence": [],
+      "max_signal_ids": []
+    },
+    {
+      "id": "R10",
+      "name": "Прямое намерение прекратить стажировку",
+      "state": "unknown",
+      "severity": null,
+      "weight": 20,
+      "weight_origin": "DEMO_AUTHOR_001",
+      "contribution": 0.0,
+      "covered": false,
+      "missing_reason": "no_accepted_factor_specific_evidence",
+      "evidence": [],
+      "max_signal_ids": []
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "A01",
+      "name": "Согласовать регулярные встречи с наставником",
+      "target_factors": [
+        "R01"
+      ],
+      "potential_reduction": 12.0,
+      "responsible": [
+        "mentor",
+        "hr"
+      ],
+      "completion_criteria": [
+        "График встреч согласован",
+        "Встречи проводятся"
+      ],
+      "resolution_criteria": [
+        "Стажёр подтверждает что необходимая помощь доступна своевременно"
+      ],
+      "evidence_refs": [
+        "s_ed0e15383e5bb4759080f517"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "A03",
+      "name": "Уточнить задачи и критерии готовности",
+      "target_factors": [
+        "R03"
+      ],
+      "potential_reduction": 5.0,
+      "responsible": [
+        "mentor"
+      ],
+      "completion_criteria": [
+        "Задачи и приоритеты записаны",
+        "Критерии готовности согласованы"
+      ],
+      "resolution_criteria": [
+        "Стажёр своими словами подтверждает понимание ожидаемого результата"
+      ],
+      "evidence_refs": [
+        "s_e6ed05adbd2dce217aeec285"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "A11",
+      "name": "Назначить резервный контакт для помощи",
+      "target_factors": [
+        "R01"
+      ],
+      "potential_reduction": 12.0,
+      "responsible": [
+        "mentor",
+        "hr"
+      ],
+      "completion_criteria": [
+        "Резервный контакт согласован",
+        "Стажёр знает как получить помощь"
+      ],
+      "resolution_criteria": [
+        "Стажёр подтверждает своевременную доступность необходимой помощи"
+      ],
+      "evidence_refs": [
+        "s_ed0e15383e5bb4759080f517"
+      ],
+      "status": "proposed"
+    }
+  ],
+  "discrepancies": [
+    {
+      "factor_id": "R01",
+      "comparison_key": "mentor_support",
+      "type": "rating_gap",
+      "intern_rating": 2.0,
+      "mentor_rating": 5.0,
+      "normalized_gap": 0.75,
+      "threshold_exceeded": true
+    }
+  ],
+  "signals": [
+    {
+      "signal_id": "s_6368d501538aa0a25e40a6cd",
+      "response_id": "response_001",
+      "role": "intern",
+      "question_id": "q01",
+      "factor_id": "R01",
+      "rule_id": "MAPPING_demo-1_intern_q01",
+      "source_kind": "rating",
+      "quote": null,
+      "start": null,
+      "end": null,
+      "value": 2.0,
+      "scale_min": 1.0,
+      "scale_max": 5.0,
+      "mapping_id": "demo-1:intern:q01",
+      "polarity": "negative",
+      "severity": "moderate",
+      "assertion": "explicit",
+      "temporal_status": "current",
+      "validation_status": "accepted",
+      "checks": [
+        "V1",
+        "V2",
+        "numeric_mapping"
+      ],
+      "reason": "configured_rating_mapping",
+      "semantic_verification": "deterministic_mapping",
+      "source_refs": []
+    },
+    {
+      "signal_id": "s_73fb1810097d9ad6306b1916",
+      "response_id": "response_002",
+      "role": "mentor",
+      "question_id": "q03",
+      "factor_id": "R01",
+      "rule_id": "MAPPING_demo-1_mentor_q03",
+      "source_kind": "rating",
+      "quote": null,
+      "start": null,
+      "end": null,
+      "value": 5.0,
+      "scale_min": 1.0,
+      "scale_max": 5.0,
+      "mapping_id": "demo-1:mentor:q03",
+      "polarity": "neutral",
+      "severity": "none",
+      "assertion": "explicit",
+      "temporal_status": "current",
+      "validation_status": "accepted",
+      "checks": [
+        "V1",
+        "V2",
+        "numeric_mapping"
+      ],
+      "reason": "configured_rating_mapping",
+      "semantic_verification": "deterministic_mapping",
+      "source_refs": []
+    },
+    {
+      "signal_id": "s_ed0e15383e5bb4759080f517",
+      "response_id": "response_001",
+      "role": "intern",
+      "question_id": "q02",
+      "factor_id": "R01",
+      "rule_id": "RULE_R01_001",
+      "source_kind": "text",
+      "quote": "Наставник регулярно не отвечает",
+      "start": 0,
+      "end": 31,
+      "value": null,
+      "scale_min": null,
+      "scale_max": null,
+      "mapping_id": null,
+      "polarity": "negative",
+      "severity": "high",
+      "assertion": "explicit",
+      "temporal_status": "current",
+      "validation_status": "accepted",
+      "checks": [
+        "V1",
+        "V2",
+        "V3"
+      ],
+      "reason": "provisional_text_classification",
+      "semantic_verification": "not_run",
+      "source_refs": [
+        {
+          "source_id": "DEMO_AUTHOR_001",
+          "relationship": "author_demo"
+        }
+      ]
+    },
+    {
+      "signal_id": "s_e6ed05adbd2dce217aeec285",
+      "response_id": "response_001",
+      "role": "intern",
+      "question_id": "q02",
+      "factor_id": "R03",
+      "rule_id": "RULE_R03_001",
+      "source_kind": "text",
+      "quote": "Не совсем понимаю, какого результата от меня ждут",
+      "start": 33,
+      "end": 82,
+      "value": null,
+      "scale_min": null,
+      "scale_max": null,
+      "mapping_id": null,
+      "polarity": "negative",
+      "severity": "moderate",
+      "assertion": "explicit",
+      "temporal_status": "current",
+      "validation_status": "accepted",
+      "checks": [
+        "V1",
+        "V2",
+        "V3"
+      ],
+      "reason": "provisional_text_classification",
+      "semantic_verification": "not_run",
+      "source_refs": [
+        {
+          "source_id": "DEMO_AUTHOR_001",
+          "relationship": "author_demo"
+        }
+      ]
+    }
+  ],
+  "unclassified_fragments": [],
+  "warnings": [
+    "conflicting_reports_require_review",
+    "insufficient_factor_coverage",
+    "provisional_text_semantics_not_verified"
+  ],
+  "capabilities": {
+    "rating_analysis": true,
+    "fixture_text_extraction": true,
+    "numeric_gap": true,
+    "immutable_snapshots": true,
+    "scenario": true,
+    "strict_semantic_verification": false,
+    "real_provider": false,
+    "replay": false,
+    "temporal": false,
+    "semantic_discrepancy": false,
+    "rule_extractor": false,
+    "batch": false
+  },
+  "stages": [
+    {
+      "stage": "rating",
+      "started_at": "2026-11-25T16:08:32.189040Z",
+      "ended_at": "2026-11-25T16:08:32.189205Z",
+      "elapsed_ms": 0.166,
+      "status": "completed",
+      "error_code": null,
+      "input_ref": "normalized_input",
+      "output_ref": "rating_artifacts",
+      "output_count": 2,
+      "versions": {
+        "knowledge": "0.1.0",
+        "policy": "0.1.0",
+        "mapping": "demo-1",
+        "pipeline": "0.1.0",
+        "validation": "1"
+      }
+    },
+    {
+      "stage": "text_extraction_validation",
+      "started_at": "2026-11-25T16:08:32.189260Z",
+      "ended_at": "2026-11-25T16:08:32.193916Z",
+      "elapsed_ms": 4.659,
+      "status": "completed",
+      "error_code": null,
+      "input_ref": "normalized_input",
+      "output_ref": "text_extraction_validation_artifacts",
+      "output_count": 2,
+      "versions": {
+        "knowledge": "0.1.0",
+        "policy": "0.1.0",
+        "mapping": "demo-1",
+        "pipeline": "0.1.0",
+        "validation": "1"
+      }
+    },
+    {
+      "stage": "aggregate_score_recommend",
+      "started_at": "2026-11-25T16:08:32.193959Z",
+      "ended_at": "2026-11-25T16:08:32.194222Z",
+      "elapsed_ms": 0.264,
+      "status": "completed",
+      "error_code": null,
+      "input_ref": "normalized_input",
+      "output_ref": "aggregate_score_recommend_artifacts",
+      "output_count": 10,
+      "versions": {
+        "knowledge": "0.1.0",
+        "policy": "0.1.0",
+        "mapping": "demo-1",
+        "pipeline": "0.1.0",
+        "validation": "1"
+      }
+    }
+  ],
+  "metadata": {
+    "knowledge_version": "0.1.0",
+    "policy_version": "0.1.0",
+    "mapping_version": "demo-1",
+    "prompt_version": "1",
+    "pipeline_version": "0.1.0",
+    "validation_version": "1",
+    "provider": "mock",
+    "model_id": "fixture-v1",
+    "data_mode": "demo",
+    "execution_mode": "live",
+    "profile": "fast",
+    "trace_id": "trace_4db814558372475cbe48f0c1c2c60f42",
+    "input_hash": "644eefb624750fbf846fa4c671842905564fab1e95abfb3f8f93567902e877e9",
+    "knowledge_hash": "89ae642c093d1198415a5ff52c884440bcfd446002fa3f039cf21db2c605a19f",
+    "mapping_hash": "0c1582d58b90e198963ff9eda9aa59044f0605de2bc5894eb96e5ce5b2ff3c1c",
+    "prompt_hash": "bf3d1115a9b773384df6c4a33f670290d4cefc49fa0a32be393645fee811f329",
+    "extraction_hash": "7264b717a45f9b7ea1f1da787e5bb956f9b6848cc597bef9359730078065d464",
+    "analysis_key": "06bcd03d69b3fc95878aa01e995ba82483800a270c462bd8fc6a0518fecc939e",
+    "created_at": "2026-11-25T16:08:32.188911Z",
+    "latency_ms": 5.547,
+    "accepted_count": 4,
+    "rejected_count": 0,
+    "review_count": 0
+  }
+}

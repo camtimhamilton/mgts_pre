@@ -1,0 +1,31 @@
+﻿sources:
+  - source_id: DEMO_AUTHOR_001
+    kind: author_demo
+    title: Демонстрационная операционализация автора проекта
+    locator: CONCEPT.md §5–6; ARCHITECTURE.md §4–6
+    verification_status: author_demo
+  - source_id: REF_BAUER_2007
+    kind: paper
+    title: 'Newcomer Adjustment During Organizational Socialization: A Meta-Analytic Review of Antecedents, Outcomes, and Methods'
+    locator: https://pubmed.ncbi.nlm.nih.gov/17484552/
+    verification_status: reference_only
+  - source_id: REF_SOCIALIZATION_2024
+    kind: paper
+    title: 'New Horizons for Newcomer Organizational Socialization: A Review, Meta-Analysis, and Future Research Directions'
+    locator: https://doi.org/10.1177/01492063241277168
+    verification_status: reference_only
+  - source_id: REF_INTERN_SUPPORT
+    kind: paper
+    title: 'Developmental Relationships Matter: Examining the Joint Role of Supervisor Support and Mentor Status on Intern Outcomes'
+    locator: https://eric.ed.gov/?id=EJ1363630
+    verification_status: reference_only
+  - source_id: REF_INTERN_EXCHANGE
+    kind: paper
+    title: 'Converting Interns into Regular Employees: The Role of Intern–Supervisor Exchange'
+    locator: https://www.sciencedirect.com/science/article/pii/S0001879113001760
+    verification_status: reference_only
+  - source_id: REF_RUBENSTEIN_2018
+    kind: paper
+    title: 'Surveying the Forest: A Meta-Analysis, Moderator Investigation, and Future-Oriented Discussion of the Antecedents of Voluntary Employee Turnover'
+    locator: https://doi.org/10.1111/peps.12226
+    verification_status: reference_only

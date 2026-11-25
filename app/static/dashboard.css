@@ -716,3 +716,13 @@ body[data-view="exec"] .kpi-extra { display: flex; }
 .dash .toast[hidden] {
   display: none !important;
 }
+
+/* Широкий экран: строки не должны растягиваться на полтора метра. */
+@media (min-width: 1600px) {
+  .dash .card > * { max-width: 1180px; }
+}
+
+/* Низкий экран: матрица прокручивается внутри, чтобы список и причины остались видны. */
+@media (max-height: 840px) {
+  .pulse .heatmap { max-height: 152px; overflow-y: auto; }
+}

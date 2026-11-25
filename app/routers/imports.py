@@ -8,15 +8,18 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
+import logging
 import re
 import sqlite3
 from typing import Any
 
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
-from .. import repo
-from ..db import connect
+from .. import repo, service
+from ..broker import broker
+from ..db import connect, write_lock
 from ..importers import (
     PREVIEW_SAMPLE_SIZE,
     ImportFileError,
@@ -28,9 +31,33 @@ from ..importers import (
 )
 from ..normalize import FACTORS, from_payload, parse_month, parse_role, parse_score
 
+logger = logging.getLogger("pulse.import")
 router = APIRouter(prefix="/api/import", tags=["import"])
 
 MAX_ERRORS = 20
+
+# Пересчёт после импорта: один на всех, параллельные загрузки не должны
+# запускать несколько одинаковых проходов по базе.
+_recompute_lock = asyncio.Lock()
+
+
+async def _recompute_after_import() -> None:
+    if _recompute_lock.locked():
+        return
+
+    def work() -> dict[str, Any]:
+        conn = connect()
+        try:
+            return service.recompute_all(conn)
+        finally:
+            conn.close()
+
+    async with _recompute_lock:
+        try:
+            result = await asyncio.to_thread(work)
+            broker.publish({"event": "program.ready", **result})
+        except Exception:  # noqa: BLE001 — фоновая задача не должна ронять процесс
+            logger.exception("пересчёт после импорта не удался")
 
 
 # ---------------------------------------------------------------------------
@@ -308,11 +335,19 @@ async def commit(
 
     conn = connect()
     try:
-        result = _commit_rows(conn, parsed, spec, role_default, source_name)
-        conn.commit()
+        with write_lock:
+            # BEGIN IMMEDIATE сразу берёт блокировку записи: иначе SELECT+INSERT
+            # внутри одной транзакции может получить «database is locked»
+            # без ожидания, если параллельно кто-то успел записать.
+            conn.execute("BEGIN IMMEDIATE")
+            result = _commit_rows(conn, parsed, spec, role_default, source_name)
+            conn.commit()
     except Exception:
         conn.rollback()
         raise
     finally:
         conn.close()
+
+    # Файл уже в базе; расчёт уходит в фон, ответ не ждёт модель.
+    asyncio.create_task(_recompute_after_import())
     return result

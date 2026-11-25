@@ -18,8 +18,12 @@ class Settings(BaseSettings):
     demo_mode: bool = True
 
     llm_provider: str = "deepseek"  # deepseek | gigachat
+    llm_mode: str = "auto"  # auto | fake | real
     llm_api_key: str = ""
+    llm_base_url: str = ""
     model_name: str = ""
+    llm_timeout: float = 20.0
+    llm_retries: int = 2
 
     ingest_key: str = ""
 

@@ -1,4 +1,4 @@
-.PHONY: up down logs dev test seed init clean
+.PHONY: up down logs dev test seed recompute init clean
 
 up:
 	@test -f .env || cp .env.example .env
@@ -8,6 +8,9 @@ up:
 
 seed:
 	docker compose exec pulse python -m tools.seed_demo --seed 42 --reset
+
+recompute:
+	docker compose exec pulse python -m tools.recompute
 
 down:
 	docker compose down

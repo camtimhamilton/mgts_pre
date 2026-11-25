@@ -104,3 +104,11 @@ CREATE UNIQUE INDEX IF NOT EXISTS ux_ingest_delivery
 
 CREATE INDEX IF NOT EXISTS ix_ingest_received
     ON ingest_log (received_at DESC);
+
+-- Кэш ответов модели: повторный месяц с тем же текстом не ходит в сеть.
+CREATE TABLE IF NOT EXISTS llm_cache (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    key         TEXT    NOT NULL UNIQUE,
+    result_json TEXT    NOT NULL,
+    created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
+);

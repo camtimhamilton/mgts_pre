@@ -42,7 +42,8 @@ def create_app(database: Path | None = None, provider=None) -> FastAPI:
             from app.deepseek import DeepSeekProvider
             provider = DeepSeekProvider()
         else:
-            provider = FixtureProvider()
+            catalog = os.getenv("MGTS_FIXTURE_CATALOG")
+            provider = FixtureProvider(Path(catalog)) if catalog else FixtureProvider()
     kb, mapping = load_knowledge(), load_mapping()
     repository = SQLiteSnapshots(database or Path(os.getenv("MGTS_DATABASE", "data/demo.sqlite3")))
     pipeline = Pipeline(kb, mapping, provider, repository)

@@ -1,4 +1,16 @@
 services:
+  ml:
+    build: ./ml_service
+    environment:
+      MGTS_PROVIDER: mock
+      MGTS_ALLOW_SYNTHETIC_LLM: "0"
+      MGTS_DATABASE: /data/ml.sqlite3
+      MGTS_MAPPING_PATH: /app/mappings/dashboard-demo.yaml
+      MGTS_FIXTURE_CATALOG: /app/tests/fixtures/dashboard_mock_extractions.json
+    ports:
+      - "127.0.0.1:8001:8001"
+    volumes:
+      - ml-data:/data
   pulse:
     build: .
     container_name: pulse
@@ -12,6 +24,17 @@ services:
         required: false
     environment:
       DB_PATH: /data/app.db
+      ANALYSIS_MODE: ml
+      ML_API_URL: http://ml:8001
+      ML_MAPPING_VERSION: dashboard-demo-1
+      ML_KNOWLEDGE_VERSION: 0.1.0
+      LLM_MODE: fake
+    depends_on:
+      ml:
+        condition: service_healthy
     volumes:
       - ./data:/data
     restart: unless-stopped
+
+volumes:
+  ml-data:

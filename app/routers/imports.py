@@ -39,9 +39,12 @@ MAX_ERRORS = 20
 # Пересчёт после импорта: один на всех, параллельные загрузки не должны
 # запускать несколько одинаковых проходов по базе.
 _recompute_lock = asyncio.Lock()
+_recompute_pending = False
 
 
 async def _recompute_after_import() -> None:
+    global _recompute_pending
+    _recompute_pending = True
     if _recompute_lock.locked():
         return
 
@@ -53,11 +56,13 @@ async def _recompute_after_import() -> None:
             conn.close()
 
     async with _recompute_lock:
-        try:
-            result = await asyncio.to_thread(work)
-            broker.publish({"event": "program.ready", **result})
-        except Exception:  # noqa: BLE001 — фоновая задача не должна ронять процесс
-            logger.exception("пересчёт после импорта не удался")
+        while _recompute_pending:
+            _recompute_pending = False
+            try:
+                result = await asyncio.to_thread(work)
+                broker.publish({"event": "program.ready", **result})
+            except Exception:  # noqa: BLE001 — фоновая задача не должна ронять процесс
+                logger.exception("пересчёт после импорта не удался")
 
 
 # ---------------------------------------------------------------------------

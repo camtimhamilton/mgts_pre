@@ -112,3 +112,24 @@ CREATE TABLE IF NOT EXISTS llm_cache (
     result_json TEXT    NOT NULL,
     created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
 );
+
+-- Integrated ML results are separate from legacy demo snapshots (which require risk NOT NULL).
+CREATE TABLE IF NOT EXISTS ml_results (
+    pair_id INTEGER NOT NULL REFERENCES pairs(id) ON DELETE CASCADE,
+    month TEXT NOT NULL,
+    request_hash TEXT NOT NULL,
+    analysis_json TEXT,
+    scenario_json TEXT,
+    state TEXT NOT NULL,
+    error_code TEXT,
+    updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+    PRIMARY KEY (pair_id, month)
+);
+CREATE TABLE IF NOT EXISTS ml_runs (
+    analysis_id TEXT PRIMARY KEY,
+    pair_id INTEGER NOT NULL REFERENCES pairs(id),
+    month TEXT NOT NULL,
+    request_hash TEXT NOT NULL,
+    result_json TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);

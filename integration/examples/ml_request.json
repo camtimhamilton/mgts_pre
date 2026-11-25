@@ -1,0 +1,43 @@
+{
+  "program_id": "synthetic_dashboard",
+  "intern_id": "pair_1",
+  "period": 3,
+  "mapping_version": "dashboard-demo-1",
+  "knowledge_version": "0.1.0",
+  "responses": [
+    {
+      "response_id": "pair_1_M3_intern",
+      "respondent_role": "intern",
+      "answers": [
+        {
+          "type": "rating",
+          "question_id": "f_clarity",
+          "question_text": "Насколько понятно, какие у тебя задачи и чего от тебя ждут?",
+          "value": 4.0,
+          "scale_min": 1,
+          "scale_max": 10
+        },
+        {
+          "type": "text",
+          "question_id": "q_barrier",
+          "question_text": "Что мешает работать или снижает желание продолжать?",
+          "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+        }
+      ]
+    },
+    {
+      "response_id": "pair_1_M3_mentor",
+      "respondent_role": "mentor",
+      "answers": [
+        {
+          "type": "rating",
+          "question_id": "f_clarity",
+          "question_text": "Насколько стажёр понимает свои задачи и ожидания?",
+          "value": 10.0,
+          "scale_min": 1,
+          "scale_max": 10
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,884 @@
+{
+  "synthetic": true,
+  "purpose": "explicit integration templates only",
+  "knowledge_hash": "89ae642c093d1198415a5ff52c884440bcfd446002fa3f039cf21db2c605a19f",
+  "prompt_hash": "bf3d1115a9b773384df6c4a33f670290d4cefc49fa0a32be393645fee811f329",
+  "cases": [
+    {
+      "id": "dashboard_1_intern_0",
+      "input": {
+        "respondent_role": "intern",
+        "period": 1,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    },
+    {
+      "id": "dashboard_1_intern_1",
+      "input": {
+        "respondent_role": "intern",
+        "period": 1,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_1_intern_2",
+      "input": {
+        "respondent_role": "intern",
+        "period": 1,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          },
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_1_mentor_0",
+      "input": {
+        "respondent_role": "mentor",
+        "period": 1,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Как изменилась самостоятельность стажёра за этот месяц?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    },
+    {
+      "id": "dashboard_2_intern_0",
+      "input": {
+        "respondent_role": "intern",
+        "period": 2,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    },
+    {
+      "id": "dashboard_2_intern_1",
+      "input": {
+        "respondent_role": "intern",
+        "period": 2,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_2_intern_2",
+      "input": {
+        "respondent_role": "intern",
+        "period": 2,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          },
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_2_mentor_0",
+      "input": {
+        "respondent_role": "mentor",
+        "period": 2,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Как изменилась самостоятельность стажёра за этот месяц?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    },
+    {
+      "id": "dashboard_3_intern_0",
+      "input": {
+        "respondent_role": "intern",
+        "period": 3,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    },
+    {
+      "id": "dashboard_3_intern_1",
+      "input": {
+        "respondent_role": "intern",
+        "period": 3,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_3_intern_2",
+      "input": {
+        "respondent_role": "intern",
+        "period": 3,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          },
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_3_mentor_0",
+      "input": {
+        "respondent_role": "mentor",
+        "period": 3,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Как изменилась самостоятельность стажёра за этот месяц?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    },
+    {
+      "id": "dashboard_4_intern_0",
+      "input": {
+        "respondent_role": "intern",
+        "period": 4,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    },
+    {
+      "id": "dashboard_4_intern_1",
+      "input": {
+        "respondent_role": "intern",
+        "period": 4,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_4_intern_2",
+      "input": {
+        "respondent_role": "intern",
+        "period": 4,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          },
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_4_mentor_0",
+      "input": {
+        "respondent_role": "mentor",
+        "period": 4,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Как изменилась самостоятельность стажёра за этот месяц?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    },
+    {
+      "id": "dashboard_5_intern_0",
+      "input": {
+        "respondent_role": "intern",
+        "period": 5,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    },
+    {
+      "id": "dashboard_5_intern_1",
+      "input": {
+        "respondent_role": "intern",
+        "period": 5,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_5_intern_2",
+      "input": {
+        "respondent_role": "intern",
+        "period": 5,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          },
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_5_mentor_0",
+      "input": {
+        "respondent_role": "mentor",
+        "period": 5,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Как изменилась самостоятельность стажёра за этот месяц?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    },
+    {
+      "id": "dashboard_6_intern_0",
+      "input": {
+        "respondent_role": "intern",
+        "period": 6,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    },
+    {
+      "id": "dashboard_6_intern_1",
+      "input": {
+        "respondent_role": "intern",
+        "period": 6,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_6_intern_2",
+      "input": {
+        "respondent_role": "intern",
+        "period": 6,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Что за последний месяц изменилось к лучшему?",
+            "value": "Всё стабильно."
+          },
+          {
+            "type": "text",
+            "question_id": "q_barrier",
+            "question_text": "Что мешает работать или снижает желание продолжать?",
+            "value": "Наставник регулярно не отвечает. Не совсем понимаю, какого результата от меня ждут."
+          }
+        ]
+      },
+      "output": {
+        "signals": [
+          {
+            "assertion": "explicit",
+            "evidence": "Наставник регулярно не отвечает",
+            "factor_id": "R01",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R01_001",
+            "severity": "high",
+            "temporal_status": "current"
+          },
+          {
+            "assertion": "explicit",
+            "evidence": "Не совсем понимаю, какого результата от меня ждут",
+            "factor_id": "R03",
+            "polarity": "negative",
+            "question_id": "q_barrier",
+            "rule_id": "RULE_R03_001",
+            "severity": "moderate",
+            "temporal_status": "current"
+          }
+        ],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "id": "dashboard_6_mentor_0",
+      "input": {
+        "respondent_role": "mentor",
+        "period": 6,
+        "program_day": null,
+        "context": {},
+        "answers": [
+          {
+            "type": "text",
+            "question_id": "q_better",
+            "question_text": "Как изменилась самостоятельность стажёра за этот месяц?",
+            "value": "Всё стабильно."
+          }
+        ]
+      },
+      "output": {
+        "signals": [],
+        "unclassified_fragments": [],
+        "requires_review": false
+      },
+      "expected_active_factors": []
+    }
+  ]
+}

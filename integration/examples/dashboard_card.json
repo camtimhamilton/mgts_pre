@@ -1,0 +1,771 @@
+{
+  "id": 1,
+  "month": "M3",
+  "intern_name": "Синтетический Стажёр",
+  "mentor_name": "Синтетический Наставник",
+  "direction": null,
+  "photo_url": null,
+  "analysis_mode": "ml",
+  "analysis_state": "ready",
+  "error_code": null,
+  "program": {
+    "month_current": 3,
+    "months_total": 6
+  },
+  "risk": 17.0,
+  "base": 17.0,
+  "gap_penalty": 0,
+  "text_penalty": 0,
+  "band": "low",
+  "priority": "insufficient_data",
+  "data_coverage": 0.22,
+  "missing_required_roles": [],
+  "critical_flags": [],
+  "warnings": [
+    "conflicting_reports_require_review",
+    "insufficient_factor_coverage",
+    "provisional_text_semantics_not_verified"
+  ],
+  "delta": null,
+  "trend": {
+    "key": "not_available",
+    "label": "сравнение не реализовано"
+  },
+  "score_origin": "ml",
+  "summary": "Наблюдаемый индекс из ML API; текстовые сигналы предварительны.",
+  "gap_comment": "Расхождение оценок — отдельный сигнал для обсуждения, без надбавки к индексу.",
+  "factors": [
+    {
+      "key": "R01",
+      "label": "Поддержка наставника",
+      "points": 12.0,
+      "weight": 12.0,
+      "state": "active",
+      "evidence": [
+        {
+          "assertion": "explicit",
+          "checks": [
+            "V1",
+            "V2",
+            "V3"
+          ],
+          "end": 31,
+          "factor_id": "R01",
+          "mapping_id": null,
+          "polarity": "negative",
+          "question_id": "q_barrier",
+          "quote": "Наставник регулярно не отвечает",
+          "reason": "provisional_text_classification",
+          "response_id": "pair_1_M3_intern",
+          "role": "intern",
+          "rule_id": "RULE_R01_001",
+          "scale_max": null,
+          "scale_min": null,
+          "semantic_verification": "not_run",
+          "severity": "high",
+          "signal_id": "s_56af1ec1421595dec53d36d8",
+          "source_kind": "text",
+          "source_refs": [
+            {
+              "relationship": "author_demo",
+              "source_id": "DEMO_AUTHOR_001"
+            }
+          ],
+          "start": 0,
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "value": null
+        }
+      ],
+      "quote": "Наставник регулярно не отвечает",
+      "origin": "ml",
+      "score_intern": null,
+      "score_mentor": null,
+      "scale_min": null,
+      "scale_max": null,
+      "gap": null,
+      "comparison_threshold_exceeded": false
+    },
+    {
+      "key": "R02",
+      "label": "Обратная связь",
+      "points": 0.0,
+      "weight": 8.0,
+      "state": "unknown",
+      "evidence": [],
+      "quote": "",
+      "origin": "ml",
+      "score_intern": null,
+      "score_mentor": null,
+      "scale_min": null,
+      "scale_max": null,
+      "gap": null,
+      "comparison_threshold_exceeded": false
+    },
+    {
+      "key": "R03",
+      "label": "Понимание роли и задач",
+      "points": 5.0,
+      "weight": 10.0,
+      "state": "conflicting",
+      "evidence": [
+        {
+          "assertion": "explicit",
+          "checks": [
+            "V1",
+            "V2",
+            "numeric_mapping"
+          ],
+          "end": null,
+          "factor_id": "R03",
+          "mapping_id": "dashboard-demo-1:intern:f_clarity",
+          "polarity": "negative",
+          "question_id": "f_clarity",
+          "quote": null,
+          "reason": "configured_rating_mapping",
+          "response_id": "pair_1_M3_intern",
+          "role": "intern",
+          "rule_id": "MAPPING_dashboard-demo-1_intern_f_clarity",
+          "scale_max": 10.0,
+          "scale_min": 1.0,
+          "semantic_verification": "deterministic_mapping",
+          "severity": "moderate",
+          "signal_id": "s_7b8c8baf4130ba131436314a",
+          "source_kind": "rating",
+          "source_refs": [],
+          "start": null,
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "value": 4.0
+        },
+        {
+          "assertion": "explicit",
+          "checks": [
+            "V1",
+            "V2",
+            "numeric_mapping"
+          ],
+          "end": null,
+          "factor_id": "R03",
+          "mapping_id": "dashboard-demo-1:mentor:f_clarity",
+          "polarity": "neutral",
+          "question_id": "f_clarity",
+          "quote": null,
+          "reason": "configured_rating_mapping",
+          "response_id": "pair_1_M3_mentor",
+          "role": "mentor",
+          "rule_id": "MAPPING_dashboard-demo-1_mentor_f_clarity",
+          "scale_max": 10.0,
+          "scale_min": 1.0,
+          "semantic_verification": "deterministic_mapping",
+          "severity": "none",
+          "signal_id": "s_a352ac2091823900ea3dea2f",
+          "source_kind": "rating",
+          "source_refs": [],
+          "start": null,
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "value": 10.0
+        },
+        {
+          "assertion": "explicit",
+          "checks": [
+            "V1",
+            "V2",
+            "V3"
+          ],
+          "end": 82,
+          "factor_id": "R03",
+          "mapping_id": null,
+          "polarity": "negative",
+          "question_id": "q_barrier",
+          "quote": "Не совсем понимаю, какого результата от меня ждут",
+          "reason": "provisional_text_classification",
+          "response_id": "pair_1_M3_intern",
+          "role": "intern",
+          "rule_id": "RULE_R03_001",
+          "scale_max": null,
+          "scale_min": null,
+          "semantic_verification": "not_run",
+          "severity": "moderate",
+          "signal_id": "s_d4dbf9ddf04f1e383bed0e6b",
+          "source_kind": "text",
+          "source_refs": [
+            {
+              "relationship": "author_demo",
+              "source_id": "DEMO_AUTHOR_001"
+            }
+          ],
+          "start": 33,
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "value": null
+        }
+      ],
+      "quote": "Не совсем понимаю, какого результата от меня ждут",
+      "origin": "ml",
+      "score_intern": 4.0,
+      "score_mentor": 10.0,
+      "scale_min": 1.0,
+      "scale_max": 10.0,
+      "gap": 0.6666666666666667,
+      "comparison_threshold_exceeded": true
+    },
+    {
+      "key": "R04",
+      "label": "Рабочая нагрузка",
+      "points": 0.0,
+      "weight": 8.0,
+      "state": "unknown",
+      "evidence": [],
+      "quote": "",
+      "origin": "ml",
+      "score_intern": null,
+      "score_mentor": null,
+      "scale_min": null,
+      "scale_max": null,
+      "gap": null,
+      "comparison_threshold_exceeded": false
+    },
+    {
+      "key": "R05",
+      "label": "Профессиональное развитие",
+      "points": 0.0,
+      "weight": 10.0,
+      "state": "unknown",
+      "evidence": [],
+      "quote": "",
+      "origin": "ml",
+      "score_intern": null,
+      "score_mentor": null,
+      "scale_min": null,
+      "scale_max": null,
+      "gap": null,
+      "comparison_threshold_exceeded": false
+    },
+    {
+      "key": "R06",
+      "label": "Соответствие ожиданиям",
+      "points": 0.0,
+      "weight": 8.0,
+      "state": "unknown",
+      "evidence": [],
+      "quote": "",
+      "origin": "ml",
+      "score_intern": null,
+      "score_mentor": null,
+      "scale_min": null,
+      "scale_max": null,
+      "gap": null,
+      "comparison_threshold_exceeded": false
+    },
+    {
+      "key": "R07",
+      "label": "Интеграция в коллектив",
+      "points": 0.0,
+      "weight": 7.0,
+      "state": "unknown",
+      "evidence": [],
+      "quote": "",
+      "origin": "ml",
+      "score_intern": null,
+      "score_mentor": null,
+      "scale_min": null,
+      "scale_max": null,
+      "gap": null,
+      "comparison_threshold_exceeded": false
+    },
+    {
+      "key": "R08",
+      "label": "Рабочие ресурсы и процессы",
+      "points": 0.0,
+      "weight": 7.0,
+      "state": "unknown",
+      "evidence": [],
+      "quote": "",
+      "origin": "ml",
+      "score_intern": null,
+      "score_mentor": null,
+      "scale_min": null,
+      "scale_max": null,
+      "gap": null,
+      "comparison_threshold_exceeded": false
+    },
+    {
+      "key": "R09",
+      "label": "Перспективы сотрудничества",
+      "points": 0.0,
+      "weight": 10.0,
+      "state": "unknown",
+      "evidence": [],
+      "quote": "",
+      "origin": "ml",
+      "score_intern": null,
+      "score_mentor": null,
+      "scale_min": null,
+      "scale_max": null,
+      "gap": null,
+      "comparison_threshold_exceeded": false
+    },
+    {
+      "key": "R10",
+      "label": "Прямое намерение прекратить стажировку",
+      "points": 0.0,
+      "weight": 20.0,
+      "state": "unknown",
+      "evidence": [],
+      "quote": "",
+      "origin": "ml",
+      "score_intern": null,
+      "score_mentor": null,
+      "scale_min": null,
+      "scale_max": null,
+      "gap": null,
+      "comparison_threshold_exceeded": false
+    }
+  ],
+  "reasons": [
+    {
+      "key": "R01",
+      "label": "Поддержка наставника",
+      "points": 12.0,
+      "weight": 12.0,
+      "state": "active",
+      "evidence": [
+        {
+          "assertion": "explicit",
+          "checks": [
+            "V1",
+            "V2",
+            "V3"
+          ],
+          "end": 31,
+          "factor_id": "R01",
+          "mapping_id": null,
+          "polarity": "negative",
+          "question_id": "q_barrier",
+          "quote": "Наставник регулярно не отвечает",
+          "reason": "provisional_text_classification",
+          "response_id": "pair_1_M3_intern",
+          "role": "intern",
+          "rule_id": "RULE_R01_001",
+          "scale_max": null,
+          "scale_min": null,
+          "semantic_verification": "not_run",
+          "severity": "high",
+          "signal_id": "s_56af1ec1421595dec53d36d8",
+          "source_kind": "text",
+          "source_refs": [
+            {
+              "relationship": "author_demo",
+              "source_id": "DEMO_AUTHOR_001"
+            }
+          ],
+          "start": 0,
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "value": null
+        }
+      ],
+      "quote": "Наставник регулярно не отвечает",
+      "origin": "ml",
+      "score_intern": null,
+      "score_mentor": null,
+      "scale_min": null,
+      "scale_max": null,
+      "gap": null,
+      "comparison_threshold_exceeded": false,
+      "text": "active"
+    },
+    {
+      "key": "R03",
+      "label": "Понимание роли и задач",
+      "points": 5.0,
+      "weight": 10.0,
+      "state": "conflicting",
+      "evidence": [
+        {
+          "assertion": "explicit",
+          "checks": [
+            "V1",
+            "V2",
+            "numeric_mapping"
+          ],
+          "end": null,
+          "factor_id": "R03",
+          "mapping_id": "dashboard-demo-1:intern:f_clarity",
+          "polarity": "negative",
+          "question_id": "f_clarity",
+          "quote": null,
+          "reason": "configured_rating_mapping",
+          "response_id": "pair_1_M3_intern",
+          "role": "intern",
+          "rule_id": "MAPPING_dashboard-demo-1_intern_f_clarity",
+          "scale_max": 10.0,
+          "scale_min": 1.0,
+          "semantic_verification": "deterministic_mapping",
+          "severity": "moderate",
+          "signal_id": "s_7b8c8baf4130ba131436314a",
+          "source_kind": "rating",
+          "source_refs": [],
+          "start": null,
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "value": 4.0
+        },
+        {
+          "assertion": "explicit",
+          "checks": [
+            "V1",
+            "V2",
+            "numeric_mapping"
+          ],
+          "end": null,
+          "factor_id": "R03",
+          "mapping_id": "dashboard-demo-1:mentor:f_clarity",
+          "polarity": "neutral",
+          "question_id": "f_clarity",
+          "quote": null,
+          "reason": "configured_rating_mapping",
+          "response_id": "pair_1_M3_mentor",
+          "role": "mentor",
+          "rule_id": "MAPPING_dashboard-demo-1_mentor_f_clarity",
+          "scale_max": 10.0,
+          "scale_min": 1.0,
+          "semantic_verification": "deterministic_mapping",
+          "severity": "none",
+          "signal_id": "s_a352ac2091823900ea3dea2f",
+          "source_kind": "rating",
+          "source_refs": [],
+          "start": null,
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "value": 10.0
+        },
+        {
+          "assertion": "explicit",
+          "checks": [
+            "V1",
+            "V2",
+            "V3"
+          ],
+          "end": 82,
+          "factor_id": "R03",
+          "mapping_id": null,
+          "polarity": "negative",
+          "question_id": "q_barrier",
+          "quote": "Не совсем понимаю, какого результата от меня ждут",
+          "reason": "provisional_text_classification",
+          "response_id": "pair_1_M3_intern",
+          "role": "intern",
+          "rule_id": "RULE_R03_001",
+          "scale_max": null,
+          "scale_min": null,
+          "semantic_verification": "not_run",
+          "severity": "moderate",
+          "signal_id": "s_d4dbf9ddf04f1e383bed0e6b",
+          "source_kind": "text",
+          "source_refs": [
+            {
+              "relationship": "author_demo",
+              "source_id": "DEMO_AUTHOR_001"
+            }
+          ],
+          "start": 33,
+          "temporal_status": "current",
+          "validation_status": "accepted",
+          "value": null
+        }
+      ],
+      "quote": "Не совсем понимаю, какого результата от меня ждут",
+      "origin": "ml",
+      "score_intern": 4.0,
+      "score_mentor": 10.0,
+      "scale_min": 1.0,
+      "scale_max": 10.0,
+      "gap": 0.6666666666666667,
+      "comparison_threshold_exceeded": true,
+      "text": "conflicting"
+    }
+  ],
+  "signals": [
+    {
+      "assertion": "explicit",
+      "checks": [
+        "V1",
+        "V2",
+        "V3"
+      ],
+      "end": 31,
+      "factor_id": "R01",
+      "mapping_id": null,
+      "polarity": "negative",
+      "question_id": "q_barrier",
+      "quote": "Наставник регулярно не отвечает",
+      "reason": "provisional_text_classification",
+      "response_id": "pair_1_M3_intern",
+      "role": "intern",
+      "rule_id": "RULE_R01_001",
+      "scale_max": null,
+      "scale_min": null,
+      "semantic_verification": "not_run",
+      "severity": "high",
+      "signal_id": "s_56af1ec1421595dec53d36d8",
+      "source_kind": "text",
+      "source_refs": [
+        {
+          "relationship": "author_demo",
+          "source_id": "DEMO_AUTHOR_001"
+        }
+      ],
+      "start": 0,
+      "temporal_status": "current",
+      "validation_status": "accepted",
+      "value": null,
+      "label": "Поддержка наставника · accepted"
+    },
+    {
+      "assertion": "explicit",
+      "checks": [
+        "V1",
+        "V2",
+        "numeric_mapping"
+      ],
+      "end": null,
+      "factor_id": "R03",
+      "mapping_id": "dashboard-demo-1:intern:f_clarity",
+      "polarity": "negative",
+      "question_id": "f_clarity",
+      "quote": null,
+      "reason": "configured_rating_mapping",
+      "response_id": "pair_1_M3_intern",
+      "role": "intern",
+      "rule_id": "MAPPING_dashboard-demo-1_intern_f_clarity",
+      "scale_max": 10.0,
+      "scale_min": 1.0,
+      "semantic_verification": "deterministic_mapping",
+      "severity": "moderate",
+      "signal_id": "s_7b8c8baf4130ba131436314a",
+      "source_kind": "rating",
+      "source_refs": [],
+      "start": null,
+      "temporal_status": "current",
+      "validation_status": "accepted",
+      "value": 4.0,
+      "label": "Понимание роли и задач · accepted"
+    },
+    {
+      "assertion": "explicit",
+      "checks": [
+        "V1",
+        "V2",
+        "numeric_mapping"
+      ],
+      "end": null,
+      "factor_id": "R03",
+      "mapping_id": "dashboard-demo-1:mentor:f_clarity",
+      "polarity": "neutral",
+      "question_id": "f_clarity",
+      "quote": null,
+      "reason": "configured_rating_mapping",
+      "response_id": "pair_1_M3_mentor",
+      "role": "mentor",
+      "rule_id": "MAPPING_dashboard-demo-1_mentor_f_clarity",
+      "scale_max": 10.0,
+      "scale_min": 1.0,
+      "semantic_verification": "deterministic_mapping",
+      "severity": "none",
+      "signal_id": "s_a352ac2091823900ea3dea2f",
+      "source_kind": "rating",
+      "source_refs": [],
+      "start": null,
+      "temporal_status": "current",
+      "validation_status": "accepted",
+      "value": 10.0,
+      "label": "Понимание роли и задач · accepted"
+    },
+    {
+      "assertion": "explicit",
+      "checks": [
+        "V1",
+        "V2",
+        "V3"
+      ],
+      "end": 82,
+      "factor_id": "R03",
+      "mapping_id": null,
+      "polarity": "negative",
+      "question_id": "q_barrier",
+      "quote": "Не совсем понимаю, какого результата от меня ждут",
+      "reason": "provisional_text_classification",
+      "response_id": "pair_1_M3_intern",
+      "role": "intern",
+      "rule_id": "RULE_R03_001",
+      "scale_max": null,
+      "scale_min": null,
+      "semantic_verification": "not_run",
+      "severity": "moderate",
+      "signal_id": "s_d4dbf9ddf04f1e383bed0e6b",
+      "source_kind": "text",
+      "source_refs": [
+        {
+          "relationship": "author_demo",
+          "source_id": "DEMO_AUTHOR_001"
+        }
+      ],
+      "start": 33,
+      "temporal_status": "current",
+      "validation_status": "accepted",
+      "value": null,
+      "label": "Понимание роли и задач · accepted"
+    }
+  ],
+  "steps": [
+    {
+      "key": "A01",
+      "text": "Согласовать регулярные встречи с наставником",
+      "reduction": 12.0,
+      "owner": "mentor, hr",
+      "due": null,
+      "target_factors": [
+        "R01"
+      ],
+      "completion_criteria": [
+        "График встреч согласован",
+        "Встречи проводятся"
+      ],
+      "resolution_criteria": [
+        "Стажёр подтверждает что необходимая помощь доступна своевременно"
+      ]
+    },
+    {
+      "key": "A03",
+      "text": "Уточнить задачи и критерии готовности",
+      "reduction": 5.0,
+      "owner": "mentor",
+      "due": null,
+      "target_factors": [
+        "R03"
+      ],
+      "completion_criteria": [
+        "Задачи и приоритеты записаны",
+        "Критерии готовности согласованы"
+      ],
+      "resolution_criteria": [
+        "Стажёр своими словами подтверждает понимание ожидаемого результата"
+      ]
+    },
+    {
+      "key": "A11",
+      "text": "Назначить резервный контакт для помощи",
+      "reduction": 12.0,
+      "owner": "mentor, hr",
+      "due": null,
+      "target_factors": [
+        "R01"
+      ],
+      "completion_criteria": [
+        "Резервный контакт согласован",
+        "Стажёр знает как получить помощь"
+      ],
+      "resolution_criteria": [
+        "Стажёр подтверждает своевременную доступность необходимой помощи"
+      ]
+    }
+  ],
+  "scenario": {
+    "analysis_id": "analysis_87f52a24567f49f788c615ed244c25f4",
+    "assumption": "full_resolution",
+    "covered_factor_ids": [
+      "R01",
+      "R03"
+    ],
+    "current_score": 17.0,
+    "factor_reductions": {
+      "R01": 12.0,
+      "R03": 5.0
+    },
+    "potential_reduction": 17.0,
+    "scenario_score": 0.0
+  },
+  "steps_reduction": 17.0,
+  "history": [
+    {
+      "month": "M1",
+      "risk": null,
+      "band": "unknown"
+    },
+    {
+      "month": "M2",
+      "risk": null,
+      "band": "unknown"
+    },
+    {
+      "month": "M3",
+      "risk": 17.0,
+      "band": "low"
+    }
+  ],
+  "temporal_status": "not_implemented",
+  "scenarios": {
+    "base": [],
+    "with_actions": [],
+    "status": "not_implemented"
+  },
+  "originals": {
+    "intern": {},
+    "mentor": {}
+  },
+  "observation": {
+    "months": 1,
+    "with_both_forms": 1
+  },
+  "signal_seconds": null,
+  "degraded": false,
+  "has_gap": true,
+  "ml_analysis_id": "analysis_87f52a24567f49f788c615ed244c25f4",
+  "ml_metadata": {
+    "accepted_count": 4,
+    "analysis_key": "2d92a8cfa334f189463f7ea3623ac2cc97f1c66055116fed6fe676b6387893b7",
+    "created_at": "2026-11-25T17:38:10.987891Z",
+    "data_mode": "demo",
+    "execution_mode": "live",
+    "extraction_hash": "fa8d29c133c9535f8a5c5b48aab9cf21603b0691ba53caee2eb29fae3a49ff61",
+    "input_hash": "c6615ce42d3a5406a22e5e41a000a8b2712f49e089d62c17b0384ad695215c76",
+    "knowledge_hash": "89ae642c093d1198415a5ff52c884440bcfd446002fa3f039cf21db2c605a19f",
+    "knowledge_version": "0.1.0",
+    "latency_ms": 3.35,
+    "mapping_hash": "4e92173ed89f66ac5e4750c044e2f23866a0a7c1797d08e930a33e7b4fd03bbe",
+    "mapping_version": "dashboard-demo-1",
+    "model_id": "fixture-v1",
+    "pipeline_version": "0.1.1",
+    "policy_version": "0.1.0",
+    "profile": "fast",
+    "prompt_hash": "bf3d1115a9b773384df6c4a33f670290d4cefc49fa0a32be393645fee811f329",
+    "prompt_version": "1",
+    "provider": "mock",
+    "provider_calls": [],
+    "provider_config": {
+      "adapter_version": "fixture-v1"
+    },
+    "provider_config_hash": "223be117df62ccba90b4999fe21586bb484ca2745cd8b4da7647a2feb9f4e7aa",
+    "rejected_count": 0,
+    "review_count": 0,
+    "trace_id": "trace_538ea90865ac473b86e28c94357cdc20",
+    "validation_version": "1"
+  },
+  "capabilities": {
+    "batch": false,
+    "fixture_text_extraction": true,
+    "immutable_snapshots": true,
+    "numeric_gap": true,
+    "rating_analysis": true,
+    "real_provider": false,
+    "replay": false,
+    "rule_extractor": false,
+    "scenario": true,
+    "semantic_discrepancy": false,
+    "strict_semantic_verification": false,
+    "temporal": false
+  }
+}

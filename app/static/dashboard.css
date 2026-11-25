@@ -726,3 +726,19 @@ body[data-view="exec"] .kpi-extra { display: flex; }
 @media (max-height: 840px) {
   .pulse .heatmap { max-height: 152px; overflow-y: auto; }
 }
+
+/* ML adds explicit missingness/review states without changing the dashboard layout. */
+.ml-status { display: grid; gap: 7px; margin: 16px 0; padding: 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 12px; }
+.ml-review { color: var(--warn); }
+.ml-evidence { margin-top: 8px; font-size: 12px; }
+.ml-evidence summary { cursor: pointer; }
+.ml-step { cursor: pointer; align-items: start; }
+.ml-step input { width: 16px; height: 16px; margin-top: 3px; accent-color: var(--accent, #4cc9a4); }
+.hero-risk[data-band="unknown"], .row-risk[data-band="unknown"] { color: var(--muted); }
+.segmented button:disabled { opacity: 0.45; cursor: default; }
+body[data-analysis-mode="ml"] .gap-values { white-space: normal; }
+.gap-normalized { display: block; margin-top: 3px; font-size: 10px; }
+@media (min-width: 1101px) {
+  body[data-analysis-mode="ml"] .kpi { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  body[data-analysis-mode="ml"] .gap-row { grid-template-columns: 132px 1fr 150px; }
+}

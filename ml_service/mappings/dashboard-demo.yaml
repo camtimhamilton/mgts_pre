@@ -1,0 +1,157 @@
+{
+  "version": "dashboard-demo-1",
+  "entries": [
+    {
+      "role": "intern",
+      "question_id": "f_clarity",
+      "type": "rating",
+      "factor_id": "R03",
+      "comparison_key": "clarity",
+      "direction": "higher_is_better",
+      "scale_min": 1,
+      "scale_max": 10,
+      "levels": {
+        "1": "high",
+        "2": "high",
+        "3": "moderate",
+        "4": "moderate",
+        "5": "moderate",
+        "6": "none",
+        "7": "none",
+        "8": "none",
+        "9": "none",
+        "10": "none"
+      }
+    },
+    {
+      "role": "intern",
+      "question_id": "f_workload",
+      "type": "rating",
+      "factor_id": "R04",
+      "comparison_key": null,
+      "direction": "higher_is_better",
+      "scale_min": 1,
+      "scale_max": 10,
+      "levels": {
+        "1": "high",
+        "2": "high",
+        "3": "moderate",
+        "4": "moderate",
+        "5": "moderate",
+        "6": "none",
+        "7": "none",
+        "8": "none",
+        "9": "none",
+        "10": "none"
+      }
+    },
+    {
+      "role": "intern",
+      "question_id": "f_inclusion",
+      "type": "rating",
+      "factor_id": "R07",
+      "comparison_key": "inclusion",
+      "direction": "higher_is_better",
+      "scale_min": 1,
+      "scale_max": 10,
+      "levels": {
+        "1": "high",
+        "2": "high",
+        "3": "moderate",
+        "4": "moderate",
+        "5": "moderate",
+        "6": "none",
+        "7": "none",
+        "8": "none",
+        "9": "none",
+        "10": "none"
+      }
+    },
+    {
+      "role": "intern",
+      "question_id": "q_better",
+      "type": "text"
+    },
+    {
+      "role": "intern",
+      "question_id": "q_barrier",
+      "type": "text"
+    },
+    {
+      "role": "mentor",
+      "question_id": "f_clarity",
+      "type": "rating",
+      "factor_id": "R03",
+      "comparison_key": "clarity",
+      "direction": "higher_is_better",
+      "scale_min": 1,
+      "scale_max": 10,
+      "levels": {
+        "1": "high",
+        "2": "high",
+        "3": "moderate",
+        "4": "moderate",
+        "5": "moderate",
+        "6": "none",
+        "7": "none",
+        "8": "none",
+        "9": "none",
+        "10": "none"
+      }
+    },
+    {
+      "role": "mentor",
+      "question_id": "f_workload",
+      "type": "rating",
+      "factor_id": "R04",
+      "comparison_key": null,
+      "direction": "higher_is_better",
+      "scale_min": 1,
+      "scale_max": 10,
+      "levels": {
+        "1": "high",
+        "2": "high",
+        "3": "moderate",
+        "4": "moderate",
+        "5": "moderate",
+        "6": "none",
+        "7": "none",
+        "8": "none",
+        "9": "none",
+        "10": "none"
+      }
+    },
+    {
+      "role": "mentor",
+      "question_id": "f_inclusion",
+      "type": "rating",
+      "factor_id": "R07",
+      "comparison_key": "inclusion",
+      "direction": "higher_is_better",
+      "scale_min": 1,
+      "scale_max": 10,
+      "levels": {
+        "1": "high",
+        "2": "high",
+        "3": "moderate",
+        "4": "moderate",
+        "5": "moderate",
+        "6": "none",
+        "7": "none",
+        "8": "none",
+        "9": "none",
+        "10": "none"
+      }
+    },
+    {
+      "role": "mentor",
+      "question_id": "q_better",
+      "type": "text"
+    },
+    {
+      "role": "mentor",
+      "question_id": "q_barrier",
+      "type": "text"
+    }
+  ]
+}

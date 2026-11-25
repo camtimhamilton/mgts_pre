@@ -1,5 +1,6 @@
 """Load a fresh validated snapshot; no process-global mutable policy."""
 from pathlib import Path
+import os
 
 import yaml
 
@@ -67,5 +68,6 @@ def validate_knowledge(kb: KnowledgeSnapshot) -> None:
             raise ValueError("factor needs active rule")
 
 
-def load_mapping(path: Path = ROOT / "mappings" / "demo.yaml") -> Mapping:
-    return Mapping.model_validate(read_yaml(path))
+def load_mapping(path: Path | None = None) -> Mapping:
+    selected = path or Path(os.getenv("MGTS_MAPPING_PATH", str(ROOT / "mappings" / "demo.yaml")))
+    return Mapping.model_validate(read_yaml(selected))

@@ -14,7 +14,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Query
+from pydantic import BaseModel, ConfigDict, Field
 from fastapi.responses import JSONResponse, StreamingResponse
 
 from . import repo, service
@@ -50,6 +51,7 @@ def health() -> dict[str, Any]:
         "team": settings.team_name,
         "demo_mode": settings.demo_mode,
         "llm_mode": settings.llm_mode,
+        "analysis_mode": settings.analysis_mode,
         "ts": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
 
@@ -291,11 +293,15 @@ def _db_response(data: Any) -> JSONResponse:
     return JSONResponse(data, headers={"X-Data-Source": "db"})
 
 
+def _use_fixture(conn) -> bool:
+    return get_settings().analysis_mode == "demo" and not service.has_snapshots(conn)
+
+
 @router.get("/api/program")
-def program(month: str | None = None) -> JSONResponse:
+def program(month: str | None = Query(default=None, pattern=r"^M[1-6]$")) -> JSONResponse:
     conn = connect()
     try:
-        if not service.has_snapshots(conn):
+        if _use_fixture(conn):
             return _fixture_response("program.json")
         target = month or service.latest_month(conn)
         return _db_response(service.program(conn, target or "M1"))
@@ -304,10 +310,10 @@ def program(month: str | None = None) -> JSONResponse:
 
 
 @router.get("/api/pairs")
-def pairs(month: str | None = None) -> JSONResponse:
+def pairs(month: str | None = Query(default=None, pattern=r"^M[1-6]$")) -> JSONResponse:
     conn = connect()
     try:
-        if not service.has_snapshots(conn):
+        if _use_fixture(conn):
             return _fixture_response("pairs.json")
         target = month or service.latest_month(conn)
         return _db_response(service.list_pairs(conn, target or "M1"))
@@ -325,7 +331,7 @@ def recompute() -> dict[str, Any]:
 
 
 @router.post("/api/pairs/{pair_id}/recompute")
-def recompute_pair(pair_id: int, month: str | None = None) -> JSONResponse:
+def recompute_pair(pair_id: int, month: str | None = Query(default=None, pattern=r"^M[1-6]$")) -> JSONResponse:
     conn = connect()
     try:
         if month:
@@ -358,7 +364,7 @@ def _summary(data: dict[str, Any]) -> dict[str, Any]:
 def submissions(pair_id: int) -> JSONResponse:
     conn = connect()
     try:
-        if not service.has_snapshots(conn):
+        if _use_fixture(conn):
             return _fixture_response("submissions.json")
         return _db_response(service.submissions_for(conn, pair_id))
     finally:
@@ -366,10 +372,10 @@ def submissions(pair_id: int) -> JSONResponse:
 
 
 @router.get("/api/pairs/{pair_id}")
-def pair(pair_id: int, month: str | None = None) -> JSONResponse:
+def pair(pair_id: int, month: str | None = Query(default=None, pattern=r"^M[1-6]$")) -> JSONResponse:
     conn = connect()
     try:
-        if not service.has_snapshots(conn):
+        if _use_fixture(conn):
             return _fixture_response("pair.json")
         target = month or service.latest_month(conn)
         data = service.pair_card(conn, pair_id, target or "M1")
@@ -384,6 +390,25 @@ def pair(pair_id: int, month: str | None = None) -> JSONResponse:
 
 
 # ---------------------------------------------------------------- события
+
+
+class ScenarioSelection(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    action_ids: list[str] = Field(max_length=50)
+
+
+@router.post("/api/pairs/{pair_id}/scenario")
+def scenario(pair_id: int, body: ScenarioSelection, month: str = Query(pattern=r"^M[1-6]$")) -> JSONResponse:
+    from .ml_client import MLUnavailable
+    if get_settings().analysis_mode != "ml":
+        return JSONResponse({"code": "scenario_requires_ml_mode"}, status_code=409)
+    conn = connect()
+    try:
+        return _db_response(service.calculate_scenario(conn, pair_id, month, body.action_ids))
+    except MLUnavailable as error:
+        return JSONResponse({"code": error.code}, status_code=503)
+    finally:
+        conn.close()
 
 
 @router.get("/api/events")

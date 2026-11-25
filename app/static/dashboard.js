@@ -3,8 +3,9 @@
 
 const $ = (selector) => document.querySelector(selector);
 
-const BAND_LABEL = { low: "стабильно", watch: "наблюдение", critical: "критично" };
+const BAND_LABEL = { low: "стабильно", watch: "наблюдение", critical: "критично", unknown: "нет оценки" };
 const BAND_TONE = { low: "low", watch: "watch", critical: "critical" };
+const PRIORITY_LABEL = { routine: "обычный", elevated: "повышенный", high: "высокий", insufficient_data: "недостаточно данных", pending_review: "требуется уточнение" };
 const ROLE_LABEL = { intern: "стажёр", mentor: "наставник" };
 const FACTOR_SHORT = {
   motivation: "Мотивация",
@@ -28,8 +29,11 @@ const state = {
   query: "",
   source: "db",
   view: "hr",
+  analysisMode: "demo",
   logTimer: null,
   refreshTimer: null,
+  programRequest: 0,
+  cardRequest: 0,
 };
 
 // ---------------------------------------------------------------- утилиты
@@ -89,13 +93,18 @@ function avatarStyle(name) {
 }
 
 function deltaChip(delta) {
+  if (delta === null || delta === undefined) {
+    const chip = el("span", "delta", "—");
+    chip.title = "Сопоставимая динамика пока недоступна";
+    return chip;
+  }
   const value = Number(delta) || 0;
   const sign = value > 0 ? "up" : value < 0 ? "down" : "flat";
   const arrow = value > 0 ? "↑" : value < 0 ? "↓" : "→";
   const text = value === 0 ? "0" : `${arrow} ${Math.abs(value)}`;
   const chip = el("span", "delta", text);
   chip.dataset.sign = sign;
-  chip.title = `изменение к прошлому месяцу: ${value > 0 ? "+" : ""}${value} п.п.`;
+  chip.title = `изменение к прошлому месяцу: ${value > 0 ? "+" : ""}${value} баллов`;
   return chip;
 }
 
@@ -103,6 +112,18 @@ function bandBadge(band, prefix = "Уровень") {
   const badge = el("span", "badge", `${prefix}: ${BAND_LABEL[band] || band}`);
   badge.dataset.tone = BAND_TONE[band] || "watch";
   return badge;
+}
+
+function isML(card) {
+  return card?.analysis_mode === "ml" || state.analysisMode === "ml";
+}
+
+function scoreText(value) {
+  return value === null || value === undefined ? "—" : String(value);
+}
+
+function hasGap(pair) {
+  return state.analysisMode === "ml" ? Boolean(pair.has_gap) : (pair.gap || 0) >= 4;
 }
 
 function status(text, stateName) {
@@ -137,25 +158,32 @@ function fmtDateTime(value) {
 // ---------------------------------------------------------------- загрузка
 
 async function loadProgram(month) {
+  const request = ++state.programRequest;
   const query = month ? `?month=${encodeURIComponent(month)}` : "";
   const [program, pairs] = await Promise.all([api(`/api/program${query}`), api(`/api/pairs${query}`)]);
+  if (request !== state.programRequest) return false;
 
   state.program = program.body;
   state.pairs = pairs.body.items || [];
   state.month = program.body.month;
   state.months = program.body.months?.length ? program.body.months : MONTHS;
   state.source = program.source || "db";
+  return true;
 }
 
 async function loadCard(pairId) {
-  const { body } = await api(`/api/pairs/${pairId}?month=${encodeURIComponent(state.month)}`);
+  const month = state.month;
+  const request = ++state.cardRequest;
+  const { body } = await api(`/api/pairs/${pairId}?month=${encodeURIComponent(month)}`);
+  if (month !== state.month || request !== state.cardRequest) return false;
   state.card = body;
   state.selectedId = pairId;
+  return true;
 }
 
 async function refresh() {
   try {
-    await loadProgram(state.month);
+    if (!(await loadProgram(state.month))) return;
     if (state.selectedId && state.pairs.some((pair) => pair.id === state.selectedId)) {
       await loadCard(state.selectedId);
     } else {
@@ -194,7 +222,7 @@ function renderKpi() {
       tone: (kpi.at_risk || 0) > 0 ? "bad" : "ok",
       filter: "risk",
     },
-    { key: "avg", label: "средний индекс", value: kpi.avg_risk ?? 0, tone: toneOfScore(kpi.avg_risk) },
+    { key: "avg", label: "средний индекс", value: scoreText(kpi.avg_risk), tone: state.analysisMode === "ml" ? "" : toneOfScore(kpi.avg_risk) },
     {
       key: "gap",
       label: "разрыв восприятия",
@@ -211,6 +239,10 @@ function renderKpi() {
     },
     { key: "signal", label: "последний сигнал", value: fmtSeconds(kpi.last_signal_sec), tone: "" },
   ];
+  if (state.analysisMode === "ml") {
+    chips[0].label = "нужна поддержка";
+    chips.push({ key: "unknown", label: "без оценки / неполные данные", value: kpi.unknown ?? 0, tone: "warn" });
+  }
 
   for (const chip of chips) {
     const node = el("button", "kpi-chip");
@@ -264,6 +296,12 @@ function renderExec() {
   }
   $("#bands-legend").textContent = `стабильно ${bands.low} · наблюдение ${bands.watch} · критично ${bands.critical}`;
 
+  if (state.analysisMode === "ml") {
+    $("#bands-legend").textContent += ` · нет оценки ${bands.unknown || 0}`;
+    $("#hypothesis").textContent = "Индекс наблюдаемых проблем в баллах; причинная связь с расхождением оценок не установлена.";
+    return;
+  }
+
   const withGap = state.pairs.filter((pair) => (pair.gap || 0) >= 4);
   const without = state.pairs.filter((pair) => (pair.gap || 0) < 4);
   const avg = (items) => (items.length ? items.reduce((sum, item) => sum + item.risk, 0) / items.length : 0);
@@ -287,14 +325,15 @@ function visiblePairs() {
       `${pair.intern_name} ${pair.mentor_name || ""} ${pair.direction || ""}`.toLowerCase().includes(needle)
     );
   }
-  if (state.filter === "risk") items = items.filter((pair) => pair.risk >= 60 || pair.delta >= 10);
-  if (state.filter === "gap") items = items.filter((pair) => (pair.gap || 0) >= 4);
+  if (state.filter === "risk") items = items.filter((pair) => state.analysisMode === "ml"
+    ? ["elevated", "high", "pending_review"].includes(pair.priority) : pair.risk >= 60 || pair.delta >= 10);
+  if (state.filter === "gap") items = items.filter(hasGap);
   if (state.filter === "missing") items = items.filter((pair) => Boolean(pair.missing));
 
   const sorters = {
     urgency: (a, b) => b.urgency - a.urgency,
-    risk: (a, b) => b.risk - a.risk,
-    delta: (a, b) => b.delta - a.delta,
+    risk: (a, b) => (b.risk ?? -1) - (a.risk ?? -1),
+    delta: (a, b) => (b.delta ?? -Infinity) - (a.delta ?? -Infinity),
   };
   return items.sort(sorters[state.sort] || sorters.urgency);
 }
@@ -329,17 +368,21 @@ function renderList() {
       flag.dataset.kind = "missing";
       flags.append(flag);
     }
-    if ((pair.gap || 0) >= 4) {
-      const flag = el("span", "flag", `разрыв ${pair.gap}`);
+    if (hasGap(pair)) {
+      const flag = el("span", "flag", `разрыв ${state.analysisMode === "ml" ? Number(pair.gap).toFixed(2) : pair.gap}`);
       flag.dataset.kind = "gap";
       flags.append(flag);
+    }
+    if (state.analysisMode === "ml") {
+      const label = PRIORITY_LABEL[pair.priority] || ({ error: "ошибка анализа", pending: "анализ ожидается", missing: "нет данных" })[pair.analysis_state];
+      if (label) flags.append(el("span", "flag", label));
     }
     if (flags.childElementCount) main.append(flags);
 
     const right = el("div", "row-right");
     right.append(sparkline(pair.sparkline || [], pair.band));
 
-    const score = el("div", "row-risk", pair.risk);
+    const score = el("div", "row-risk", scoreText(pair.risk));
     score.dataset.band = pair.band;
 
     const column = el("div");
@@ -363,12 +406,13 @@ function sparkline(values, band) {
 
   const step = values.length > 1 ? (width - 4) / (values.length - 1) : 0;
   const points = values.map((value, index) => {
+    if (value === null || value === undefined) return null;
     const x = 2 + index * step;
     const y = height - 2 - (Math.max(0, Math.min(100, value)) / 100) * (height - 4);
     return [x, y];
   });
 
-  const path = points.map(([x, y], index) => `${index ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
+  const path = points.map((point, index) => point ? `${index && points[index - 1] ? "L" : "M"}${point[0].toFixed(1)} ${point[1].toFixed(1)}` : "").join(" ");
   node.append(
     svg("path", {
       d: path,
@@ -379,7 +423,9 @@ function sparkline(values, band) {
     })
   );
 
-  const [lastX, lastY] = points[points.length - 1];
+  const last = points.filter(Boolean).at(-1);
+  if (!last) return node;
+  const [lastX, lastY] = last;
   node.append(svg("circle", { cx: lastX, cy: lastY, r: 2, fill: band === "critical" ? "#e5534b" : band === "watch" ? "#e3b341" : "#4cc9a4" }));
   return node;
 }
@@ -419,17 +465,18 @@ function renderHeatmap() {
     name.title = row.name;
     box.append(name);
 
-    const byMonth = new Map((row.cells || []).map((cell) => [cell.month, cell.risk]));
+    const byMonth = new Map((row.cells || []).map((cell) => [cell.month, cell]));
     for (const month of months) {
-      const risk = byMonth.get(month);
+      const value = byMonth.get(month);
+      const risk = value?.risk;
       const cell = el("button", "hm-cell");
       cell.type = "button";
-      if (risk === undefined) {
+      if (risk === undefined || risk === null) {
         cell.dataset.empty = "1";
         cell.tabIndex = -1;
       } else {
-        cell.dataset.band = bandOf(risk);
-        cell.title = `${row.name}, ${month}: риск ${risk}`;
+        cell.dataset.band = state.analysisMode === "ml" ? value.band || "unknown" : bandOf(risk);
+        cell.title = `${row.name}, ${month}: индекс ${risk} баллов`;
         if (month === state.month) cell.dataset.current = "1";
         cell.addEventListener("click", async () => {
           if (month !== state.month) await switchMonth(month);
@@ -485,6 +532,11 @@ function renderCard() {
 
   box.append(hero(card));
 
+  if (isML(card)) {
+    box.append(mlStatus(card), summaryBlock(card), mlGapBlock(card), mlFactorsBlock(card), mlStepsBlock(card), mlHistoryBlock(card), metaLine(card));
+    return;
+  }
+
   if (card.degraded) {
     box.append(el("div", "degraded", "Модель была недоступна: текст собран по шаблонам, числа посчитаны обычно."));
   }
@@ -527,15 +579,21 @@ function hero(card) {
   );
 
   const badges = el("div", "hero-badges");
-  badges.append(bandBadge(card.band));
-  badges.append(bandBadge(card.trend?.key === "fast_growth" ? "critical" : card.trend?.key === "growing" ? "watch" : "low", "Тренд"));
-  badges.lastChild.textContent = `Тренд: ${card.trend?.label || "—"}`;
+  if (isML(card)) {
+    const priority = el("span", "badge", `Приоритет поддержки: ${PRIORITY_LABEL[card.priority] || "не определён"}`);
+    priority.dataset.tone = card.priority === "high" || card.priority === "pending_review" ? "critical" : card.priority === "routine" ? "low" : "watch";
+    badges.append(priority);
+  } else {
+    badges.append(bandBadge(card.band));
+    badges.append(bandBadge(card.trend?.key === "fast_growth" ? "critical" : card.trend?.key === "growing" ? "watch" : "low", "Тренд"));
+    badges.lastChild.textContent = `Тренд: ${card.trend?.label || "—"}`;
+  }
 
   if (card.score_origin && card.score_origin !== "answer") {
     const badge = el(
       "span",
       "badge",
-      card.score_origin === "estimated" ? "оценки восстановлены по тексту" : "оценки из импорта"
+      card.score_origin === "ml" ? "расчёт ML-сервиса" : card.score_origin === "estimated" ? "оценки восстановлены по тексту" : "оценки из импорта"
     );
     badge.dataset.dashed = "1";
     badges.append(badge);
@@ -543,10 +601,10 @@ function hero(card) {
   info.append(badges);
 
   const score = el("div", "hero-score");
-  const risk = el("div", "hero-risk", card.risk);
+  const risk = el("div", "hero-risk", scoreText(card.risk));
   risk.dataset.band = card.band;
   score.append(risk);
-  score.append(el("small", null, "индекс риска"));
+  score.append(el("small", null, isML(card) ? "индекс проблем · баллы" : "индекс риска"));
   const delta = el("div", "hero-delta");
   delta.append(deltaChip(card.delta));
   score.append(delta);
@@ -564,7 +622,7 @@ function summaryBlock(card) {
   button.addEventListener("click", () => openOriginals(card.id));
   head.append(button);
   block.append(head);
-  block.append(el("p", "summary-text", card.summary || "Модель не дала резюме, смотрите оригиналы."));
+  block.append(el("p", "summary-text", card.summary || (isML(card) ? "Аналитические данные пока недоступны; смотрите статус и оригиналы ответов." : "Модель не дала резюме, смотрите оригиналы.")));
 
   if (card.signals?.length) {
     const signals = el("div", "signals");
@@ -695,6 +753,167 @@ function stepsBlock(card) {
   return block;
 }
 
+function mlStatus(card) {
+  const node = el("div", "ml-status");
+  const labels = { ready: "Анализ сохранён", partial: "Анализ выполнен частично", insufficient_data: "Недостаточно данных",
+    pending: "Анкеты сохранены, анализ ожидается", error: "ML-сервис недоступен или вернул ошибку", missing: "За этот месяц нет анкет" };
+  node.append(el("strong", null, labels[card.analysis_state] || "Статус анализа не определён"));
+  if (card.data_coverage !== null && card.data_coverage !== undefined) {
+    node.append(el("span", null, `Покрытие факторов: ${(card.data_coverage * 100).toFixed(0)}%`));
+  }
+  node.append(el("span", "muted", "Экспертный индекс в баллах, не вероятность увольнения. Отсутствие данных не означает отсутствие проблем."));
+  if (card.critical_flags?.length) node.append(el("span", "ml-review", "Есть сообщение, требующее конфиденциального уточнения с HR."));
+  if (card.warnings?.includes("provisional_text_semantics_not_verified")) {
+    node.append(el("span", "muted", "Текстовые классификации предварительные; независимая семантическая проверка не выполнена."));
+  }
+  return node;
+}
+
+function mlGapBlock(card) {
+  const block = el("section", "block");
+  block.append(el("h3", null, "Расхождение оценок"));
+  if (card.gap_comment) block.append(el("p", "summary-text", card.gap_comment));
+  const factors = (card.factors || []).filter((factor) => factor.score_intern != null || factor.score_mentor != null);
+  if (!factors.length) {
+    block.append(el("p", "muted", "Нет сопоставимых численных ответов. Неупоминание проблемы не считается расхождением."));
+    return block;
+  }
+  const grid = el("div", "gap-grid");
+  for (const factor of factors) {
+    const row = el("div", "gap-row");
+    row.append(el("span", "gap-name", factor.label || factor.key));
+    const bars = el("div", "gap-bars");
+    const min = factor.scale_min;
+    const max = factor.scale_max;
+    for (const role of ["intern", "mentor"]) {
+      const bar = el("div", "gap-bar");
+      bar.dataset.side = role;
+      const fill = el("span");
+      const value = factor[`score_${role}`];
+      fill.style.width = value != null && min != null && max > min ? `${Math.max(0, Math.min(1, (value - min) / (max - min))) * 100}%` : "0%";
+      bar.append(fill);
+      bars.append(bar);
+    }
+    const scale = min != null && max != null ? ` · шкала ${min}–${max}` : "";
+    const values = el("span", "gap-values", `${scoreText(factor.score_intern)} / ${scoreText(factor.score_mentor)}${scale}`);
+    if (factor.comparison_threshold_exceeded) values.dataset.gap = "1";
+    if (factor.gap != null) {
+      values.append(el("span", "gap-normalized", `Нормализованный разрыв: ${Number(factor.gap).toFixed(2)}`));
+      values.title = "Разрыв не добавляет баллы к индексу.";
+    }
+    row.append(bars, values);
+    grid.append(row);
+  }
+  block.append(grid);
+  block.append(el("p", "muted", "Стажёр / наставник. Разрыв отображается отдельно и не увеличивает индекс."));
+  return block;
+}
+
+function mlFactorsBlock(card) {
+  const block = el("section", "block");
+  block.append(el("h3", null, "Почему такой индекс"));
+  if (!(card.factors || []).length) block.append(el("p", "muted", "Факторный расчёт пока недоступен."));
+  const stateLabels = { active: "наблюдаемая проблема", observed_no_signal: "фактор оценён", unknown: "нет достаточных свидетельств", conflicting: "расходящиеся сообщения, требуется уточнение" };
+  const validationLabels = { accepted: "принято предварительно", rejected: "отклонено", review: "на проверке" };
+  for (const factor of card.factors || []) {
+    const row = el("div", "reason");
+    row.append(el("div", "reason-points", `+${scoreText(factor.points)}`));
+    const body = el("div");
+    body.append(el("div", "reason-title", factor.label || factor.key));
+    body.append(el("div", "reason-text", `${stateLabels[factor.state] || factor.state || "—"} · вес ${scoreText(factor.weight)} баллов`));
+    const evidence = factor.evidence || [];
+    for (const item of evidence.filter((entry) => entry.validation_status === "accepted" && entry.quote)) {
+      body.append(el("blockquote", "blockquote", `${ROLE_LABEL[item.role] || item.role}: «${item.quote}»`));
+    }
+    if (evidence.length) {
+      const details = el("details", "ml-evidence");
+      details.append(el("summary", "muted", `Свидетельства: ${evidence.length}`));
+      for (const item of evidence) {
+        const description = `${ROLE_LABEL[item.role] || item.role} · ${validationLabels[item.validation_status] || item.validation_status} · ${item.rule_id || ""}`;
+        details.append(el("p", "muted", description));
+        if (item.quote) details.append(el("blockquote", "blockquote", `«${item.quote}»`));
+        else if (item.value != null) details.append(el("p", "reason-text", `Численный ответ: ${item.value} (${item.scale_min}–${item.scale_max})`));
+      }
+      body.append(details);
+    }
+    row.append(body);
+    block.append(row);
+  }
+  block.append(el("p", "meta-line", `Наблюдаемый индекс: ${scoreText(card.risk)} баллов. Вклады и веса получены от ML-сервиса.`));
+  return block;
+}
+
+function mlStepsBlock(card) {
+  const block = el("section", "block");
+  block.append(el("h3", null, "Что сделать · условный сценарий"));
+  const steps = card.steps || [];
+  if (!steps.length) {
+    block.append(el("p", "muted", "Нет доступных рекомендаций по принятым активным факторам."));
+    return block;
+  }
+  const selected = new Set(card._scenarioActionIds || steps.map((step) => step.key));
+  for (const step of steps) {
+    const row = el("label", "step ml-step");
+    const input = el("input");
+    input.type = "checkbox";
+    input.checked = selected.has(step.key);
+    input.setAttribute("aria-label", `Выбрать: ${step.text}`);
+    input.addEventListener("change", () => {
+      input.checked ? selected.add(step.key) : selected.delete(step.key);
+      card._scenarioActionIds = [...selected];
+      output.textContent = "Выбор изменён. Рассчитайте условный сценарий для выбранных мероприятий.";
+    });
+    row.append(input);
+    const body = el("div");
+    body.append(el("div", "step-title", step.text));
+    body.append(el("div", "step-meta", `Ответственный: ${step.owner || "—"} · индивидуальный условный вычет до ${scoreText(step.reduction)} баллов`));
+    if (step.resolution_criteria?.length) body.append(el("p", "muted", `Устранение подтверждается: ${step.resolution_criteria.join("; ")}`));
+    row.append(body);
+    block.append(row);
+  }
+  const output = el("p", "scenario-note");
+  const show = (scenario) => {
+    output.textContent = scenario
+      ? `Текущий индекс ${scoreText(scenario.current_score)} → условный ${scoreText(scenario.scenario_score)} баллов; вычет уникальных факторов ${scoreText(scenario.potential_reduction)}. Только при полном подтверждённом устранении, не прогноз эффекта.`
+      : "Сценарий пока недоступен.";
+  };
+  show(card.scenario);
+  const calculate = el("button", "linklike", "Рассчитать выбранные мероприятия");
+  calculate.type = "button";
+  calculate.addEventListener("click", async () => {
+    calculate.disabled = true;
+    output.textContent = "Расчёт сценария…";
+    try {
+      const response = await fetch(`/api/pairs/${card.id}/scenario?month=${encodeURIComponent(card.month)}`, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action_ids: [...selected] }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new ApiError(response.status, result);
+      card.scenario = result;
+      show(result);
+    } catch (error) {
+      output.textContent = `Сценарий недоступен${error instanceof ApiError ? ` (HTTP ${error.status})` : ""}. Фактический индекс не изменён.`;
+    } finally {
+      calculate.disabled = false;
+    }
+  });
+  block.append(calculate, output, el("p", "muted", "Индивидуальные вычеты мероприятий не складываются: общий результат считает ML по объединению факторов. Выполнение действия само по себе индекс не меняет."));
+  return block;
+}
+
+function mlHistoryBlock(card) {
+  const block = el("section", "block");
+  block.append(el("h3", null, "История наблюдаемого индекса"));
+  const history = card.history || [];
+  if (history.some((point) => point.risk != null)) {
+    const wrap = el("div", "chart-wrap");
+    wrap.append(buildChart(history, [], [], true));
+    block.append(wrap);
+  } else block.append(el("p", "muted", "Сохранённых индексов пока нет."));
+  block.append(el("p", "scenario-note", "Пропуски месяцев — отсутствие данных, не нулевой индекс. Сопоставимая динамика, тренд и прогноз ML пока не реализованы."));
+  return block;
+}
+
 function chartBlock(card) {
   const block = el("section", "block");
   block.append(el("h3", null, "Динамика и сценарии"));
@@ -740,7 +959,7 @@ function chartBlock(card) {
   return block;
 }
 
-function buildChart(history, base, actions) {
+function buildChart(history, base, actions, mlMode = false) {
   const width = 760;
   const height = 240;
   const pad = { left: 30, right: 12, top: 12, bottom: 24 };
@@ -753,8 +972,10 @@ function buildChart(history, base, actions) {
   const y = (value) => pad.top + innerHeight * (1 - Math.max(0, Math.min(100, value)) / 100);
   const node = svg("svg", { class: "chart", viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": "Динамика риска и сценарии" });
 
-  node.append(svg("rect", { class: "band-critical", x: pad.left, y: y(100), width: innerWidth, height: Math.abs(y(60) - y(100)) }));
-  node.append(svg("rect", { class: "band-watch", x: pad.left, y: y(60), width: innerWidth, height: Math.abs(y(35) - y(60)) }));
+  if (!mlMode) {
+    node.append(svg("rect", { class: "band-critical", x: pad.left, y: y(100), width: innerWidth, height: Math.abs(y(60) - y(100)) }));
+    node.append(svg("rect", { class: "band-watch", x: pad.left, y: y(60), width: innerWidth, height: Math.abs(y(35) - y(60)) }));
+  }
 
   for (const value of [0, 25, 50, 75, 100]) {
     node.append(svg("line", { class: "axis", x1: pad.left, x2: width - pad.right, y1: y(value), y2: y(value) }));
@@ -808,9 +1029,10 @@ function buildChart(history, base, actions) {
     }
   }
 
-  const historyPath = history.map((point, index) => `${index ? "L" : "M"}${x(index)} ${y(point.risk)}`).join(" ");
+  const historyPath = history.map((point, index) => point.risk == null ? "" : `${index && history[index - 1].risk != null ? "L" : "M"}${x(index)} ${y(point.risk)}`).join(" ");
   node.append(svg("path", { class: "history", d: historyPath }));
   history.forEach((point, index) => {
+    if (point.risk == null) return;
     node.append(svg("circle", { class: "history-dot", cx: x(index), cy: y(point.risk), r: 3.2 }));
   });
 
@@ -844,7 +1066,8 @@ function metaLine(card) {
 
 async function selectPair(pairId) {
   try {
-    await loadCard(pairId);
+    $("#card").replaceChildren(el("div", "empty", "Загрузка сохранённого анализа…"));
+    if (!(await loadCard(pairId))) return;
     renderList();
     renderCard();
     $("#card").scrollTop = 0;
@@ -856,9 +1079,14 @@ async function selectPair(pairId) {
 async function switchMonth(month) {
   if (month === state.month) return;
   try {
+    state.month = month;
+    ++state.cardRequest;
     state.card = null;
     state.selectedId = null;
-    await loadProgram(month);
+    state.pairs = [];
+    state.program = null;
+    renderAll();
+    if (!(await loadProgram(month))) return;
     $("#month").value = state.month;
     renderAll();
   } catch (error) {
@@ -893,7 +1121,7 @@ function renderMonthSelect() {
   for (const month of MONTHS) {
     const option = el("option", null, month);
     option.value = month;
-    option.disabled = !state.months.includes(month);
+    option.disabled = state.analysisMode !== "ml" && !state.months.includes(month);
     if (month === state.month) option.selected = true;
     select.append(option);
   }
@@ -906,7 +1134,7 @@ function renderSource() {
     note.textContent = "демо-данные из фикстур — в базе пока пусто";
     note.style.color = "var(--warn)";
   } else {
-    note.textContent = `данные из базы · ${state.pairs.length} пар`;
+    note.textContent = `${state.analysisMode === "ml" ? "ML · mock · demo-правила · " : ""}данные из базы · ${state.pairs.length} пар`;
     note.style.color = "";
   }
   $("#foot-team").textContent = $("#team-name").textContent;
@@ -935,7 +1163,7 @@ async function openOriginals(pairId) {
   try {
     const { body: data } = await api(`/api/pairs/${pairId}/submissions`);
     const items = (data.items || []).filter((item) => item.month === state.month);
-    const relevant = items.length ? items : (data.items || []).slice(-2);
+    const relevant = state.analysisMode === "ml" ? items : items.length ? items : (data.items || []).slice(-2);
     body.replaceChildren();
 
     if (!relevant.length) {
@@ -957,10 +1185,12 @@ async function openOriginals(pairId) {
       section.append(el("div", "original-time", `${item.month} · ${fmtDateTime(item.received_at)} · ${item.source}`));
 
       const grid = el("div", "answer-grid");
-      for (const [key, label] of Object.entries(FACTOR_SHORT)) {
-        const value = item.answers?.[key];
+      const answers = state.analysisMode === "ml" ? Object.entries(item.answers || {}).map(([key, value]) => [key, value]) : Object.entries(FACTOR_SHORT).map(([key]) => [key, item.answers?.[key]]);
+      for (const [key, value] of answers) {
+        const label = item.answer_labels?.[key] || FACTOR_SHORT[key] || key;
         const cell = el("div", "answer-cell");
-        cell.append(el("span", null, label), el("span", null, value === undefined ? "—" : `${value}/10`));
+        const display = value === undefined || value === null ? "—" : state.analysisMode === "ml" ? scoreText(value) : `${value}/10`;
+        cell.append(el("span", null, label), el("span", null, display));
         grid.append(cell);
       }
       section.append(grid);
@@ -1018,7 +1248,7 @@ function connectEvents() {
   source.addEventListener("snapshot.ready", (event) => {
     try {
       const data = JSON.parse(event.data);
-      toast(`Новый ответ: ${data.month}, риск ${data.risk}`);
+      toast(`Новый ответ: ${data.month}, индекс ${scoreText(data.risk)} баллов`);
     } catch {
       toast("Новый ответ обработан");
     }
@@ -1039,9 +1269,17 @@ function connectEvents() {
 async function boot() {
   const { body: health } = await api("/api/health");
   state.view = health.view || "hr";
+  state.analysisMode = health.analysis_mode || "demo";
   document.body.dataset.view = state.view;
+  document.body.dataset.analysisMode = state.analysisMode;
   $("#team-name").textContent = health.team || "ПУЛЬС";
   $("#view-tag").textContent = state.view === "exec" ? "режим руководителя" : "мониторинг стажировки";
+  if (state.analysisMode === "ml") {
+    const growth = document.querySelector('#sort [data-sort="delta"]');
+    growth.disabled = true;
+    growth.title = "Сопоставимая динамика ещё не реализована ML-сервисом";
+    document.querySelector('#filters [data-filter="risk"]').textContent = "Поддержка";
+  }
 
   $("#month").addEventListener("change", (event) => switchMonth(event.target.value));
   $("#search").addEventListener("input", (event) => {
@@ -1088,4 +1326,7 @@ async function boot() {
   connectEvents();
 }
 
-boot();
+boot().catch((error) => {
+  status("сервис недоступен", "bad");
+  showCardError(error);
+});

@@ -74,32 +74,37 @@ fi
 # ---------------------------------------------------------------- файрвол
 head_ "5. Файрвол"
 FOUND=0
-if command -v ufw >/dev/null 2>&1; then
+
+if command -v ufw >/dev/null 2>&1 && ufw status 2>/dev/null | grep -q "Status: active"; then
     FOUND=1
-    if ufw status 2>/dev/null | grep -q "Status: active"; then
-        if ufw status 2>/dev/null | grep -qE "^${PORT}(/tcp)?\s+ALLOW"; then
-            green "ufw активен, ${PORT}/tcp разрешён"
-        else
-            red "ufw активен, ${PORT}/tcp не разрешён"
-            warn "разреши: ufw allow ${PORT}/tcp"
-        fi
+    if ufw status 2>/dev/null | grep -qE "^${PORT}(/tcp)?\s+ALLOW"; then
+        green "ufw активен, ${PORT}/tcp разрешён (правило действует и для IPv4, и для IPv6)"
     else
-        green "ufw установлен, но выключен"
+        red "ufw активен, ${PORT}/tcp не разрешён"
+        warn "разреши: ufw allow ${PORT}/tcp"
     fi
 fi
 
-if command -v nft >/dev/null 2>&1 && nft list ruleset >/dev/null 2>&1; then
+# Политика DROP сама по себе — норма: ufw так и работает, разрешая порты точечно.
+# Важно, есть ли ACCEPT именно на наш порт.
+if [ "$FOUND" -eq 0 ] && command -v ip6tables >/dev/null 2>&1; then
+    FOUND=1
+    if ip6tables -S 2>/dev/null | grep -q -- "--dport ${PORT} .*ACCEPT"; then
+        green "ip6tables: есть ACCEPT на ${PORT}/tcp"
+    else
+        POLICY=$(ip6tables -S INPUT 2>/dev/null | awk '/^-P INPUT/{print $3}')
+        if [ "${POLICY}" = "DROP" ] || [ "${POLICY}" = "REJECT" ]; then
+            red "политика INPUT = ${POLICY}, ACCEPT на ${PORT}/tcp не найден"
+        else
+            warn "правило для ${PORT}/tcp не найдено, политика ${POLICY:-неизвестна}"
+        fi
+    fi
+fi
+
+if [ "$FOUND" -eq 0 ] && command -v nft >/dev/null 2>&1; then
     FOUND=1
     if nft list ruleset 2>/dev/null | grep -q "ip6"; then
         warn "есть nftables-правила для ip6 — проверь вручную, что ${PORT}/tcp разрешён"
-    fi
-fi
-
-if command -v ip6tables >/dev/null 2>&1; then
-    FOUND=1
-    POLICY=$(ip6tables -S INPUT 2>/dev/null | awk '/^-P INPUT/{print $3}')
-    if [ "${POLICY}" = "DROP" ] || [ "${POLICY}" = "REJECT" ]; then
-        red "политика INPUT для IPv6 = ${POLICY}: нужен явный allow на ${PORT}/tcp"
     fi
 fi
 

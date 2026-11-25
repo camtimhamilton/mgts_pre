@@ -104,6 +104,10 @@ def _persist_snapshot(
     history = history + [(month, core["risk"])]
 
     scenarios = scoring.scenario(history, float(core["steps_reduction"]), horizon=1)
+    # Если человек уже в красной зоне, «красная зона к M6» звучит странно:
+    # событие должно говорить о том, что будет, а не о том, что уже случилось.
+    if history[-1][1] >= scoring.BAND_HIGH:
+        scenarios["event"] = "остаётся в красной зоне"
 
     observed = conn.execute(
         """

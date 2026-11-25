@@ -1,8 +1,9 @@
-# Контракт API (v0.2)
+# Контракт API (v0.4)
 
-Фаза 0: `health`, `ingest`, `ingest/log`, `events` работают по-настоящему; `program`,
-`pairs`, `pairs/{id}`, `pairs/{id}/submissions` пока отдают фикстуры и помечены заголовком
-`X-Data-Source: fixture`. Полная схема — `/docs` (OpenAPI).
+Фаза 2: всё считается из снапшотов. `program`, `pairs`, `pairs/{id}`, `submissions`
+отдают данные из базы с заголовком `X-Data-Source: db`; фикстуры остаются только как
+плейсхолдер, пока в базе нет ни одного снапшота (`X-Data-Source: fixture`).
+Полная схема — `/docs` (OpenAPI).
 
 ---
 
@@ -12,12 +13,13 @@
 {
   "status": "ok",
   "app": "pulse",
-  "version": "0.2",
-  "phase": 0,
+  "version": "0.4",
+  "phase": 2,
   "db": true,
   "view": "hr",
   "team": "ПУЛЬС",
   "demo_mode": true,
+  "llm_mode": "auto",
   "ts": "2026-11-25T00:10:00+00:00"
 }
 ```
@@ -48,6 +50,19 @@
 
 Статусы в теле: `accepted` — принято, `duplicate` — уже было, `unparsed` — тело не JSON,
 `rejected` — не сошёлся ключ. Все они означают HTTP 200.
+
+Если тело разобралось в анкету, добавляются поля:
+
+```json
+{
+  "submission": {"id": 143, "status": "created"},
+  "analysis": "queued"
+}
+```
+
+`submission.status`: `created` | `updated` | `duplicate` | `unmatched`.
+`unmatched` значит, что анкета не привязалась к паре (нет имени или месяца) и ушла
+в `ingest_log`. Расчёт всегда идёт в фоне: ответ формы не ждёт модель.
 
 ---
 
@@ -128,6 +143,27 @@
 
 ---
 
+## POST /api/recompute
+
+Пересчитывает снапшоты по всем парам и месяцам. Синхронно, отвечает сводкой:
+
+```json
+{"pairs": 12, "snapshots": 72}
+```
+
+## POST /api/pairs/{id}/recompute?month=M5
+
+`200` — снапшот посчитан:
+
+```json
+{"pair_id": 1, "month": "M5", "risk": 68, "delta": 8, "band": "critical",
+ "factors": 6, "steps": 2}
+```
+
+`404` — за этот месяц анкет нет. Без `month` пересчитываются все месяцы пары.
+
+---
+
 ## GET /api/pairs/{id}?month=M5
 
 Полная карточка. Ключевые поля:
@@ -137,6 +173,10 @@
 | `risk`, `delta`, `band` | индекс, изменение в п.п., полоса |
 | `trend` | `{"key": "fast_growth", "label": "быстро растёт"}` |
 | `summary` | 2–3 предложения от модели |
+| `reasons` | топ-3 причины: `points`, `text`, `quote` |
+| `gap_comment` | одна фраза про расхождение |
+| `signal_seconds` | секунды от приёма анкеты до снапшота; `null` для исторических данных |
+| `degraded` | `true`, если модель была недоступна и текст собран шаблонами |
 | `factors[]` | шесть факторов: `points`, `score_intern`, `score_mentor`, `gap`, `quote` |
 | `gap_penalty`, `text_penalty` | надбавки; вместе с суммой `points` дают `risk` |
 | `signals[]` | текстовые сигналы с цитатой (в топ-3 не входят) |
@@ -144,6 +184,7 @@
 | `history[]` | точки по месяцам |
 | `scenarios` | `base[]` и `with_actions[]`, каждая точка — `risk`, `low`, `high` |
 | `observation` | `months`, `with_both_forms` — для честной подписи «мало данных» |
+| `scenarios.event` | «красная зона к M6», «остаётся в красной зоне» или `null` |
 | `originals` | метаданные ответов обеих сторон |
 
 Инвариант, который проверяется тестом в фазе 2:
@@ -174,12 +215,17 @@
 
 ## GET /api/events
 
-SSE. События: `hello`, затем `ping` каждые 15 секунд. Фаза 2 добавит `submission.received`
-и `snapshot.ready` — фронт подписывается один раз и больше не меняется.
+SSE. События: `hello`, `ping` каждые 15 секунд, `snapshot.ready` (после фонового расчёта:
+
+```json
+{"event": "snapshot.ready", "pair_id": 13, "month": "M1", "risk": 72, "band": "critical"}
+```
+
+и `program.ready` после пересчёта всего импорта.
 
 ---
 
 ## Коды ошибок
 
-В фазе 0 ошибок почти нет намеренно. Дальше: `404` — нет пары, `422` — не разобрался файл
+В фазе 0 ошибок почти нет намеренно. Дальше: `404` — нет пары или снапшота, `415`/`422` — не разобрался файл
 импорта, `503` — нет базы. Приёмник (`/api/ingest`) из этого правила исключён: он всегда 200.

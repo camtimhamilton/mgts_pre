@@ -291,10 +291,13 @@ function visiblePairs() {
   if (state.filter === "gap") items = items.filter((pair) => (pair.gap || 0) >= 4);
   if (state.filter === "missing") items = items.filter((pair) => Boolean(pair.missing));
 
+  // Пары с неполными данными всегда внизу: высокий индекс из двух ответов
+  // не должен поднимать их выше тех, о ком известно больше.
+  const last = (pair) => (pair.data_status === "insufficient" ? 1 : 0);
   const sorters = {
-    urgency: (a, b) => b.urgency - a.urgency,
-    risk: (a, b) => b.risk - a.risk,
-    delta: (a, b) => b.delta - a.delta,
+    urgency: (a, b) => last(a) - last(b) || b.urgency - a.urgency,
+    risk: (a, b) => last(a) - last(b) || b.risk - a.risk,
+    delta: (a, b) => last(a) - last(b) || b.delta - a.delta,
   };
   return items.sort(sorters[state.sort] || sorters.urgency);
 }
@@ -332,6 +335,15 @@ function renderList() {
     if ((pair.gap || 0) >= 4) {
       const flag = el("span", "flag", `разрыв ${pair.gap}`);
       flag.dataset.kind = "gap";
+      flags.append(flag);
+    }
+    if (pair.data_status === "insufficient") {
+      const flag = el("span", "flag", "мало данных");
+      flag.dataset.kind = "missing";
+      flags.append(flag);
+    } else if (pair.data_status === "partial" && !pair.missing) {
+      const flag = el("span", "flag", "неполные данные");
+      flag.dataset.kind = "missing";
       flags.append(flag);
     }
     if (flags.childElementCount) main.append(flags);
@@ -485,6 +497,17 @@ function renderCard() {
 
   box.append(hero(card));
 
+  if (card.conversation_required) {
+    box.append(
+      el(
+        "div",
+        "alert",
+        "В ответе есть прямое намерение уйти. Это не оценка человека, а повод поговорить: "
+          + "уточнить ситуацию и предложить помощь, не обещая оффер."
+      )
+    );
+  }
+
   if (card.degraded) {
     box.append(el("div", "degraded", "Модель была недоступна: текст собран по шаблонам, числа посчитаны обычно."));
   }
@@ -530,6 +553,17 @@ function hero(card) {
   badges.append(bandBadge(card.band));
   badges.append(bandBadge(card.trend?.key === "fast_growth" ? "critical" : card.trend?.key === "growing" ? "watch" : "low", "Тренд"));
   badges.lastChild.textContent = `Тренд: ${card.trend?.label || "—"}`;
+
+  if (card.data_status && card.data_status !== "complete") {
+    const badge = el(
+      "span",
+      "badge",
+      card.data_status === "insufficient" ? "Мало данных" : "Неполные данные"
+    );
+    badge.dataset.tone = "watch";
+    badge.title = `наблюдено факторов: ${(card.factors || []).length} из 6`;
+    badges.append(badge);
+  }
 
   if (card.score_origin && card.score_origin !== "answer") {
     const badge = el(
@@ -590,7 +624,12 @@ function gapBlock(card) {
 
   for (const factor of card.factors || []) {
     const row = el("div", "gap-row");
-    row.append(el("span", "gap-name", factor.label || FACTOR_SHORT[factor.key] || factor.key));
+    const name = el("span", "gap-name", factor.label || FACTOR_SHORT[factor.key] || factor.key);
+    if (factor.state === "conflicting") {
+      name.append(el("span", "gap-conflict", " ⚑"));
+      name.title = "стажёр и наставник расходятся больше чем на 4 балла";
+    }
+    row.append(name);
 
     const bars = el("div", "gap-bars");
     const intern = el("div", "gap-bar");
@@ -632,11 +671,17 @@ function reasonsBlock(card) {
   const head = el("h3", null, "Почему такой индекс");
   block.append(head);
 
+  const states = new Map((card.factors || []).map((factor) => [factor.key, factor.state]));
   for (const reason of card.reasons || []) {
     const row = el("div", "reason");
     row.append(el("div", "reason-points", `+${reason.points}`));
     const body = el("div");
-    body.append(el("div", "reason-title", reason.label || FACTOR_SHORT[reason.key] || reason.key));
+    const title = el("div", "reason-title", reason.label || FACTOR_SHORT[reason.key] || reason.key);
+    if (states.get(reason.key) === "conflicting") {
+      const mark = el("span", "reason-conflict", "стороны расходятся");
+      title.append(mark);
+    }
+    body.append(title);
     body.append(el("div", "reason-text", reason.text || ""));
     if (reason.quote) body.append(el("blockquote", "blockquote", `«${reason.quote}»`));
     row.append(body);
@@ -833,6 +878,9 @@ function metaLine(card) {
   if (card.observation) {
     parts.push(`наблюдений: ${card.observation.months}`);
     parts.push(`с двумя анкетами: ${card.observation.with_both_forms}`);
+  }
+  if (typeof card.coverage === "number") {
+    parts.push(`данные: ${(card.factors || []).length} из 6 факторов`);
   }
   if (card.signal_seconds !== null && card.signal_seconds !== undefined) {
     parts.push(`сигнал от формы: ${fmtSeconds(card.signal_seconds)}`);

@@ -186,6 +186,7 @@ def build_core(conn, pair_id: int, month: str) -> dict[str, Any] | None:
             "score_intern": factor.score_intern,
             "score_mentor": factor.score_mentor,
             "gap": factor.gap,
+            "state": "conflicting" if (factor.gap or 0) >= 4 else "active",
             "origin": factor.origin,
             "quote": factor_quotes.get(factor.key, ""),
         }
@@ -274,6 +275,17 @@ def build_core(conn, pair_id: int, month: str) -> dict[str, Any] | None:
             f"{worst.score_intern} против {worst.score_mentor}."
         )
 
+    # Полнота данных: сколько факторов вообще наблюдалось и обе ли стороны ответили.
+    # Низкое покрытие — не «всё хорошо», а «мы мало знаем»: такие пары не идут в топ.
+    roles_present = [role for role in ("intern", "mentor") if role in submissions]
+    coverage = round(len(factors) / len(FACTORS), 2)
+    if coverage < 0.5 or not roles_present:
+        data_status = "insufficient"
+    elif coverage < 1.0 or len(roles_present) < 2:
+        data_status = "partial"
+    else:
+        data_status = "complete"
+
     return {
         "risk": risk_value,
         "base": base_total,
@@ -288,6 +300,10 @@ def build_core(conn, pair_id: int, month: str) -> dict[str, Any] | None:
         "steps": steps,
         "steps_reduction": round(total_reduction, 1),
         "degraded": degraded,
+        "coverage": coverage,
+        "data_status": data_status,
+        "roles_present": roles_present,
+        "conversation_required": any(signal["key"] == "left_intent" for signal in signals),
         "originals": {
             role: {"received_at": submission.received_at, "source": submission.source}
             for role, submission in submissions.items()

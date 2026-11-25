@@ -139,7 +139,9 @@
 ```
 
 `missing`: `null` | `"intern"` | `"mentor"` — чьей анкеты нет в этом месяце.
-`urgency = risk + 1.5 × max(0, delta)` — по ней сортировка по умолчанию.
+`coverage` и `data_status` — полнота данных; `conversation_required` — прямое намерение уйти.
+`urgency = risk + 1.5 × max(0, delta)` — по ней сортировка, но пары со статусом
+`insufficient` всегда идут после остальных.
 
 ---
 
@@ -175,9 +177,13 @@
 | `summary` | 2–3 предложения от модели |
 | `reasons` | топ-3 причины: `points`, `text`, `quote` |
 | `gap_comment` | одна фраза про расхождение |
+| `coverage` | доля наблюдаемых факторов, 0…1 |
+| `data_status` | `complete` / `partial` / `insufficient` |
+| `roles_present` | какие стороны ответили: `["intern"]`, `["mentor"]`, обе |
+| `conversation_required` | `true`, если в тексте прямое намерение уйти |
 | `signal_seconds` | секунды от приёма анкеты до снапшота; `null` для исторических данных |
 | `degraded` | `true`, если модель была недоступна и текст собран шаблонами |
-| `factors[]` | шесть факторов: `points`, `score_intern`, `score_mentor`, `gap`, `quote` |
+| `factors[]` | шесть факторов: `points`, `score_intern`, `score_mentor`, `gap`, `state`, `quote` |
 | `gap_penalty`, `text_penalty` | надбавки; вместе с суммой `points` дают `risk` |
 | `signals[]` | текстовые сигналы с цитатой (в топ-3 не входят) |
 | `steps[]` | шаги: `reduction`, `owner`, `due` |

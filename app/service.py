@@ -169,6 +169,10 @@ def _persist_snapshot(
         "originals": core["originals"],
         "signal_seconds": round(signal_seconds, 1) if signal_seconds is not None else None,
         "degraded": core["degraded"],
+        "coverage": core.get("coverage", 1.0),
+        "data_status": core.get("data_status", "complete"),
+        "roles_present": core.get("roles_present", ["intern", "mentor"]),
+        "conversation_required": core.get("conversation_required", False),
     }
 
     payload = json.dumps(data, ensure_ascii=False)
@@ -341,10 +345,15 @@ def list_pairs(conn: sqlite3.Connection, month: str) -> dict[str, Any]:
                 "sparkline": _sparkline(conn, row["pair_id"], month),
                 "missing": missing,
                 "photo_url": row["photo_url"],
+                "coverage": data.get("coverage", 1.0),
+                "data_status": data.get("data_status", "complete"),
+                "conversation_required": bool(data.get("conversation_required")),
             }
         )
 
-    items.sort(key=lambda item: item["urgency"], reverse=True)
+    # Пары с insufficient данными не должны стоять выше тех, о ком мы знаем больше,
+    # даже если у них случайно высокий индекс из двух факторов.
+    items.sort(key=lambda item: (item["data_status"] == "insufficient", -item["urgency"]))
     return {"month": month, "items": items}
 
 

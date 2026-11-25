@@ -25,7 +25,8 @@
       "score_intern": 4,
       "score_mentor": 6,
       "gap": 2,
-      "quote": "интересно, но не понимаю, зачем это всё"
+      "quote": "интересно, но не понимаю, зачем это всё",
+      "state": "active"
     },
     {
       "key": "clarity",
@@ -34,7 +35,8 @@
       "score_intern": 1,
       "score_mentor": 7,
       "gap": 6,
-      "quote": "не понимаю, что от меня хотят"
+      "quote": "не понимаю, что от меня хотят",
+      "state": "conflicting"
     },
     {
       "key": "mentor",
@@ -43,7 +45,8 @@
       "score_intern": 5,
       "score_mentor": 5,
       "gap": 0,
-      "quote": "созваниваемся раз в неделю"
+      "quote": "созваниваемся раз в неделю",
+      "state": "active"
     },
     {
       "key": "workload",
@@ -52,7 +55,8 @@
       "score_intern": 4,
       "score_mentor": 6,
       "gap": 2,
-      "quote": "задач много, приоритеты не расставлены"
+      "quote": "задач много, приоритеты не расставлены",
+      "state": "active"
     },
     {
       "key": "inclusion",
@@ -61,7 +65,8 @@
       "score_intern": 5,
       "score_mentor": 5,
       "gap": 0,
-      "quote": ""
+      "quote": "",
+      "state": "active"
     },
     {
       "key": "future",
@@ -70,7 +75,8 @@
       "score_intern": 4,
       "score_mentor": 6,
       "gap": 2,
-      "quote": "не знаю, возьмут ли в штат"
+      "quote": "не знаю, возьмут ли в штат",
+      "state": "active"
     }
   ],
   "gap_penalty": 16,
@@ -183,5 +189,12 @@
       "text": "Обратной связи и поддержки не хватает.",
       "quote": "созваниваемся раз в неделю"
     }
-  ]
+  ],
+  "coverage": 1.0,
+  "data_status": "complete",
+  "roles_present": [
+    "intern",
+    "mentor"
+  ],
+  "conversation_required": false
 }

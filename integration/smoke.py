@@ -40,7 +40,7 @@ def wait_until(check, timeout=20):
 
 
 @contextmanager
-def running_stack(*, text_mode="local_rules", timeout=3):
+def running_stack(*, text_mode="local_rules", timeout=3, pair_policy="legacy", live_deepseek=False):
     ml_python = ROOT / "ml_service/.venv/Scripts/python.exe"
     if not ml_python.exists():
         ml_python = ROOT / "ml_service/.venv/bin/python"
@@ -54,13 +54,15 @@ def running_stack(*, text_mode="local_rules", timeout=3):
         ml_base = f"http://127.0.0.1:{ml_port}"
         env = {k: v for k, v in os.environ.items() if k not in {"DEEPSEEK_API_KEY", "LLM_API_KEY"}}
         env.update(MGTS_PROVIDER="mock", MGTS_ALLOW_SYNTHETIC_LLM="0", MGTS_RUN_DEEPSEEK_SMOKE="0",
-            PULSE_TEXT_MODE=text_mode,
+            PULSE_TEXT_MODE=text_mode, PULSE_PAIR_POLICY=pair_policy,
             MGTS_DATABASE=str(temp / "ml.sqlite3"),
             MGTS_MAPPING_PATH=str(ROOT / "ml_service/mappings/dashboard-demo.yaml"),
             MGTS_FIXTURE_CATALOG=str(ROOT / "ml_service/tests/fixtures/dashboard_mock_extractions.json"),
             ANALYSIS_MODE="ml", DEMO_MODE="false", LLM_MODE="fake", DB_PATH=str(temp / "backend.sqlite3"),
             ML_API_URL=ml_base, ML_API_TIMEOUT=str(timeout), ML_MAPPING_VERSION="dashboard-demo-1", ML_KNOWLEDGE_VERSION="0.1.0",
             ML_PROGRAM_ID="synthetic_dashboard", INGEST_KEY="")
+        if live_deepseek:
+            env["DEEPSEEK_API_KEY"] = os.environ["DEEPSEEK_API_KEY"]
         handles = []
         try:
             for name, executable, cwd, target, service_port in (

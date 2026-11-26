@@ -3,6 +3,7 @@ services:
     build: ./ml_service
     environment:
       MGTS_PROVIDER: mock
+      PULSE_PAIR_POLICY: expert
       MGTS_ALLOW_SYNTHETIC_LLM: "0"
       MGTS_DATABASE: /data/ml.sqlite3
       MGTS_MAPPING_PATH: /app/mappings/dashboard-demo.yaml

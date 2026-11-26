@@ -1,0 +1,71 @@
+factors:
+- id: M01
+  role: mentor
+  name: Недостаточное понимание задач и ожиданий
+  max_weight: 20
+  weight_status: expert_draft
+  question_id: M01_Q
+  source_ids:
+  - MGTS_M
+  - SOC07
+  - SOC24
+  definition: Недостаточное понимание задач и ожиданий по сообщению соответствующего респондента; не оценка личности.
+- id: M02
+  role: mentor
+  name: Сложности с качеством выполнения задач
+  max_weight: 15
+  weight_status: expert_draft
+  question_id: M02_Q
+  source_ids:
+  - MGTS_M
+  - SOC24
+  - ONB24
+  definition: Сложности с качеством выполнения задач по сообщению соответствующего респондента; не оценка личности.
+- id: M03
+  role: mentor
+  name: Сложности с самостоятельным выполнением задач
+  max_weight: 15
+  weight_status: expert_draft
+  question_id: M03_Q
+  source_ids:
+  - MGTS_M
+  - SOC24
+  - JDR23
+  definition: Сложности с самостоятельным выполнением задач по сообщению соответствующего респондента; не оценка
+    личности.
+- id: M04
+  role: mentor
+  name: Сложности с соблюдением сроков и организацией работы
+  max_weight: 15
+  weight_status: expert_draft
+  question_id: M04_Q
+  source_ids:
+  - MGTS_M
+  - JDR23
+  definition: Сложности с соблюдением сроков и организацией работы по сообщению соответствующего респондента; не
+    оценка личности.
+- id: M05
+  role: mentor
+  name: Недостаточная вовлечённость и инициативность
+  max_weight: 15
+  weight_status: expert_draft
+  question_id: M05_Q
+  source_ids:
+  - MGTS_M
+  - JDR23
+  - ONB24
+  definition: Недостаточная вовлечённость и инициативность по сообщению соответствующего респондента; не оценка
+    личности.
+- id: M06
+  role: mentor
+  name: Сложности взаимодействия с наставником и командой
+  max_weight: 20
+  weight_status: expert_draft
+  question_id: M06_Q
+  source_ids:
+  - MGTS_M
+  - SOC07
+  - SOC24
+  - INTERN
+  definition: Сложности взаимодействия с наставником и командой по сообщению соответствующего респондента; не оценка
+    личности.

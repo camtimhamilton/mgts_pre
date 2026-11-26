@@ -134,6 +134,7 @@ class PairFactor(Contract):
     review_flags: list[str]
     evidence: list[Evidence]
     score_evidence_refs: list[str]
+    active_rules: list[str] = Field(default_factory=list)
 
 
 class SideResult(Contract):
@@ -240,7 +241,7 @@ class PairRecommendation(Contract):
     completion_criteria: str
     resolution_criteria: str
     status: str
-    assumption: Literal["full_resolution"]
+    assumption: Literal["full_resolution", "no_score_change"]
 
 
 class Claim(Contract):

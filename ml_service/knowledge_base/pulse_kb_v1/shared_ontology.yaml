@@ -1,0 +1,63 @@
+relationships:
+- mentor_factor: M01
+  intern_factor: S01
+  type: comparable
+  allow_numeric_gap: true
+  note: Ясность задач с разных перспектив; не считать оценки тождественными.
+- mentor_factor: M04
+  intern_factor: S03
+  type: contextual
+  allow_numeric_gap: false
+  note: Загрузка может объяснять сроки только при явном текстовом основании.
+- mentor_factor: M05
+  intern_factor: S04
+  type: contextual
+  allow_numeric_gap: false
+  note: Интерес и вовлечённость различаются; числовой разрыв запрещён.
+- mentor_factor: M03
+  intern_factor: S02
+  type: contextual
+  allow_numeric_gap: false
+  note: Доступность помощи и самостоятельность; не выводить причинность.
+- mentor_factor: M02
+  intern_factor: S05
+  type: contextual
+  allow_numeric_gap: false
+  note: Обучение и качество; связь только при конкретных наблюдениях.
+- mentor_factor: M06
+  intern_factor: S06
+  type: partial
+  allow_numeric_gap: false
+  note: Команда входит в составной вопрос наставника; прямое вычитание запрещено.
+- mentor_factor: M06
+  intern_factor: S02
+  type: partial
+  allow_numeric_gap: false
+  note: Обратная связь лишь часть составного вопроса наставника; прямое вычитание запрещено.
+- mentor_factor: M01
+  intern_factor: S02
+  type: contextual
+  allow_numeric_gap: false
+  note: Пояснения и поддержка могут быть связаны при явном основании.
+- mentor_factor: M04
+  intern_factor: S02
+  type: contextual
+  allow_numeric_gap: false
+  note: Ожидание уточнения может задерживать выполнение задач.
+numeric_gap:
+  method: abs(mentor_rating - intern_rating) / 4
+  signed_direction: mentor_rating - intern_rating
+  threshold: 0.5
+  status: expert_draft
+  interpretation: Различие перспектив, не доказательство ошибки или причины.
+semantic_types:
+- AGREEMENT
+- CONTRADICTION
+- AWARENESS_GAP
+- COMPLEMENTARY
+- NOT_COMPARABLE
+constraints:
+- Сравнивать только один месяц и одну пару.
+- AWARENESS_GAP требует явного свидетельства незнания; молчание не доказательство.
+- CONTRADICTION требует одного и того же обстоятельства, периода и несовместимых утверждений.
+- Контекстуальная связь не является причинно-следственной и не увеличивает индекс.

@@ -1,0 +1,380 @@
+rules:
+- id: M01_CLARITY
+  factor_id: M01
+  role: mentor
+  name: Неясная цель или результат
+  definition: 'Наблюдаемый актуальный сигнал: неясная цель или результат.'
+  activation:
+    moderate: Часто неясен ожидаемый результат и нужны повторные пояснения сверх обычного освоения новых задач.
+    high: Непонимание сохраняется после пояснений либо приводит к существенным переделкам/блокировке.
+  exclusions:
+  - Уточнения по новой сложной задаче без негативных последствий; пожелание точнее формулировать задачи без наблюдаемой
+    проблемы.
+  action_ids:
+  - P01
+  - M_A01
+  source_ids:
+  - MGTS_M
+  - SOC07
+  - SOC24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M01_PRIORITY
+  factor_id: M01
+  role: mentor
+  name: Неясные приоритеты и требования
+  definition: 'Наблюдаемый актуальный сигнал: неясные приоритеты и требования.'
+  activation:
+    moderate: Наставник явно отмечает, что стажёр сталкивается с повторной неопределённостью приоритетов или требований.
+    high: Изменение или неясность требований привели к серьёзному срыву работы или существенной переделке.
+  exclusions:
+  - Плановая смена приоритета с ясным объяснением; только предложение улучшить постановку.
+  action_ids:
+  - P01
+  - M_A01
+  source_ids:
+  - MGTS_M
+  - SOC07
+  - SOC24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M01_REWORK
+  factor_id: M01
+  role: mentor
+  name: Последствия непонятной постановки
+  definition: 'Наблюдаемый актуальный сигнал: последствия непонятной постановки.'
+  activation:
+    moderate: За период наблюдалось замедление из-за повторных уточнений.
+    high: Существенная работа переделана или выполнение заблокировано именно из-за неясности постановки.
+  exclusions:
+  - Доработка вследствие отдельно подтверждённой технической ошибки; обычное обсуждение результата.
+  action_ids:
+  - P01
+  - M_A01
+  source_ids:
+  - MGTS_M
+  - SOC07
+  - SOC24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M02_REWORK
+  factor_id: M02
+  role: mentor
+  name: Доработки результата
+  definition: 'Наблюдаемый актуальный сигнал: доработки результата.'
+  activation:
+    moderate: Отдельные существенные доработки сверх обычной обратной связи.
+    high: Регулярные существенные доработки, результат систематически не отвечает согласованным требованиям.
+  exclusions:
+  - Небольшие штатные корректировки, изменение требований после сдачи.
+  action_ids:
+  - P06
+  - M_A02
+  source_ids:
+  - MGTS_M
+  - SOC24
+  - ONB24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M02_ERRORS
+  factor_id: M02
+  role: mentor
+  name: Ошибки выполнения
+  definition: 'Наблюдаемый актуальный сигнал: ошибки выполнения.'
+  activation:
+    moderate: Повторяющиеся значимые ошибки в освоенных операциях.
+    high: Ошибки систематически делают результат непригодным либо блокируют дальнейшую работу.
+  exclusions:
+  - Единичная учебная ошибка, отсутствие ресурсов, неясность требований без отдельной ошибки исполнения.
+  action_ids:
+  - P06
+  - M_A02
+  source_ids:
+  - MGTS_M
+  - SOC24
+  - ONB24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M02_ACCEPTANCE
+  factor_id: M02
+  role: mentor
+  name: Несоответствие критериям
+  definition: 'Наблюдаемый актуальный сигнал: несоответствие критериям.'
+  activation:
+    moderate: Отмечено конкретное существенное несоответствие согласованным критериям.
+    high: Результат регулярно не принимается по явно указанным критериям.
+  exclusions:
+  - Критерии отсутствовали или изменились; общая оценка без фактического наблюдения.
+  action_ids:
+  - P06
+  - M_A02
+  source_ids:
+  - MGTS_M
+  - SOC24
+  - ONB24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M03_ROUTINE
+  factor_id: M03
+  role: mentor
+  name: Необходимость помощи на типовых задачах
+  definition: 'Наблюдаемый актуальный сигнал: необходимость помощи на типовых задачах.'
+  activation:
+    moderate: Частое сопровождение при обычных задачах или организации работы.
+    high: Типовые задачи невозможно выполнить без постоянного сопровождения.
+  exclusions:
+  - Помощь по новым сложным вопросам; адаптация без признаков чрезмерной зависимости.
+  action_ids:
+  - P04
+  - M_A03
+  source_ids:
+  - MGTS_M
+  - SOC24
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M03_CONTROL
+  factor_id: M03
+  role: mentor
+  name: Необходимость постоянного контроля
+  definition: 'Наблюдаемый актуальный сигнал: необходимость постоянного контроля.'
+  activation:
+    moderate: Регулярный контроль сверх ожидаемого уровня для данного этапа.
+    high: Без постоянного контроля обычная работа не продвигается.
+  exclusions:
+  - Плановые ревью и контроль безопасности; первая демонстрация новой операции.
+  action_ids:
+  - P04
+  - M_A03
+  source_ids:
+  - MGTS_M
+  - SOC24
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M03_DECLINE
+  factor_id: M03
+  role: mentor
+  name: Снижение самостоятельности
+  definition: 'Наблюдаемый актуальный сигнал: снижение самостоятельности.'
+  activation:
+    moderate: Прямо сообщается о снижении самостоятельности в текущем периоде или затруднении самостоятельного выполнения.
+    high: Снижение привело к невозможности самостоятельно выполнять ранее освоенные обычные задачи.
+  exclusions:
+  - Одна только сравнительная цифра или усложнение задач без указания проблемы.
+  action_ids:
+  - P04
+  - M_A03
+  source_ids:
+  - MGTS_M
+  - SOC24
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M04_DEADLINE
+  factor_id: M04
+  role: mentor
+  name: Задержки и сроки
+  definition: 'Наблюдаемый актуальный сигнал: задержки и сроки.'
+  activation:
+    moderate: Сроки или темп заметно пострадали; указана реальная задержка или перенос.
+    high: Повторяющиеся существенные срывы либо работа надолго блокирована.
+  exclusions:
+  - Согласованный перенос без негативных последствий; обычное планирование.
+  action_ids:
+  - P03
+  - M_A05
+  source_ids:
+  - MGTS_M
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M04_PLAN
+  factor_id: M04
+  role: mentor
+  name: Трудности планирования
+  definition: 'Наблюдаемый актуальный сигнал: трудности планирования.'
+  activation:
+    moderate: Повторно требуется помощь с распределением времени/задач либо прямо отмечена текущая трудность планирования.
+    high: Проблемы планирования систематически препятствуют выполнению согласованных задач.
+  exclusions:
+  - Предложение развивать навык без текущей трудности; плановая поддержка новичка.
+  action_ids:
+  - P03
+  - M_A04
+  source_ids:
+  - MGTS_M
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M04_ESCALATION
+  factor_id: M04
+  role: mentor
+  name: Несвоевременное сообщение о препятствиях
+  definition: 'Наблюдаемый актуальный сигнал: несвоевременное сообщение о препятствиях.'
+  activation:
+    moderate: Наставник явно описывает повторное запоздалое сообщение о рисках с последствиями.
+    high: Систематическое отсутствие уведомлений приводит к существенным срывам.
+  exclusions:
+  - Совет своевременно просить помощь сам по себе; отсутствие упоминания не является фактом.
+  action_ids:
+  - M_A06
+  source_ids:
+  - MGTS_M
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M05_REMINDER
+  factor_id: M05
+  role: mentor
+  name: Включение после напоминаний
+  definition: 'Наблюдаемый актуальный сигнал: включение после напоминаний.'
+  activation:
+    moderate: Повторно нужны напоминания для согласованных действий при наличии условий выполнения.
+    high: Работа преимущественно начинается только после постоянных напоминаний, с существенным влиянием на участие.
+  exclusions:
+  - Обычные напоминания в период обучения; внешние блокеры; не делать вывод о мотивах.
+  action_ids:
+  - P07
+  - M_A07
+  source_ids:
+  - MGTS_M
+  - JDR23
+  - ONB24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M05_PARTICIPATION
+  factor_id: M05
+  role: mentor
+  name: Снижение участия
+  definition: 'Наблюдаемый актуальный сигнал: снижение участия.'
+  activation:
+    moderate: Наставник сообщает о заметном снижении участия в согласованной работе.
+    high: Устойчивое существенное выпадение из согласованных рабочих активностей.
+  exclusions:
+  - Отпуск, болезнь, отсутствие доступа, перераспределение задач; не предполагать причины.
+  action_ids:
+  - P07
+  - M_A07
+  source_ids:
+  - MGTS_M
+  - JDR23
+  - ONB24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M05_INITIATIVE
+  factor_id: M05
+  role: mentor
+  name: Недостаток ожидаемой инициативы
+  definition: 'Наблюдаемый актуальный сигнал: недостаток ожидаемой инициативы.'
+  activation:
+    moderate: Есть явно согласованное ожидание инициативного действия и описана повторная трудность его выполнения.
+    high: Систематически не выполняются согласованные инициативные действия с наблюдаемым последствием.
+  exclusions:
+  - Исполнение необходимого объёма задач; отсутствие сверхурочной активности; пожелание дать больше ответственности.
+  action_ids:
+  - P07
+  - M_A07
+  source_ids:
+  - MGTS_M
+  - JDR23
+  - ONB24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M06_COMM
+  factor_id: M06
+  role: mentor
+  name: Затруднённая рабочая коммуникация
+  definition: 'Наблюдаемый актуальный сигнал: затруднённая рабочая коммуникация.'
+  activation:
+    moderate: Явно не хватает регулярной связи или повторно возникают затруднения обмена рабочей информацией.
+    high: Коммуникация систематически блокирует работу либо вызывает существенные проблемы.
+  exclusions:
+  - Само предложение встречи без текущего дефицита; нормальные вопросы по сложным задачам.
+  action_ids:
+  - P02
+  - P05
+  - M_A08
+  source_ids:
+  - MGTS_M
+  - SOC07
+  - SOC24
+  - INTERN
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M06_FEEDBACK
+  factor_id: M06
+  role: mentor
+  name: Недостаточность или неэффективность обратной связи
+  definition: 'Наблюдаемый актуальный сигнал: недостаточность или неэффективность обратной связи.'
+  activation:
+    moderate: Наставник прямо указывает, что текущую регулярность/полезность обратной связи требуется улучшить.
+    high: Описаны существенные последствия систематического отсутствия или неэффективности обратной связи.
+  exclusions:
+  - Обычный план развития; не приписывать вину стажёру или наставнику.
+  action_ids:
+  - P02
+  - M_A08
+  source_ids:
+  - MGTS_M
+  - SOC07
+  - SOC24
+  - INTERN
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: M06_TEAM
+  factor_id: M06
+  role: mentor
+  name: Затруднения взаимодействия с командой
+  definition: 'Наблюдаемый актуальный сигнал: затруднения взаимодействия с командой.'
+  activation:
+    moderate: Описаны повторные конкретные трудности координации с коллегами.
+    high: Взаимодействие существенно блокирует работу или участие в команде.
+  exclusions:
+  - Разногласие без последствий; непроверенные оценки характера.
+  action_ids:
+  - P05
+  - M_A09
+  source_ids:
+  - MGTS_M
+  - SOC07
+  - SOC24
+  - INTERN
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1

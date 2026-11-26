@@ -15,13 +15,13 @@ from .pair_history_checks import check_history
 from .smoke import ROOT, running_stack, wait_until
 
 
-def run(mentor_path, intern_path, destination, text_mode="local_rules"):
+def run(mentor_path, intern_path, destination, text_mode="local_rules", expert_baseline=None):
     destination = Path(destination).resolve()
     if not destination.is_relative_to((ROOT / "data").resolve()):
         raise ValueError("confidential screenshots must stay under ignored data/")
     destination.mkdir(parents=True, exist_ok=True)
     checks = []
-    with running_stack(text_mode=text_mode, timeout=60) as stack:
+    with running_stack(text_mode=text_mode, timeout=60, pair_policy="expert" if expert_baseline else "legacy") as stack:
         client, base, ml_base, temp, processes = stack
         env = dict(os.environ, DB_PATH=str(temp / "backend.sqlite3"), PYTHONIOENCODING="utf-8")
         command = [sys.executable, "-m", "tools.import_pair_history", "--mentor", str(mentor_path), "--intern", str(intern_path)]
@@ -37,15 +37,24 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules"):
         initial = response.json()
         assert len(initial["matrix"]) == 5
         registry = {r["intern_id"]: r["pair_id"] for r in initial["matrix"]}
-        for report in history["cases"]["explicit_resolution"]:
+        for report in ([] if expert_baseline else history["cases"]["explicit_resolution"]):
             assert any(p["type"] == "confirmed_resolution" and p["pair_id"] == registry[report["intern_id"]]
                        and p["month"] == report["month"] and any(q["quote"] in report["quote"] for q in p["evidence"])
                        for p in initial["patterns"])
         for gap in history["cases"]["task_perception_gap"]:
             assert any(d["pair_id"] == registry[gap["intern_id"]] and d["month"] == gap["month"]
-                       and d["aspect"] == "clarity" and (d["mentor_rating"],d["intern_rating"]) == (gap["mentor"],gap["intern"])
+                       and d["aspect"] == ("M01" if expert_baseline else "clarity") and (d["mentor_rating"],d["intern_rating"]) == (gap["mentor"],gap["intern"])
                        for d in initial["discrepancies"])
-        checks.append("ML resolution and numeric gap evidence match original XLSX cases")
+        checks.append("Numeric gap evidence matches original XLSX cases" +
+                      ("" if expert_baseline else "; explicit ML resolution checked"))
+        if expert_baseline:
+            reference = json.loads(Path(expert_baseline).read_text("utf-8"))["observations"]
+            actual = {(f'{r["mentor_id"]}/{r["intern_id"]}', m["month"]): m["actual"]
+                      for r in initial["matrix"] for m in r["months"]}
+            assert len(reference) == len(actual) == 30
+            for item in reference:
+                assert actual[(item["pair"], item["period"])] == {k: item[k.upper()+"_rating"] for k in "xyz"}
+            checks.append("30 historical rating-only baseline rows agree with the expert pack")
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(channel="msedge", headless=True)
             page = browser.new_page(viewport={"width": 1680, "height": 1100})
@@ -88,6 +97,9 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules"):
                     expect(halves.nth(0)).to_have_class("half " + month["x"]["band"])
                     expect(halves.nth(1)).to_have_class("half " + month["y"]["band"])
             assert page.locator(".cell:enabled").count() == 0
+            expect(page.locator(".mgts-logo")).to_be_visible()
+            assert page.locator(".mgts-logo").evaluate("(img) => img.complete && img.naturalWidth > 0")
+            expect(page.locator(".trend-month")).to_have_count(6)
             screenshot("pair-global.png")
             checks.extend(["GLOBAL default and disabled cells", "5 by 6 matrix and 60 correctly colored halves", "three sections in required order"])
 
@@ -111,6 +123,7 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules"):
             expect(page.locator("#dialog-title")).to_contain_text("Стажёр")
             page.locator("#close").click()
             for role in ("mentor", "intern"):
+                page.locator(f'[data-section="{role}"] > details > summary').filter(has_text="Подробнее").click()
                 page.locator(f'[data-section="{role}"] summary').filter(has_text="Динамика исходных оценок").click()
                 expect(page.locator(f'[data-section="{role}"] table.data')).to_be_visible()
             screenshot("pair-month.png")
@@ -121,6 +134,7 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules"):
             click_cell(pair_id, 2)
             assert session()["scope"]["start"] == 2 and session()["scope"]["end"] == 5
             expect(page.locator('.cell[data-active="true"]')).to_have_count(4)
+            expect(page.locator(".trend-month")).to_have_count(4)
             click_cell(pair_id, 1)
             other_pair = next(r["pair_id"] for r in initial["matrix"] if r["pair_id"] != pair_id)
             click_cell(other_pair, 6)
@@ -138,7 +152,8 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules"):
             click_cell(pair_id, selected_month)
             actual = client.post(base + "/api/v2/analytics", json={"scope": session()["scope"]}).json()
             original_colors = cell(pair_id, selected_month).locator(".half").evaluate_all("els=>els.map(e=>e.className)")
-            checkbox = page.locator('[data-section="pair"] input[type="checkbox"]').first
+            first_section = "intern" if expert_baseline else "pair"
+            checkbox = page.locator(f'[data-section="{first_section}"] input[type="checkbox"]').first
             expect(checkbox).to_be_visible()
             action_id = checkbox.get_attribute("data-action")
             checkbox.check()
@@ -146,7 +161,10 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules"):
             ready()
             assert len(session()["selected"]) == 1
             scenario = client.post(base + "/api/v2/analytics", json={"scope": session()["scope"], "selected": session()["selected"]}).json()
-            assert scenario["indices"]["x"] < actual["indices"]["x"]
+            if expert_baseline:
+                assert scenario["indices"]["x"] == actual["indices"]["x"]
+            else:
+                assert scenario["indices"]["x"] < actual["indices"]["x"]
             assert scenario["indices"]["y"] < actual["indices"]["y"]
             expected_cell = next(m for r in scenario["matrix"] if r["pair_id"] == pair_id for m in r["months"] if m["month"] == selected_month)
             expect(cell(pair_id, selected_month).locator(".half").nth(0)).to_have_class("half " + expected_cell["x"]["band"])
@@ -197,7 +215,9 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules"):
             expect(page.locator("#dialog-title")).to_contain_text("История")
             expect(page.locator("#dialog table")).to_be_visible()
             page.locator("#close").click()
-            checks.extend(["joint recommendation lowers both indices", "individual recommendation changes only mentor index and can be removed", "scenario colors agree with ML", "selection persists across scopes", "save reset restore and history"])
+            checks.extend(["conditional intern action lowers Y only" if expert_baseline else "joint recommendation lowers both indices",
+                           "individual recommendation changes only mentor index and can be removed",
+                           "scenario colors agree with ML", "selection persists across scopes", "save reset restore and history"])
 
             # Delay one response after the network finishes. A later scope must win.
             page.evaluate("""() => { const original=window.fetch; window.__originalFetch=original;
@@ -234,7 +254,7 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules"):
             checks.append("unrelated pair registration and delivery preserve the selected month scenario")
             expect(cell(synthetic_pair, 1).locator(".half").nth(1)).to_have_class("half gray")
             click_cell(synthetic_pair, 1)
-            expect(page.locator('[data-index="z"] span').last).to_have_text("—")
+            expect(page.locator('[data-index="z"] b')).to_have_text("—")
             screenshot("pair-missing-side.png")
             checks.extend(["zero-form registry pair appears automatically", "new JSON-RPC response updates correct matrix half", "duplicate webhook remains idempotent", "missing counterpart stays gray and Z unavailable"])
 
@@ -244,11 +264,18 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules"):
             updated = client.post(base + "/api/v2/forms/yandex", json=event).json()["result"]
             assert updated["source_id"] != before_revision
             expect(cell(synthetic_pair, 1).locator(".half").nth(0)).to_have_class("half red")
-            expect(page.locator('[data-index="x"] span').last).to_have_text("100")
-            expect(page.locator('[data-index="z"] span').last).to_have_text("—")
+            expect(page.locator('[data-index="x"] b')).to_have_text("100")
+            expect(page.locator('[data-index="z"] b')).to_have_text("—")
             old = client.get(base + "/api/v2/source/" + before_revision).json()
             assert old["record"]["ratings"]["clarity"] == 5 and len(old["versions"]) == 2
             checks.append("new edition recolors existing half and preserves prior survey and missing partner")
+            if expert_baseline:
+                page.locator('[data-section="mentor"] input[type="checkbox"]').nth(0).check()
+                ready()
+                page.locator('[data-section="mentor"] input[type="checkbox"]').nth(1).check()
+                ready()
+                expect(cell(synthetic_pair, 1).locator(".half").nth(0)).to_have_class("half yellow")
+                checks.append("two conditional rating selections recolor mentor red to yellow")
 
             processes[0].terminate()
             processes[0].wait(timeout=5)
@@ -273,8 +300,9 @@ def main():
     parser.add_argument("--intern", required=True)
     parser.add_argument("--output", default=str(ROOT / "data/review"))
     parser.add_argument("--text-mode", choices=("local_rules","local_encoder"), default="local_rules")
+    parser.add_argument("--expert-baseline")
     args = parser.parse_args()
-    print(json.dumps(run(args.mentor, args.intern, args.output, args.text_mode), ensure_ascii=False, indent=2))
+    print(json.dumps(run(args.mentor, args.intern, args.output, args.text_mode, args.expert_baseline), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

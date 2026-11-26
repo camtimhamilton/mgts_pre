@@ -1899,6 +1899,13 @@
             },
             "type": "array",
             "title": "Score Evidence Refs"
+          },
+          "active_rules": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Active Rules"
           }
         },
         "additionalProperties": false,
@@ -2046,7 +2053,10 @@
           },
           "assumption": {
             "type": "string",
-            "const": "full_resolution",
+            "enum": [
+              "full_resolution",
+              "no_score_change"
+            ],
             "title": "Assumption"
           }
         },

@@ -1,0 +1,20 @@
+id: pulse_mgts_kb
+version: 1.0.0-draft
+status: expert_draft_pending_mgts_review
+schema: portable_reference_v1
+language: ru
+files:
+- sources.yaml
+- mentor_factors.yaml
+- intern_factors.yaml
+- mentor_rules.yaml
+- intern_rules.yaml
+- question_mapping.yaml
+- shared_ontology.yaml
+- critical_flags.yaml
+- scoring_policy.yaml
+- actions.yaml
+notes:
+- Not a drop-in replacement for unknown repository schema. Codex must map and validate.
+- Do not apply to employment decisions.
+- No external API was called with corporate data.

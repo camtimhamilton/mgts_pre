@@ -1,6 +1,7 @@
 param([int]$DashboardPort = 8000, [int]$MLPort = 8001, [switch]$Seed, [int]$RunSeconds = 0,
       [string]$MentorXlsx, [string]$InternXlsx,
-      [ValidateSet('local_rules','local_encoder','deepseek')][string]$TextMode)
+      [ValidateSet('local_rules','local_encoder','deepseek')][string]$TextMode,
+      [ValidateSet('expert','legacy')][string]$PairPolicy = 'expert')
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $logsPath = Join-Path $projectRoot 'data/integration'
@@ -16,6 +17,7 @@ $env:ML_API_URL = "http://127.0.0.1:$MLPort"
 $env:ML_MAPPING_VERSION = 'dashboard-demo-1'
 $env:ML_KNOWLEDGE_VERSION = '0.1.0'
 $env:ML_PROGRAM_ID = 'synthetic_dashboard'
+$env:PULSE_PAIR_POLICY = $PairPolicy
 $env:DB_PATH = Join-Path $projectRoot 'data/pair-v2.db'
 if ([bool]$MentorXlsx -ne [bool]$InternXlsx) { throw 'Supply both -MentorXlsx and -InternXlsx.' }
 if ($MentorXlsx) {
@@ -29,7 +31,18 @@ if ($MentorXlsx) {
 }
 if ($TextMode) { $env:PULSE_TEXT_MODE = $TextMode }
 elseif (!$env:PULSE_TEXT_MODE) { $env:PULSE_TEXT_MODE = 'local_rules' }
-if (!$env:ML_API_TIMEOUT) { $env:ML_API_TIMEOUT = '60' }
+if ($env:PULSE_TEXT_MODE -eq 'deepseek' -and !$env:DEEPSEEK_API_KEY) {
+    foreach ($file in @('ml_service/.env', '.env')) {
+        $path = Join-Path $projectRoot $file
+        if (!(Test-Path -LiteralPath $path)) { continue }
+        $entry = Get-Content -LiteralPath $path -Encoding UTF8 | Select-String '^\s*(?:export\s+)?DEEPSEEK_API_KEY\s*=\s*(\S.*?)\s*$' | Select-Object -Last 1
+        if ($entry) {
+            $env:DEEPSEEK_API_KEY = $entry.Matches[0].Groups[1].Value.Trim('"', "'")
+            if ($env:DEEPSEEK_API_KEY) { break }
+        }
+    }
+}
+if (!$env:ML_API_TIMEOUT) { $env:ML_API_TIMEOUT = if ($env:PULSE_TEXT_MODE -eq 'deepseek') { '100' } else { '60' } }
 $env:MGTS_PROVIDER = 'mock'
 if (!$env:MGTS_ALLOW_SYNTHETIC_LLM) { $env:MGTS_ALLOW_SYNTHETIC_LLM = '0' }
 $env:MGTS_DATABASE = Join-Path $logsPath 'ml.sqlite3'
@@ -58,7 +71,7 @@ try {
         }
     }
     Write-Host "Dashboard http://127.0.0.1:$DashboardPort | ML http://127.0.0.1:$MLPort/docs"
-    Write-Host "Pair analytics text mode: $env:PULSE_TEXT_MODE | DB: $env:DB_PATH | Ctrl+C stops both services."
+    Write-Host "Pair policy: $env:PULSE_PAIR_POLICY | Text: $env:PULSE_TEXT_MODE | DB: $env:DB_PATH | Ctrl+C stops both services."
     $startedAt = Get-Date
     while ($RunSeconds -le 0 -or ((Get-Date) - $startedAt).TotalSeconds -lt $RunSeconds) {
         if ($processes | Where-Object { $_.HasExited }) { throw "Service exited. See $logsPath" }

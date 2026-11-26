@@ -18,7 +18,7 @@ def main():
               "department": "Учебное направление",
               "ratings": {"clarity": 2, "quality": 4, "autonomy": 3, "deadlines": 5, "initiative": 4, "team": 5},
               "texts": {"comment": "Работает самостоятельно."}}
-    with running_stack(timeout=20) as (client, backend, ml, *_):
+    with running_stack(timeout=20, pair_policy="expert") as (client, backend, ml, *_):
         def call(method, url, **kwargs):
             response = client.request(method, url, **kwargs)
             response.raise_for_status()
@@ -28,7 +28,7 @@ def main():
         pair = call("GET", backend+"/api/v2/pairs")[0]
         scope = {"type":"PAIR_MONTH","pair_id":pair["pair_id"],"start":1,"end":1}
         actual = call("POST", backend+"/api/v2/analytics", json={"scope":scope})
-        recommendation = next(r for r in actual["recommendations"] if r["impact_scope"] == "PAIR")
+        recommendation = next(r for r in actual["recommendations"] if (r["delta"]["z"] or 0) > 0)
         scenario = {"scope":scope,"selected":[{"action_id":recommendation["action_id"],"scope":scope}]}
         expected = call("POST", backend+"/api/v2/analytics", json=scenario)
         write(destination / "pair_v2_form.json", form)

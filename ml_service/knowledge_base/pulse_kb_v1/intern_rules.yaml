@@ -1,0 +1,442 @@
+rules:
+- id: S01_CLARITY
+  factor_id: S01
+  role: intern
+  name: Неясный ожидаемый результат
+  definition: 'Наблюдаемый актуальный сигнал: неясный ожидаемый результат.'
+  activation:
+    moderate: Стажёр прямо сообщает о неясности текущих требований или повторных уточнениях.
+    high: Неясность привела к существенной переделке, срыву или невозможности выполнить задачу.
+  exclusions:
+  - Уточнения по новым задачам без проблемы; простое пожелание более сложных задач.
+  action_ids:
+  - P01
+  - S_A01
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - SOC24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S01_PRIORITY
+  factor_id: S01
+  role: intern
+  name: Неясные приоритеты
+  definition: 'Наблюдаемый актуальный сигнал: неясные приоритеты.'
+  activation:
+    moderate: Неясно, какую задачу выполнить первой; согласование приоритетов явно затрудняет работу.
+    high: Неопределённость приоритетов систематически блокирует работу или ведёт к серьёзным срывам.
+  exclusions:
+  - Разовая штатная смена приоритета; отсутствие негативного последствия при обычном уточнении.
+  action_ids:
+  - P01
+  - S_A01
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - SOC24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S01_REWORK
+  factor_id: S01
+  role: intern
+  name: Переделки из-за постановки
+  definition: 'Наблюдаемый актуальный сигнал: переделки из-за постановки.'
+  activation:
+    moderate: Требуется повторное выполнение части работы из-за неоднозначности, без указания серьёзности.
+    high: Стажёр прямо описывает переделку уже выполненных задач из-за непонятной постановки либо блокирование работы.
+  exclusions:
+  - Доработка в процессе обычного обучения; неясна причина переделки.
+  action_ids:
+  - P01
+  - S_A01
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - SOC24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S02_FEEDBACK
+  factor_id: S02
+  role: intern
+  name: Недостаток обратной связи
+  definition: 'Наблюдаемый актуальный сигнал: недостаток обратной связи.'
+  activation:
+    moderate: Прямо сообщается о редкой или недостаточно своевременной обратной связи.
+    high: Систематическое отсутствие обратной связи препятствует качественной работе или вызывает существенные ошибки.
+  exclusions:
+  - Единичная безвредная задержка; желание получить дополнительную развивающую консультацию без текущего дефицита.
+  action_ids:
+  - P02
+  - P04
+  - S_A02
+  source_ids:
+  - MGTS_S
+  - INTERN
+  - SOC24
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S02_ACCESS
+  factor_id: S02
+  role: intern
+  name: Недоступность помощи или уточнений
+  definition: 'Наблюдаемый актуальный сигнал: недоступность помощи или уточнений.'
+  activation:
+    moderate: Стажёр не может своевременно получить нужную помощь, испытывает затруднения ожидания ответа.
+    high: Ожидание ответа фактически задерживает выполнение задач или надолго блокирует работу.
+  exclusions:
+  - Обычная консультация по сложной задаче; запланированное отсутствие наставника при наличии альтернативы.
+  action_ids:
+  - P02
+  - P04
+  - S_A03
+  source_ids:
+  - MGTS_S
+  - INTERN
+  - SOC24
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S02_QUALITY
+  factor_id: S02
+  role: intern
+  name: Неэффективная обратная связь
+  definition: 'Наблюдаемый актуальный сигнал: неэффективная обратная связь.'
+  activation:
+    moderate: Получаемая обратная связь явно не даёт понять, как исправить результат.
+    high: Повторяющиеся неконструктивные пояснения существенно препятствуют работе или обучению.
+  exclusions:
+  - Единичное несогласие с оценкой; обратная связь конструктивна, но требует усилий.
+  action_ids:
+  - P02
+  - S_A02
+  source_ids:
+  - MGTS_S
+  - INTERN
+  - SOC24
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S03_OVERLOAD
+  factor_id: S03
+  role: intern
+  name: Избыточная нагрузка
+  definition: 'Наблюдаемый актуальный сигнал: избыточная нагрузка.'
+  activation:
+    moderate: Стажёр прямо называет нагрузку некомфортной или чрезмерной.
+    high: Избыточная нагрузка препятствует выполнению задач, отдыху или устойчивой работе; описано существенное
+      последствие.
+  exclusions:
+  - Много задач при комфортной загрузке; профилактическое предложение планировать.
+  action_ids:
+  - P03
+  - S_A04
+  source_ids:
+  - MGTS_S
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S03_UNDERLOAD
+  factor_id: S03
+  role: intern
+  name: Недостаточная нагрузка
+  definition: 'Наблюдаемый актуальный сигнал: недостаточная нагрузка.'
+  activation:
+    moderate: Явно недостаточно работы, это мешает участию или обучению.
+    high: Длительное отсутствие содержательных задач фактически блокирует стажировку.
+  exclusions:
+  - Плановый учебный период; пожелание более сложных задач при достаточной загрузке.
+  action_ids:
+  - S_A05
+  source_ids:
+  - MGTS_S
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S03_PLANNING
+  factor_id: S03
+  role: intern
+  name: Конфликт нагрузки и времени
+  definition: 'Наблюдаемый актуальный сигнал: конфликт нагрузки и времени.'
+  activation:
+    moderate: Явно сложно распределять время между одновременно назначенными задачами.
+    high: Конфликт задач вызывает существенные задержки или невозможность выполнять работу качественно.
+  exclusions:
+  - Планирование без текущей трудности; не считать причиной автоматически самого стажёра.
+  action_ids:
+  - P03
+  - S_A04
+  source_ids:
+  - MGTS_S
+  - JDR23
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S04_CONTENT
+  factor_id: S04
+  role: intern
+  name: Недостаточный интерес к содержанию
+  definition: 'Наблюдаемый актуальный сигнал: недостаточный интерес к содержанию.'
+  activation:
+    moderate: Стажёр прямо сообщает, что задачи неинтересны или потерял интерес.
+    high: Устойчивое отсутствие интереса явно препятствует участию в стажировке.
+  exclusions:
+  - Желание большей сложности или разнообразия без текущей неудовлетворённости.
+  action_ids:
+  - P07
+  - S_A06
+  source_ids:
+  - MGTS_S
+  - JDR23
+  - INTERN
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S04_MONOTONY
+  factor_id: S04
+  role: intern
+  name: Однообразие как причина потери интереса
+  definition: 'Наблюдаемый актуальный сигнал: однообразие как причина потери интереса.'
+  activation:
+    moderate: Однотипность задач явно связывается со снижением интереса.
+    high: Длительное однообразие приводит к явно описанному отказу от участия или существенному снижению интереса.
+  exclusions:
+  - Повторяемые упражнения для освоения навыка; однообразие без указания интереса.
+  action_ids:
+  - P07
+  - S_A06
+  source_ids:
+  - MGTS_S
+  - JDR23
+  - INTERN
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S04_MISMATCH
+  factor_id: S04
+  role: intern
+  name: Несоответствие интересам
+  definition: 'Наблюдаемый актуальный сигнал: несоответствие интересам.'
+  activation:
+    moderate: Стажёр явно говорит, что содержание задач не соответствует его профессиональным интересам.
+    high: Несоответствие устойчивое и существенно мешает участию.
+  exclusions:
+  - Пожелание попробовать другое направление без жалобы на текущие задачи.
+  action_ids:
+  - P07
+  - S_A06
+  source_ids:
+  - MGTS_S
+  - JDR23
+  - INTERN
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S05_LEARNING
+  factor_id: S05
+  role: intern
+  name: Недостаток освоения навыков
+  definition: 'Наблюдаемый актуальный сигнал: недостаток освоения навыков.'
+  activation:
+    moderate: Стажёр явно сообщает о недостатке возможностей обучения или освоения нужных навыков.
+    high: В текущем периоде отсутствует значимое обучение при ожидании развития; есть прямое подтверждение.
+  exclusions:
+  - Обычные трудности освоения; желание учиться ещё больше.
+  action_ids:
+  - P06
+  - S_A07
+  source_ids:
+  - MGTS_S
+  - INTERN
+  - SOC24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S05_TASK_GROWTH
+  factor_id: S05
+  role: intern
+  name: Застой сложности и ответственности
+  definition: 'Наблюдаемый актуальный сигнал: застой сложности и ответственности.'
+  activation:
+    moderate: Повторяющиеся задачи прямо названы препятствием профессиональному росту.
+    high: Длительный застой прямо описан как отсутствие развития, несмотря на согласованные ожидания.
+  exclusions:
+  - Запрос дополнительных ответственных задач при высоком удовлетворении; этап обучения по плану.
+  action_ids:
+  - S_A07
+  source_ids:
+  - MGTS_S
+  - INTERN
+  - SOC24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S05_RESOURCES
+  factor_id: S05
+  role: intern
+  name: Недостаток ресурсов обучения
+  definition: 'Наблюдаемый актуальный сигнал: недостаток ресурсов обучения.'
+  activation:
+    moderate: Отсутствие доступа к обучающему материалу или инструменту явно мешает освоению навыков.
+    high: Без необходимого ресурса обучение по согласованному направлению невозможно.
+  exclusions:
+  - Необходимость учиться пользоваться доступным инструментом; отсутствие доступа без связи с развитием (доп. сигнал).
+  action_ids:
+  - P06
+  - S_A08
+  source_ids:
+  - MGTS_S
+  - INTERN
+  - SOC24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S06_INTEGRATION
+  factor_id: S06
+  role: intern
+  name: Недостаточная интеграция в команду
+  definition: 'Наблюдаемый актуальный сигнал: недостаточная интеграция в команду.'
+  activation:
+    moderate: Стажёр явно сообщает о трудностях включения в рабочее взаимодействие или недостатке контакта.
+    high: Систематическое исключение из необходимых рабочих взаимодействий препятствует участию.
+  exclusions:
+  - Желание чаще присутствовать на встречах без текущего препятствия.
+  action_ids:
+  - P05
+  - S_A09
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - SOC24
+  - ONB24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S06_COORDINATION
+  factor_id: S06
+  role: intern
+  name: Проблемы координации с коллегами
+  definition: 'Наблюдаемый актуальный сигнал: проблемы координации с коллегами.'
+  activation:
+    moderate: Повторные затруднения согласования работы с командой.
+    high: Координационные трудности существенно блокируют выполнение задач.
+  exclusions:
+  - Разовая штатная задержка, не относящаяся к команде; исключительно наставническая связь относится S02.
+  action_ids:
+  - P05
+  - S_A09
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - SOC24
+  - ONB24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S06_CONFLICT
+  factor_id: S06
+  role: intern
+  name: Неконструктивное взаимодействие
+  definition: 'Наблюдаемый актуальный сигнал: неконструктивное взаимодействие.'
+  activation:
+    moderate: Прямо описаны повторные неконструктивные эпизоды общения с коллегами, влияющие на работу.
+    high: Серьёзные эпизоды или систематические препятствия рабочему взаимодействию; при угрозах отдельный флаг.
+  exclusions:
+  - Обычное деловое несогласие, слухи; не делать выводы о личностях.
+  action_ids:
+  - S_A10
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - SOC24
+  - ONB24
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S07_OVERALL
+  factor_id: S07
+  role: intern
+  name: Общая неудовлетворённость
+  definition: 'Наблюдаемый актуальный сигнал: общая неудовлетворённость.'
+  activation:
+    moderate: Явная негативная оценка стажировки в целом.
+    high: Стажёр прямо выражает сильное или устойчивое недовольство программой в целом.
+  exclusions:
+  - Одна конкретная жалоба без общей оценки; пожелание развиваться.
+  action_ids:
+  - S_A11
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - INTERN
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S07_EXPECTATION
+  factor_id: S07
+  role: intern
+  name: Несоответствие общим ожиданиям
+  definition: 'Наблюдаемый актуальный сигнал: несоответствие общим ожиданиям.'
+  activation:
+    moderate: Стажёр прямо связывает несовпадение ожиданий с общим недовольством стажировкой.
+    high: Существенное устойчивое несовпадение согласованных условий и опыта с явной негативной общей оценкой.
+  exclusions:
+  - Несоответствие без общей оценки сохраняется как дополнительный сигнал; не выводить недовольство автоматически.
+  action_ids:
+  - S_A11
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - INTERN
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1
+- id: S07_CONTINUATION
+  factor_id: S07
+  role: intern
+  name: Негативное отношение к продолжению опыта
+  definition: 'Наблюдаемый актуальный сигнал: негативное отношение к продолжению опыта.'
+  activation:
+    moderate: Стажёр явно выражает общее недовольство и сомнения в продолжении из-за опыта стажировки.
+    high: Прямо сообщает о сильной общей неудовлетворённости и желании досрочно завершить программу; отдельный флаг.
+  exclusions:
+  - Окончание шестимесячной программы, внешние обстоятельства без негативной оценки.
+  action_ids:
+  - S_A11
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - INTERN
+  - DESIGN
+  source_relationship: survey_construct_and_conceptual_basis; operational criteria are expert_draft
+  status: expert_draft
+  version: 1

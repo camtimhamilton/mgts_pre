@@ -1,0 +1,86 @@
+sources:
+- id: MGTS_TASK
+  type: provided_material
+  filename: doc-1795639893(1).docx
+  title: Постановка задачи
+  sha256: 186634717a36463f0644082124cbc7cfe8d3f01e9616e02b4cb7bbd2c83e665c
+  scope: official_case_material
+- id: MGTS_M
+  type: provided_material
+  filename: doc-1795639907(1).docx
+  title: Структура анкеты наставника
+  sha256: d68dbb5a3daa2a3883bb152bc51100dd8e00847eaa80a16b2da403f666ce57d4
+  scope: official_case_material
+- id: MGTS_S
+  type: provided_material
+  filename: doc-1795639920(1).docx
+  title: Структура пульс-опроса стажера
+  sha256: 34d80eefdc7298b033cf6a45121a3872f29eb385b0585d80adba2b5a0274e220
+  scope: official_case_material
+- id: DATA_M
+  type: provided_material
+  filename: doc-1795639935(1).xlsx
+  title: Оценки наставников
+  sha256: 4f9744dc3c09f38972e3ab9f63bca5249c4a9337959cbce89ba0d6211e6c34fa
+  scope: source_data
+- id: DATA_S
+  type: provided_material
+  filename: doc-1795639948(1).xlsx
+  title: Ответы стажеров
+  sha256: 98eb9fde332c42443a1a1e4e728b89b08b6ea2a9324d691a2dd3a1e4a61adb55
+  scope: source_data
+- id: SOC07
+  type: meta_analysis
+  title: 'Newcomer adjustment during organizational socialization: a meta-analytic review of antecedents, outcomes,
+    and methods'
+  year: 2007
+  url: https://pubmed.ncbi.nlm.nih.gov/17484552/
+  locator: Abstract
+  access: public abstract
+  supports: Ясность роли, самоэффективность и социальное принятие рассматриваются как компоненты адаптации, связанные
+    с результатами социализации.
+- id: SOC24
+  type: meta_analysis
+  title: 'New Horizons for Newcomer Organizational Socialization: A Review, Meta-Analysis, and Future Research Directions'
+  url: https://doi.org/10.1177/01492063241277168
+  locator: Abstract; path model discussion
+  access: public indexed excerpts
+  supports: Наставничество и организационные практики связаны с ясностью роли, освоением задач и социальным принятием.
+- id: JDR23
+  type: theoretical_review
+  title: 'Job Demands–Resources Theory: Ten Years Later'
+  year: 2023
+  url: https://doi.org/10.1146/annurev-orgpsych-120920-053933
+  locator: Abstract; theoretical framing
+  access: public abstract and bibliographic record
+  supports: Требования работы и ресурсы необходимо рассматривать совместно; нагрузка и поддержка являются различными
+    аспектами условий работы.
+- id: INTERN
+  type: empirical_study
+  title: 'Developmental Relationships Matter: Examining the Joint Role of Supervisor Support and Mentor Status on
+    Intern Outcomes'
+  url: https://eric.ed.gov/?id=EJ1363630
+  locator: Abstract; WIL Research Portal summary
+  access: public bibliographic abstract and research portal summary
+  supports: Поддержка руководителя связана с результатами обучения и удовлетворённостью стажировкой; эти переменные
+    связаны с принятием предложения о работе.
+  secondary_url: https://wilresearch.uwaterloo.ca/Resource/View/3358
+- id: ONB24
+  type: field_experiment_meta_analysis
+  title: 'Unpacking the effects of socialization programs on newcomer retention: A meta-analytic review of field
+    experiments'
+  year: 2024
+  url: https://pubmed.ncbi.nlm.nih.gov/38376909/
+  locator: Abstract
+  access: public abstract
+  supports: Программы социализации, включающие освоение эффективных рабочих действий, проактивность и социальную
+    интеграцию, связаны с более благоприятным удержанием.
+- id: DESIGN
+  type: project_policy
+  title: 'ПУЛЬС: согласованная концепция и предварительная операционализация'
+  status: draft
+  supports: Веса, пороги, правила, мероприятия и критерии выраженности являются проектными гипотезами; требуют проверки
+    HR МГТС.
+limitations:
+- Научные источники проверены по открытым аннотациям и доступным выдержкам; полный систематический обзор не проводился.
+- Ни один источник не валидирует веса, пороги, индивидуальные оценки или эффекты мероприятий для МГТС.

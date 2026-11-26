@@ -1,0 +1,79 @@
+factors:
+- id: S01
+  role: intern
+  name: Недостаточная понятность задач
+  max_weight: 20
+  weight_status: expert_draft
+  question_id: S01_Q
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - SOC24
+  definition: Недостаточная понятность задач по сообщению соответствующего респондента; не оценка личности.
+- id: S02
+  role: intern
+  name: Недостаток поддержки и обратной связи
+  max_weight: 20
+  weight_status: expert_draft
+  question_id: S02_Q
+  source_ids:
+  - MGTS_S
+  - INTERN
+  - SOC24
+  - JDR23
+  definition: Недостаток поддержки и обратной связи по сообщению соответствующего респондента; не оценка личности.
+- id: S03
+  role: intern
+  name: Некомфортная рабочая нагрузка
+  max_weight: 15
+  weight_status: expert_draft
+  question_id: S03_Q
+  source_ids:
+  - MGTS_S
+  - JDR23
+  definition: Некомфортная рабочая нагрузка по сообщению соответствующего респондента; не оценка личности.
+- id: S04
+  role: intern
+  name: Недостаточный интерес к задачам
+  max_weight: 10
+  weight_status: expert_draft
+  question_id: S04_Q
+  source_ids:
+  - MGTS_S
+  - JDR23
+  - INTERN
+  definition: Недостаточный интерес к задачам по сообщению соответствующего респондента; не оценка личности.
+- id: S05
+  role: intern
+  name: Недостаток профессионального развития
+  max_weight: 15
+  weight_status: expert_draft
+  question_id: S05_Q
+  source_ids:
+  - MGTS_S
+  - INTERN
+  - SOC24
+  definition: Недостаток профессионального развития по сообщению соответствующего респондента; не оценка личности.
+- id: S06
+  role: intern
+  name: Сложности взаимодействия с командой
+  max_weight: 10
+  weight_status: expert_draft
+  question_id: S06_Q
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - SOC24
+  - ONB24
+  definition: Сложности взаимодействия с командой по сообщению соответствующего респондента; не оценка личности.
+- id: S07
+  role: intern
+  name: Общая неудовлетворённость стажировкой
+  max_weight: 10
+  weight_status: expert_draft
+  question_id: S07_Q
+  source_ids:
+  - MGTS_S
+  - SOC07
+  - INTERN
+  definition: Общая неудовлетворённость стажировкой по сообщению соответствующего респондента; не оценка личности.

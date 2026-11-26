@@ -1,0 +1,667 @@
+actions:
+- id: P01
+  scope: PAIR
+  name: Согласовать постановку задач и критерии результата
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - M01
+  - S01
+  target_rules:
+  - M01_CLARITY
+  - M01_PRIORITY
+  - M01_REWORK
+  - S01_CLARITY
+  - S01_PRIORITY
+  - S01_REWORK
+  eligibility: Оба респондента сообщают о проблеме ясности/приоритетов за тот же месяц.
+  completion_criteria:
+  - Обе стороны согласовали цель, приоритеты, критерии и способ уточнения.
+  resolution_criteria:
+  - В следующих ответах обе стороны подтверждают ясность задач; переделок из-за постановки нет.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC07
+  - SOC24
+  status: expert_draft
+- id: P02
+  scope: PAIR
+  name: Ввести регулярные короткие сверки и обратную связь
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - M06
+  - S02
+  target_rules:
+  - M06_COMM
+  - M06_FEEDBACK
+  - S02_FEEDBACK
+  - S02_ACCESS
+  - S02_QUALITY
+  eligibility: В обеих анкетах подтверждён дефицит рабочей связи или обратной связи.
+  completion_criteria:
+  - Согласованы периодичность, каналы вопросов и формат конкретной обратной связи.
+  resolution_criteria:
+  - Обе стороны подтверждают доступность связи и отсутствие прежних блокеров.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC07
+  - SOC24
+  - INTERN
+  - JDR23
+  status: expert_draft
+- id: P03
+  scope: PAIR
+  name: Пересогласовать загрузку, приоритеты и сроки
+  responsible:
+  - mentor
+  - intern
+  - hr
+  target_factors:
+  - M04
+  - S03
+  target_rules:
+  - M04_DEADLINE
+  - M04_PLAN
+  - S03_OVERLOAD
+  - S03_PLANNING
+  eligibility: В обеих анкетах подтверждена нагрузка или её связь с задержками; не выводить связь из чисел.
+  completion_criteria:
+  - Составлен список задач, лимиты параллельности и согласованы новые сроки.
+  resolution_criteria:
+  - Стажёр подтверждает комфортную нагрузку, наставник — отсутствие обусловленных ею задержек.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - JDR23
+  status: expert_draft
+- id: P04
+  scope: PAIR
+  name: Настроить постепенное самостоятельное выполнение с доступной помощью
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - M03
+  - S02
+  target_rules:
+  - M03_ROUTINE
+  - M03_CONTROL
+  - M03_DECLINE
+  - S02_ACCESS
+  - S02_FEEDBACK
+  eligibility: Обе стороны подтверждают связанные затруднения самостоятельности и поддержки; без причинных предположений.
+  completion_criteria:
+  - Определены типовые задачи, границы самостоятельности и канал помощи.
+  resolution_criteria:
+  - Наставник подтверждает самостоятельность на типовых задачах; стажёр подтверждает своевременную помощь.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC24
+  - JDR23
+  - INTERN
+  status: expert_draft
+- id: P05
+  scope: PAIR
+  name: Согласовать правила взаимодействия в команде
+  responsible:
+  - mentor
+  - intern
+  - team_lead
+  target_factors:
+  - M06
+  - S06
+  target_rules:
+  - M06_TEAM
+  - M06_COMM
+  - S06_INTEGRATION
+  - S06_COORDINATION
+  eligibility: В обеих перспективах подтверждена одна и та же командная проблема; не применять к конфликту с угрозой.
+  completion_criteria:
+  - Определены контактные лица, каналы и порядок согласования.
+  resolution_criteria:
+  - Обе стороны подтверждают конструктивное взаимодействие без прежних препятствий.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC07
+  - SOC24
+  - INTERN
+  - ONB24
+  status: expert_draft
+- id: P06
+  scope: PAIR
+  name: Согласовать план освоения навыка и практические задания
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - M02
+  - S05
+  target_rules:
+  - M02_ERRORS
+  - M02_REWORK
+  - M02_ACCEPTANCE
+  - S05_LEARNING
+  - S05_RESOURCES
+  eligibility: Есть явная связь между дефицитом обучения и наблюдаемой трудностью выполнения; не выводить её только
+    из низких оценок.
+  completion_criteria:
+  - Определён конкретный навык, выделены ресурсы, критерии и практика.
+  resolution_criteria:
+  - Стажёр подтверждает освоение навыка, наставник — улучшение соответствующего результата.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC24
+  - ONB24
+  - INTERN
+  status: expert_draft
+- id: P07
+  scope: PAIR
+  name: Обсудить интересы, содержание задач и ожидаемое участие
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - M05
+  - S04
+  target_rules:
+  - M05_REMINDER
+  - M05_PARTICIPATION
+  - M05_INITIATIVE
+  - S04_CONTENT
+  - S04_MONOTONY
+  - S04_MISMATCH
+  eligibility: Обе стороны описывают связанные трудности интереса и участия; не приписывать скрытую мотивацию.
+  completion_criteria:
+  - Согласованы содержание задач и реалистичные ожидания участия.
+  resolution_criteria:
+  - Стажёр подтверждает интерес, наставник — согласованное участие.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - JDR23
+  - ONB24
+  - INTERN
+  status: expert_draft
+- id: M_A01
+  scope: MENTOR
+  name: Уточнить требования и проверять понимание задачи
+  responsible:
+  - mentor
+  target_factors:
+  - M01
+  target_rules:
+  - M01_CLARITY
+  - M01_PRIORITY
+  - M01_REWORK
+  eligibility: Есть активный фактор M01; помощь по новым сложным задачам сама по себе не является проблемой.
+  completion_criteria:
+  - Для задач определены цель, результат, приоритеты; стажёр пересказывает договорённости.
+  resolution_criteria:
+  - Наставник подтверждает, что повторные пояснения или переделки по прежней причине больше не нужны.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC07
+  - SOC24
+  status: expert_draft
+- id: M_A02
+  scope: MENTOR
+  name: Уточнить критерии качества и провести разбор результата
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - M02
+  target_rules:
+  - M02_REWORK
+  - M02_ERRORS
+  - M02_ACCEPTANCE
+  eligibility: Подтверждены трудности качества по согласованным требованиям.
+  completion_criteria:
+  - Согласованы критерии приёмки и проведён предметный разбор ошибок.
+  resolution_criteria:
+  - Наставник подтверждает отсутствие прежних существенных ошибок/доработок.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC24
+  - ONB24
+  status: expert_draft
+- id: M_A03
+  scope: MENTOR
+  name: Подготовить поэтапный план самостоятельности
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - M03
+  target_rules:
+  - M03_ROUTINE
+  - M03_CONTROL
+  - M03_DECLINE
+  eligibility: Активный M03; не использовать как основание для отказа в обычной помощи.
+  completion_criteria:
+  - Определены типовые задачи, поддержка и постепенное снятие сопровождения.
+  resolution_criteria:
+  - Наставник подтверждает выполнение соответствующих типовых задач без избыточного контроля.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC24
+  - JDR23
+  status: expert_draft
+- id: M_A04
+  scope: MENTOR
+  name: Разобрать планирование и приоритеты задач
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - M04
+  target_rules:
+  - M04_PLAN
+  eligibility: Подтверждена трудность планирования; причина не назначается автоматически.
+  completion_criteria:
+  - Согласован простой рабочий план с реалистичными сроками и приоритетами.
+  resolution_criteria:
+  - Наставник подтверждает отсутствие прежних трудностей планирования.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - JDR23
+  status: expert_draft
+- id: M_A05
+  scope: MENTOR
+  name: Выявить причину задержек и пересогласовать сроки
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - M04
+  target_rules:
+  - M04_DEADLINE
+  eligibility: Есть наблюдаемые задержки; не обвинять стажёра при внешних блокерах.
+  completion_criteria:
+  - Зафиксированы причина задержек, зависимости и согласованный план сроков.
+  resolution_criteria:
+  - Наставник подтверждает, что прежняя причина задержек устранена.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - JDR23
+  status: expert_draft
+- id: M_A06
+  scope: MENTOR
+  name: Договориться о раннем сообщении о блокерах
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - M04
+  target_rules:
+  - M04_ESCALATION
+  eligibility: Подтверждены запоздалые сообщения; обычная рекомендация без наблюдения не достаточна.
+  completion_criteria:
+  - Установлен канал и критерии эскалации рисков.
+  resolution_criteria:
+  - Наставник подтверждает своевременность сообщений о препятствиях.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - JDR23
+  status: expert_draft
+- id: M_A07
+  scope: MENTOR
+  name: Уточнить ожидаемое участие и устранить рабочие препятствия
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - M05
+  target_rules:
+  - M05_REMINDER
+  - M05_PARTICIPATION
+  - M05_INITIATIVE
+  eligibility: Активный M05; не требовать сверхурочной работы и не диагностировать мотивацию.
+  completion_criteria:
+  - Обсуждены доступность задач, согласованные ожидания, способы участия.
+  resolution_criteria:
+  - Наставник подтверждает восстановление согласованного участия.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - JDR23
+  - ONB24
+  status: expert_draft
+- id: M_A08
+  scope: MENTOR
+  name: Согласовать регулярный обмен обратной связью
+  responsible:
+  - mentor
+  target_factors:
+  - M06
+  target_rules:
+  - M06_COMM
+  - M06_FEEDBACK
+  eligibility: Есть активная проблема рабочей связи или обратной связи.
+  completion_criteria:
+  - Назначены каналы, формат и регулярность контакта.
+  resolution_criteria:
+  - Наставник подтверждает, что прежний дефицит обмена информацией устранён.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC07
+  - SOC24
+  - INTERN
+  status: expert_draft
+- id: M_A09
+  scope: MENTOR
+  name: Уточнить порядок координации с коллегами
+  responsible:
+  - mentor
+  - team_lead
+  - intern
+  target_factors:
+  - M06
+  target_rules:
+  - M06_TEAM
+  eligibility: Есть активная проблема командного взаимодействия.
+  completion_criteria:
+  - Определены контактные лица и точки передачи задач.
+  resolution_criteria:
+  - Наставник подтверждает устранение конкретных координационных трудностей.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC07
+  - SOC24
+  - INTERN
+  status: expert_draft
+- id: S_A01
+  scope: INTERN
+  name: Согласовать понятные задачи и критерии результата
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - S01
+  target_rules:
+  - S01_CLARITY
+  - S01_PRIORITY
+  - S01_REWORK
+  eligibility: Активный S01.
+  completion_criteria:
+  - У каждой актуальной задачи указаны цель, ожидаемый результат и приоритет.
+  resolution_criteria:
+  - Стажёр подтверждает ясность задач и отсутствие прежних переделок.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC07
+  - SOC24
+  status: expert_draft
+- id: S_A02
+  scope: INTERN
+  name: Договориться о конкретной и регулярной обратной связи
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - S02
+  target_rules:
+  - S02_FEEDBACK
+  - S02_QUALITY
+  eligibility: Активный дефицит обратной связи; не заменяет помощь при недоступности наставника.
+  completion_criteria:
+  - Определены формат, периодичность и примеры полезной обратной связи.
+  resolution_criteria:
+  - Стажёр подтверждает достаточность и полезность обратной связи.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - INTERN
+  - SOC24
+  - JDR23
+  status: expert_draft
+- id: S_A03
+  scope: INTERN
+  name: Обеспечить канал оперативной помощи и резервного контактного лица
+  responsible:
+  - mentor
+  - hr
+  target_factors:
+  - S02
+  target_rules:
+  - S02_ACCESS
+  eligibility: Подтверждена недоступность или задержка необходимой помощи.
+  completion_criteria:
+  - Назначены канал вопросов, ожидаемое время ответа и резервный контакт.
+  resolution_criteria:
+  - Стажёр подтверждает своевременную помощь и отсутствие прежних блокировок.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - INTERN
+  - SOC24
+  - JDR23
+  status: expert_draft
+- id: S_A04
+  scope: INTERN
+  name: Снизить конфликтующую нагрузку и согласовать приоритеты
+  responsible:
+  - mentor
+  - intern
+  - hr
+  target_factors:
+  - S03
+  target_rules:
+  - S03_OVERLOAD
+  - S03_PLANNING
+  eligibility: Подтверждена перегрузка либо конфликт времени и задач.
+  completion_criteria:
+  - Пересмотрен объём работы, лимит параллельных задач и сроки.
+  resolution_criteria:
+  - Стажёр подтверждает комфортную загрузку и отсутствие прежних препятствий.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - JDR23
+  status: expert_draft
+- id: S_A05
+  scope: INTERN
+  name: Подготовить содержательный план задач
+  responsible:
+  - mentor
+  target_factors:
+  - S03
+  target_rules:
+  - S03_UNDERLOAD
+  eligibility: Подтверждена недостаточная загрузка, не плановый учебный период.
+  completion_criteria:
+  - Согласован реалистичный объём содержательной работы или учебных задач.
+  resolution_criteria:
+  - Стажёр подтверждает достаточность загрузки.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - JDR23
+  status: expert_draft
+- id: S_A06
+  scope: INTERN
+  name: Обсудить профессиональные интересы и разнообразие задач
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - S04
+  target_rules:
+  - S04_CONTENT
+  - S04_MONOTONY
+  - S04_MISMATCH
+  eligibility: Активный S04; пожелание развития без проблемы может быть советом без баллов.
+  completion_criteria:
+  - Согласованы подходящие задачи в пределах программы.
+  resolution_criteria:
+  - Стажёр подтверждает устранение прежней проблемы интереса.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - JDR23
+  - INTERN
+  status: expert_draft
+- id: S_A07
+  scope: INTERN
+  name: Согласовать индивидуальный план освоения навыков
+  responsible:
+  - mentor
+  - intern
+  target_factors:
+  - S05
+  target_rules:
+  - S05_LEARNING
+  - S05_TASK_GROWTH
+  eligibility: Активный S05.
+  completion_criteria:
+  - Выбраны навыки, практические задачи и критерии прогресса.
+  resolution_criteria:
+  - Стажёр подтверждает появление значимых возможностей развития.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - INTERN
+  - SOC24
+  status: expert_draft
+- id: S_A08
+  scope: INTERN
+  name: Предоставить необходимые ресурсы для обучения
+  responsible:
+  - mentor
+  - hr
+  - it_support
+  target_factors:
+  - S05
+  target_rules:
+  - S05_RESOURCES
+  eligibility: Подтверждён дефицит ресурса именно для обучения.
+  completion_criteria:
+  - Проверены доступы к конкретному инструменту или учебному материалу.
+  resolution_criteria:
+  - Стажёр подтверждает, что прежний ресурсный блокер устранён.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - INTERN
+  - SOC24
+  status: expert_draft
+- id: S_A09
+  scope: INTERN
+  name: Упростить включение в рабочие обсуждения команды
+  responsible:
+  - mentor
+  - team_lead
+  - intern
+  target_factors:
+  - S06
+  target_rules:
+  - S06_INTEGRATION
+  - S06_COORDINATION
+  eligibility: Подтверждена проблема интеграции или координации.
+  completion_criteria:
+  - Назначены контактное лицо, релевантные встречи и каналы координации.
+  resolution_criteria:
+  - Стажёр подтверждает устранение прежней трудности взаимодействия.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC07
+  - SOC24
+  - ONB24
+  status: expert_draft
+- id: S_A10
+  scope: INTERN
+  name: Организовать конфиденциальное обсуждение рабочих затруднений
+  responsible:
+  - hr
+  - intern
+  target_factors:
+  - S06
+  target_rules:
+  - S06_CONFLICT
+  eligibility: Активный S06-CONFLICT; при угрозах не предлагать обязательную совместную встречу.
+  completion_criteria:
+  - HR согласовал безопасный способ обсуждения и план дальнейших действий.
+  resolution_criteria:
+  - Стажёр подтверждает устранение конкретного препятствия; серьёзные случаи проверены человеком.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC07
+  - SOC24
+  - ONB24
+  status: expert_draft
+- id: S_A11
+  scope: INTERN
+  name: Провести конфиденциальную беседу об опыте стажировки
+  responsible:
+  - hr
+  - intern
+  target_factors:
+  - S07
+  target_rules:
+  - S07_OVERALL
+  - S07_EXPECTATION
+  - S07_CONTINUATION
+  eligibility: Явная общая неудовлетворённость; критический флаг закрывается отдельно.
+  completion_criteria:
+  - Уточнены причины недовольства, ожидания и возможные меры поддержки.
+  resolution_criteria:
+  - Стажёр подтверждает улучшение общего опыта; намерения не предполагаются.
+  effect_mode: conditional_full_factor_resolution
+  source_ids:
+  - DESIGN
+  - SOC07
+  - INTERN
+  status: expert_draft
+non_scoring_actions:
+- id: N01
+  name: Уточнить неоднозначный комментарий конфиденциально
+  condition: ambiguous или conflict
+  effect: 0
+- id: N02
+  name: Проверить доступы, оборудование и организационные блокеры
+  condition: AD_RESOURCE
+  effect: 0
+- id: N03
+  name: Обсудить пожелания по развитию без оценки как риска
+  condition: DEVELOPMENT_REQUEST
+  effect: 0
+- id: N04
+  name: Приоритетно предложить конфиденциальную поддержку HR
+  condition: critical_flag
+  effect: 0
+- id: N05
+  name: Запросить недостающую анкету или уточнить ответ
+  condition: missing_data
+  effect: 0
+- id: N06
+  name: Уточнить ожидания и дальнейшие перспективы программы
+  condition: AD_EXPECTATION или AD_FUTURE
+  effect: 0
+scenario_constraints:
+- Мероприятие связывается с конкретным factor_instance_id, а не только с фактором.
+- Совместное действие требует подтверждённых связанных факторов обеих ролей в одном наблюдении.
+- Если один фактор имеет несколько независимых активных механизмов, полное исключение возможно только при покрытии
+  всех механизмов выбранными мероприятиями. Если основание только rating, действие должно содержать явное подтверждение
+  условного устранения именно этого фактора; сначала уточнить причину.
+- Один экземпляр фактора вычитается максимум один раз. Эффект вычисляется по фактическому вкладу; нулевые рекомендации
+  не перекрашивают историю.
+- При критическом флаге меры поддержки не закрывают флаг автоматически.

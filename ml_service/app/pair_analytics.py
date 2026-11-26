@@ -6,17 +6,21 @@ from functools import lru_cache
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 import re
 from statistics import mean
 
 from app.pair_schemas import AnalyticsScope
 from app.pair_semantics import compare_texts, load_semantic_rules
+from .pair_expert import action_matches, expert_policy
 
-PIPELINE_VERSION = "pair-2.0.2"
+PIPELINE_VERSION = "pair-2.1.0"
 
 
-def load_policy() -> dict:
+def load_policy(mode: str | None = None) -> dict:
+    if (mode or os.getenv("PULSE_PAIR_POLICY")) == "expert":
+        return expert_policy()
     policy = json.loads((Path(__file__).resolve().parents[1] / "knowledge_base/v2/policy.json").read_text(encoding="utf-8"))
     try:
         return validate_policy(policy)
@@ -194,11 +198,11 @@ def _analyze_side(record: dict | None, role: str, pair_id: str, month: int, poli
     factors, evidence = [], []
     signals = record.get("signals", [])
     for key, definition in policy["roles"][role].items():
-        rating = record["ratings"].get(key)
+        rating = record["ratings"].get(definition.get("wire_key", key))
         severity = policy["rating_levels"].get(str(rating))
-        refs = [_rating_evidence(record, key, rating)] if rating is not None else []
+        refs = [_rating_evidence(record, definition.get("wire_key", key), rating)] if rating is not None else []
         evidence_levels = {refs[0]["id"]: severity} if refs else {}
-        conflicts = []
+        conflicts, active_rules = [], set()
         for signal in signals:
             if signal.get("factor_id") != key:
                 continue
@@ -213,15 +217,25 @@ def _analyze_side(record: dict | None, role: str, pair_id: str, month: int, poli
             reference["temporal_status"] = signal.get("temporal_status")
             reference["polarity"] = signal.get("polarity")
             refs.append(reference)
-            if signal.get("rule_id") != f"text.{role}.{key}" or signal.get("role", role) != role:
-                reference["validation_status"] = "rejected"
+            rule_id = signal.get("rule_id")
+            valid_rule = (policy["rules"].get(rule_id, {}).get("factor_id") == key
+                          if policy.get("expert") else rule_id == f"text.{role}.{key}")
+            if not valid_rule or signal.get("role", role) != role:
+                if signal.get("rule_id") != "local_review":
+                    reference["validation_status"] = "rejected"
                 continue
+            if (policy.get("expert") and signal.get("validation_status") == "accepted"
+                    and signal.get("semantic_type") == "ABSENCE" and signal.get("temporal_status") == "current"):
+                severity = max(severity or 0, 0)
+                evidence_levels[reference["id"]] = 0
             if (signal.get("validation_status") == "accepted"
                     and signal.get("temporal_status") == "current"
                     and signal.get("polarity") == "negative"):
                 level = signal.get("severity")
                 level = {"none": 0, "moderate": .5, "high": 1}.get(level, level)
                 if type(level) in (float, int) and level in (0, .5, 1):
+                    if level and policy.get("expert"):
+                        active_rules.add(rule_id)
                     evidence_levels[reference["id"]] = level
                     severity = max(severity or 0, level)
                     if rating is not None and policy["rating_levels"][str(rating)] == 0 and level > 0:
@@ -232,12 +246,15 @@ def _analyze_side(record: dict | None, role: str, pair_id: str, month: int, poli
                         "weight": definition["weight"], "severity": severity,
                         "state": "unknown" if severity is None else "active" if severity else "observed_no_signal",
                         "contribution": contribution, "scenario_contribution": contribution,
-                        "rating": rating, "rule_id": f"rule_{role}_{key}",
+                        "rating": rating, "rule_id": ", ".join(sorted(active_rules)) or (key + "_Q" if policy.get("expert") else f"rule_{role}_{key}"),
                         "activation_rule": "Оценки переводятся в выраженность по схеме " + ", ".join(f"{value} → {policy['rating_levels'][str(value)]:g}" for value in range(1, 6))
-                        + ". Максимум подтверждённых текущих сигналов.",
-                        "source": policy["source"], "rule_status": policy["status"],
+                        + ". Максимум подтверждённых текущих сигналов." + (" " + " ".join(
+                            f'{rule}: {policy["rules"][rule]["activation"]["moderate"]} {policy["rules"][rule]["activation"]["high"]}'
+                            for rule in sorted(active_rules)) if active_rules else ""),
+                        "source": ", ".join(policy["sources"][source] for source in definition["source_ids"])
+                            if policy.get("expert") else policy["source"], "rule_status": policy["status"],
                         "validation_status": "deterministic_mapping" if rating is not None else "text_validated" if severity is not None else "unknown",
-                        "review_flags": sorted(set(conflicts)), "evidence": refs,
+                        "review_flags": sorted(set(conflicts)), "evidence": refs, "active_rules": sorted(active_rules),
                         "score_evidence_refs": sorted({reference["id"] for reference in refs
                             if reference["id"] in evidence_levels and evidence_levels[reference["id"]] == severity})})
         evidence.extend(refs)
@@ -254,8 +271,14 @@ def _analyze_side(record: dict | None, role: str, pair_id: str, month: int, poli
                     and signal.get("temporal_status") == "current"
                     and signal.get("quote") and signal["quote"] in (record["texts"].get(signal.get("question_id")) or "")
                     and EXIT.fullmatch(signal.get("quote", ""))]
+    if policy.get("expert"):
+        critical = sorted({s["factor_id"] for s in signals if s.get("critical")
+                           and s.get("validation_status") in ("accepted", "review")
+                           and s.get("temporal_status") == "current"
+                           and s.get("quote") and s["quote"] in (record["texts"].get(s.get("question_id")) or "")})
+    failed = policy.get("expert") and record.get("text_analysis_status") == "error"
     text_interpretation, unmatched = _text_interpretation(record)
-    return {"score": score, "actual_score": score, "band": band(score, coverage, policy),
+    return {"score": score, "actual_score": score, "band": "gray" if failed else band(score, coverage, policy),
             "coverage": coverage, "status": "insufficient_data" if coverage < policy["min_coverage"] else
             "partial" if record.get("text_analysis_status") in ("error", "not_run", "review") or critical
             or text_interpretation in ("local_abstain", "abstained", "local_partial", "partial", "local_encoder_review")
@@ -275,8 +298,10 @@ def _analyze_side(record: dict | None, role: str, pair_id: str, month: int, poli
 
 def aggregate(cells: list[dict], policy: dict) -> dict:
     eligible = [cell for cell in cells if cell["z"] is not None]
-    x_all = [cell["x"]["score"] for cell in cells if cell["x"]["coverage"] >= policy["min_coverage"]]
-    y_all = [cell["y"]["score"] for cell in cells if cell["y"]["coverage"] >= policy["min_coverage"]]
+    x_all = [cell["x"]["score"] for cell in cells if cell["x"]["coverage"] >= policy["min_coverage"]
+             and not (policy.get("expert") and cell["x"]["text_analysis_status"] == "error")]
+    y_all = [cell["y"]["score"] for cell in cells if cell["y"]["coverage"] >= policy["min_coverage"]
+             and not (policy.get("expert") and cell["y"]["text_analysis_status"] == "error")]
     x = _average([cell["x"]["score"] for cell in eligible])
     y = _average([cell["y"]["score"] for cell in eligible])
     z = (x + y) / 2 if x is not None and y is not None else None
@@ -302,8 +327,9 @@ def aggregate(cells: list[dict], policy: dict) -> dict:
                 entry["instance_ids"].append(factor["instance_id"])
         factor_contributions[side] = list(contributions.values())
     return {"x": x, "y": y, "z": z, "actual": {"x": actual_x, "y": actual_y, "z": actual_z},
-            "scenario": {"x": x, "y": y, "z": z}, "bands": {"x": band(x, 1 if eligible else (cells[0]["x"]["coverage"] if len(cells) == 1 else 0), policy),
-            "y": band(y, 1 if eligible else (cells[0]["y"]["coverage"] if len(cells) == 1 else 0), policy)},
+            "scenario": {"x": x, "y": y, "z": z}, "bands": {
+                side: band(value, 1, policy) if eligible else cells[0][side]["band"] if len(cells) == 1 else "gray"
+                for side, value in (("x", x), ("y", y))},
             "coverage": coverage, "observation_count": len(cells), "eligible_count": len(eligible),
             "observations": [{"pair_id": cell["pair_id"], "month": cell["month"]} for cell in eligible],
             "side_statistics": {"mentor": {"mean": _average(x_all), "count": len(x_all)},
@@ -329,11 +355,29 @@ def apply_scenario(cells: list[dict], selected: list[dict], policy: dict) -> lis
     for cell in result:
         for role, side in (("mentor", "x"), ("intern", "y")):
             for factor in cell[side]["factors"]:
-                if any(_action_applies(cell, role, factor, selection) for selection in selected):
+                if policy.get("expert"):
+                    rules = set(factor["active_rules"])
+                    covered = {rule for selection in selected
+                               if in_scope(cell["pair_id"], cell["month"], selection["scope"])
+                               and (action := policy["actions"].get(selection["action_id"]))
+                               and action_matches(cell, side, factor, action) for rule in action["target_rules"]}
+                    rating_resolved = any(selection["action_id"] == f'rating_{factor["id"]}'
+                                          and in_scope(cell["pair_id"], cell["month"], selection["scope"])
+                                          and factor["rating"] in (1, 2) and not rules for selection in selected)
+                    resolved = rating_resolved or bool(rules) and rules <= covered and (
+                        not factor["rating"] or policy["rating_levels"][str(factor["rating"])] <= max(
+                            ({"moderate": .5, "high": 1}.get(signal["severity"], 0)
+                             for signal in cell[side]["signals"] if signal.get("rule_id") in rules
+                             and signal.get("validation_status") == "accepted" and signal.get("polarity") == "negative"
+                             and signal.get("temporal_status") == "current"), default=0))
+                else:
+                    resolved = any(_action_applies(cell, role, factor, selection) for selection in selected)
+                if resolved:
                     factor["scenario_contribution"] = 0
             if cell[side]["score"] is not None:
                 cell[side]["score"] = sum(factor["scenario_contribution"] for factor in cell[side]["factors"])
-            cell[side]["band"] = band(cell[side]["score"], cell[side]["coverage"], policy)
+            if not (policy.get("expert") and cell[side]["text_analysis_status"] == "error"):
+                cell[side]["band"] = band(cell[side]["score"], cell[side]["coverage"], policy)
         cell["z"] = (cell["x"]["score"] + cell["y"]["score"]) / 2 if cell["eligible"] else None
         cell["scenario"] = {"x": cell["x"]["score"], "y": cell["y"]["score"], "z": cell["z"]}
     return result
@@ -349,6 +393,8 @@ def recommendations(cells: list[dict], scope: dict, policy: dict) -> list[dict]:
                 factor["scenario_contribution"] = factor["contribution"]
         cell["z"] = cell["actual"]["z"]
     scope_key = hashlib.sha256(json.dumps(scope, sort_keys=True).encode()).hexdigest()[:12]
+    if policy.get("expert"):
+        return expert_recommendations(cells, actual_cells, scope, scope_key, policy)
     for key, action in policy["actions"].items():
         targets = [(cell, role, side, factor) for cell in cells
                    for role, side in (("mentor", "x"), ("intern", "y"))
@@ -383,6 +429,96 @@ def recommendations(cells: list[dict], scope: dict, policy: dict) -> list[dict]:
     return result
 
 
+def expert_recommendations(cells, actual_cells, scope, scope_key, policy):
+    current = aggregate(cells, policy)
+    actions = list(policy["actions"].values())
+    actions.extend(rating_actions(policy).values())
+    sides = [cell[side] for cell in cells for side in ("x", "y")]
+    topics = {s["factor_id"] for side in sides for s in side["signals"]
+              if s.get("validation_status") in ("accepted", "review")}
+    zero_conditions = {
+        "N01": any(s["status"] == "partial" for s in sides),
+        "N02": "AD_RESOURCE" in topics,
+        "N03": "DEVELOPMENT_REQUEST" in topics,
+        "N04": any(s["critical_flags"] for s in sides),
+        "N05": any(s["status"] in ("missing", "insufficient_data") for s in sides),
+        "N06": bool({"AD_EXPECTATION", "AD_FUTURE"} & topics),
+    }
+    actions += [action for key, action in policy["unscored"].items() if zero_conditions.get(key)]
+    results = []
+    for action in actions:
+        action_id = action["id"]
+        informational = action_id in policy["unscored"]
+        group = [(cell, role, factor) for cell in cells for role, side in (("mentor", "x"), ("intern", "y"))
+                 for factor in cell[side]["factors"] if not informational and action_matches(cell, side, factor, action)]
+        if not informational and not group:
+            continue
+        selection = {"action_id": action_id, "scope": scope}
+        after = aggregate(apply_scenario(cells, [selection], policy), policy) if group else current
+        independent = aggregate(apply_scenario(actual_cells, [selection], policy), policy) if group else current["actual"]
+        results.append({
+            "id": f"{action_id}_{scope_key}", "action_id": action_id, "scope": scope,
+            "impact_scope": action.get("scope", "PAIR"), "title": action["name"], "name": action["name"],
+            "rationale": action.get("eligibility", "Уточнение с участием HR"),
+            "responsible": " · ".join(action.get("responsible", ["hr"])),
+            "target_factors": sorted({factor["id"] for _, _, factor in group}),
+            "targets": [factor["instance_id"] for _, _, factor in group],
+            "target_observations": [{"pair_id": cell["pair_id"], "month": cell["month"], "role": role}
+                                    for cell, role, _ in group],
+            "evidence_refs": sorted({ref for _, _, factor in group for ref in factor["score_evidence_refs"]}),
+            "delta": {k: current["actual"][k] - independent[k] if independent[k] is not None and current["actual"][k] is not None else None
+                      for k in ("x", "y", "z")},
+            "additional_delta": {k: current[k] - after[k] if current[k] is not None and after[k] is not None else None
+                                 for k in ("x", "y", "z")},
+            "completion_criteria": " ".join(action.get("completion_criteria", [action["name"]])),
+            "resolution_criteria": " ".join(action.get("resolution_criteria", ["Эффект на индекс отсутствует."])),
+            "status": policy["status"], "assumption": "no_score_change" if informational else "full_resolution",
+        })
+    return results
+
+
+def rating_actions(policy):
+    return {f"rating_{key}": {
+        "id": f"rating_{key}", "scope": role.upper(), "rating_resolution": True,
+        "name": f"Условно устранить фактор «{factor['name'].lower()}»",
+        "target_factors": [key], "target_rules": [], "responsible": ["hr", role],
+        "eligibility": "Низкая оценка без подтверждённого текстового механизма. Причину нужно уточнить.",
+        "completion_criteria": ["Уточнить причину отдельно с респондентом."],
+        "resolution_criteria": ["Включение в сценарий предполагает полное устранение этого фактора."],
+    } for role, factors in policy["roles"].items() for key, factor in factors.items()}
+
+
+def expert_comparisons(cell, policy):
+    results = []
+    for relationship in policy["ontology"]["relationships"]:
+        factor_ids = relationship["mentor_factor"], relationship["intern_factor"]
+        observations = []
+        for side, factor_id in zip(("x", "y"), factor_ids, strict=True):
+            factor = next((f for f in cell[side]["factors"] if f["id"] == factor_id), None)
+            observations.append([q for q in factor["evidence"] if q["kind"] == "text"
+                                 and q["validation_status"] == "accepted"
+                                 and q["temporal_status"] == "current"
+                                 and q["polarity"] in ("positive", "negative")] if factor else [])
+        if not all(observations):
+            continue
+        mentor, intern = ({q["polarity"] for q in obs} for obs in observations)
+        if relationship["type"] == "comparable" and len(mentor) == len(intern) == 1:
+            kind = "AGREEMENT" if mentor == intern else "CONTRADICTION"
+        elif relationship["type"] == "comparable":
+            kind = "NOT_COMPARABLE"
+        else:
+            kind = "COMPLEMENTARY"
+        evidence = observations[0] + observations[1]
+        results.append({
+            "pair_id": cell["pair_id"], "month": cell["month"], "aspect": "/".join(factor_ids),
+            "type": kind, "status": "requires_clarification" if kind in ("CONTRADICTION", "NOT_COMPARABLE")
+            else "project_rule_provisional", "mentor_states": sorted(mentor), "intern_states": sorted(intern),
+            "explanation": relationship["note"], "evidence": evidence,
+            "evidence_refs": [q["id"] for q in evidence], "rule_version": policy["version"], "score_effect": 0,
+        })
+    return results
+
+
 def analyze(records: list[dict], scope: dict | None = None, selected: list[dict] | None = None,
             current_month: int = 6, policy: dict | None = None, pairs: list[dict] | None = None) -> dict:
     policy = policy or load_policy()
@@ -393,6 +529,9 @@ def analyze(records: list[dict], scope: dict | None = None, selected: list[dict]
         raise KeyError("pair_not_found")
     allowed_actions = {f"action_pair_{factor}" for factor in policy["actions"]}
     allowed_actions.update(f"action_{role}_{factor}" for role, factors in policy["roles"].items() for factor in factors)
+    if policy.get("expert"):
+        available_actions = policy["actions"] | rating_actions(policy)
+        allowed_actions = available_actions.keys()
     if any(selection["action_id"] not in allowed_actions for selection in selected):
         raise KeyError("action_not_found")
     if any(selection["scope"]["type"] != "GLOBAL" and selection["scope"]["pair_id"] not in pairs for selection in selected):
@@ -403,23 +542,27 @@ def analyze(records: list[dict], scope: dict | None = None, selected: list[dict]
         for month in range(1, 7):
             x = analyze_side(by_key.get((pair_id, month, "mentor")), "mentor", pair_id, month, policy, current_month)
             y = analyze_side(by_key.get((pair_id, month, "intern")), "intern", pair_id, month, policy, current_month)
-            eligible = all(side["score"] is not None and side["coverage"] >= policy["min_coverage"] for side in (x, y))
+            eligible = all(side["score"] is not None and side["coverage"] >= policy["min_coverage"]
+                           and not (policy.get("expert") and side["text_analysis_status"] == "error") for side in (x, y))
             z = (x["score"] + y["score"]) / 2 if eligible else None
             cells.append({"pair_id": pair_id, "month": month, "x": x, "y": y, "z": z,
                           "eligible": eligible, "actual": {"x": x["score"], "y": y["score"], "z": z}})
     for selection in selected:
-        if not any(_action_applies(cell, role, factor, selection) for cell in cells
-                   for role, side in (("mentor", "x"), ("intern", "y")) for factor in cell[side]["factors"]):
+        if not any(in_scope(cell["pair_id"], cell["month"], selection["scope"]) and (
+                   action_matches(cell, side, factor, available_actions[selection["action_id"]])
+                   if policy.get("expert") else _action_applies(cell, role, factor, selection))
+                   for cell in cells for role, side in (("mentor", "x"), ("intern", "y")) for factor in cell[side]["factors"]):
             raise ValueError("scenario_action_has_no_active_targets")
     cells = apply_scenario(cells, selected, policy)
     cell_lookup = {(cell["pair_id"], cell["month"]): cell for cell in cells}
     chosen = [cell for cell in cells if in_scope(cell["pair_id"], cell["month"], scope)]
     recs = recommendations(chosen, scope, policy)
     semantic_rules = load_semantic_rules()
-    semantic_comparisons = [comparison for cell in chosen for comparison in compare_texts(
+    semantic_comparisons = [comparison for cell in chosen for comparison in (
+        expert_comparisons(cell, policy) if policy.get("expert") else compare_texts(
         by_key.get((cell["pair_id"], cell["month"], "mentor")),
         by_key.get((cell["pair_id"], cell["month"], "intern")), cell["pair_id"], cell["month"],
-        policy["comparisons"], semantic_rules)]
+        policy["comparisons"], semantic_rules))]
     sections = {}
     for key, title, sides in (("pair", "Взаимодействие пары", ("x", "y")),
                               ("mentor", "Наставник", ("x",)), ("intern", "Стажёр", ("y",))):
@@ -488,14 +631,14 @@ def analyze(records: list[dict], scope: dict | None = None, selected: list[dict]
                              source_facets=source_facets)
     discrepancies = []
     for cell in chosen:
-        for aspect in policy["comparisons"]:
-            mentor = next((factor for factor in cell["x"]["factors"] if factor["id"] == aspect), None)
-            intern = next((factor for factor in cell["y"]["factors"] if factor["id"] == aspect), None)
+        for mentor_id, intern_id in policy.get("numeric_pairs", [(key, key) for key in policy["comparisons"]]):
+            mentor = next((factor for factor in cell["x"]["factors"] if factor["id"] == mentor_id), None)
+            intern = next((factor for factor in cell["y"]["factors"] if factor["id"] == intern_id), None)
             if not mentor or not intern or mentor["rating"] is None or intern["rating"] is None:
                 continue
             gap = (mentor["rating"] - intern["rating"]) / 4
             if abs(gap) >= policy["rating_gap_threshold"]:
-                discrepancies.append({"pair_id": cell["pair_id"], "month": cell["month"], "aspect": aspect,
+                discrepancies.append({"pair_id": cell["pair_id"], "month": cell["month"], "aspect": mentor_id,
                                       "mentor_rating": mentor["rating"], "intern_rating": intern["rating"],
                                       "normalized_gap": abs(gap), "direction": "mentor_higher" if gap > 0 else "intern_higher",
                                       "type": "rating_gap", "status": "requires_clarification",
@@ -507,7 +650,8 @@ def analyze(records: list[dict], scope: dict | None = None, selected: list[dict]
             continue
         for role in ("mentor", "intern"):
             for factor_id, definition in policy["roles"][role].items():
-                values = [by_key.get((pair_id, month, role), {}).get("ratings", {}).get(factor_id) for month in range(1, 7)]
+                values = [by_key.get((pair_id, month, role), {}).get("ratings", {}).get(definition.get("wire_key", factor_id))
+                          for month in range(1, 7)]
                 changes = [{"month": month + 1, "from": values[month - 1], "to": values[month],
                             "direction": "improvement" if values[month] > values[month - 1] else "deterioration"}
                            for month in range(1, 6) if values[month] is not None and values[month - 1] is not None
@@ -583,8 +727,9 @@ def analyze(records: list[dict], scope: dict | None = None, selected: list[dict]
                 item["contribution_sum"] += factor["contribution"]
     summary = {"pair_count": len({cell["pair_id"] for cell in chosen}),
                "top_factors": sorted(top_factors.values(), key=lambda item: (-item["observation_count"], -item["contribution_sum"], item["role"], item["factor_id"])),
-               "critical_cases": [{"pair_id": cell["pair_id"], "month": cell["month"], "flags": cell["y"]["critical_flags"]}
-                                  for cell in chosen if cell["y"]["critical_flags"]],
+               "critical_cases": [{"pair_id": cell["pair_id"], "month": cell["month"],
+                                   "flags": sorted(set(cell["x"]["critical_flags"] + cell["y"]["critical_flags"]))}
+                                  for cell in chosen if cell["x"]["critical_flags"] or cell["y"]["critical_flags"]],
                "discrepancy_count": len(discrepancies), "recurring_problem_count": sum(item["type"] == "recurring_problem" for item in patterns),
                "aggregation": "equal_weight_eligible_pair_month", "scenario_assumption": "full_resolution",
                "retrospective": bool(selected),

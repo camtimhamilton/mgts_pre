@@ -1,0 +1,93 @@
+version: 1.0.0-draft
+status: expert_draft
+purpose: Приоритизация поддержки; не вероятность оттока и не оценка пригодности к работе.
+orientation: higher_is_worse
+role_weights:
+  mentor:
+    M01: 20
+    M02: 15
+    M03: 15
+    M04: 15
+    M05: 15
+    M06: 20
+  intern:
+    S01: 20
+    S02: 20
+    S03: 15
+    S04: 10
+    S05: 15
+    S06: 10
+    S07: 10
+rating_severity:
+  1: 1
+  2: 0.5
+  3: 0
+  4: 0
+  5: 0
+text_severity:
+  none: 0
+  moderate: 0.5
+  high: 1
+  unknown: null
+aggregation: max_per_factor
+accepted_text:
+  assertion: explicit
+  temporal_status: current
+  semantic_type: PROBLEM
+  validation: accepted
+rating_only:
+  on_llm_failure: provisional_rating_only
+  eligible_for_combined_aggregate: false
+  color: gray
+  retain_confirmed_risk_flags: true
+coverage:
+  definition: sum(weights of factors with valid rating or accepted current problem or explicit factor-specific evidence
+    of absence) / 100
+  minimum: 0.7
+  status: expert_draft
+  unknown: no evidence is not zero; observed_sum reported separately
+  missing_text: flag incomplete if expected answer absent; no invented signal
+  note: Coverage measures assessed factor weights, not NLP correctness. Rating 3 is measured, not confirmed absence.
+    If NLP failed, never present green as complete analysis.
+pair:
+  formula: (X+Y)/2
+  requires_both_eligible: true
+scope:
+  aggregation: equal_weight_pair_month
+  common_eligible_sample: true
+  show_unpaired_side_stats: true
+  methodology_versions: same_version_or_explicitly_incomparable
+zones:
+- id: green
+  min_inclusive: 0
+  max_exclusive: 30
+- id: yellow
+  min_inclusive: 30
+  max_exclusive: 70
+- id: red
+  min_inclusive: 70
+  max_inclusive: 100
+- id: gray
+  condition: unavailable_or_insufficient_or_provisional
+flags:
+  add_points: false
+  repeat_min_consecutive_observations: 2
+  rating_change_min_abs: 1
+  gap_threshold: 0.5
+  status: expert_draft
+scenarios:
+  actual_immutable: true
+  effect: conditional_full_resolution
+  deduplicate_by:
+  - pair_id
+  - period
+  - role
+  - factor_id
+  - analysis_id
+  aggregate_after_cell_recalculation: true
+  no_unknown_imputation: true
+review:
+- 3 is a middle response, not proven absence; textual context may activate a factor.
+- A low total cannot suppress a severe factor or critical flag.
+- A single reported issue does not establish fault, intention or causal effect.
+- Check alternative equal weights and rating maps before changing policy.

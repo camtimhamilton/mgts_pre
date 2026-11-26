@@ -117,7 +117,9 @@ def validate_analysis(result: dict, records: list[dict], scope: dict, pairs: lis
             seen.add(identity)
             cells.append(cell)
             number(cell["z"])
-            eligible = all(cell[side]["score"] is not None and cell[side]["coverage"] >= result["methodology"]["min_coverage"] for side in ("x", "y"))
+            eligible = all(cell[side]["score"] is not None and cell[side]["coverage"] >= result["methodology"]["min_coverage"]
+                           and not (result["methodology"].get("status") == "expert_draft"
+                                    and cell[side]["text_analysis_status"] == "error") for side in ("x", "y"))
             if cell["eligible"] != eligible:
                 raise ValueError("monthly eligibility mismatch")
             for key, score_key in (("actual", "actual_score"), ("scenario", "score")):

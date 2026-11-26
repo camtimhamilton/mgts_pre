@@ -492,3 +492,58 @@ def test_range_dependencies_include_missing_months_and_respect_boundaries(client
         "type": "PAIR_RANGE", "pair_id": target["pair_id"], "start": 2, "end": 4}}).json()
     ingest(SurveyInput(**mentor(month=received_month)), "received-later")
     assert client.get(f'/api/v2/scenarios/{saved["scenario_id"]}').json()["stale"] is stale
+
+
+# Сетка формы заказчика: строки «"критерий": оценка», порядок произвольный.
+INTERN_GRID = "\n".join([
+    '"Моя текущая загрузка комфортна и позволяет качественно выполнять задачи.": 5',
+    '"Мне интересны задачи, над которыми я работаю.": 3',
+    '"Я чувствую, что в процессе стажировки развиваю полезные для себя навыки.": 2',
+    '"Мне комфортно взаимодействовать с командой.": 5',
+    '"В целом я доволен тем, как проходит моя стажировка.": 4',
+    '"Я получаю достаточно поддержки и обратной связи от наставника.": 4',
+    '"Мне понятно, каких результатов от меня ожидают по текущим задачам.": 4',
+])
+
+MENTOR_GRID = "\n".join([
+    '"Насколько стажер понимает поставленные задачи и ожидаемый результат?": 4',
+    '"Насколько качественно стажер выполняет поставленные задачи?": 4',
+    '"Насколько самостоятельно стажер выполняет поставленные задачи?": 2',
+    '"Насколько стажер соблюдает сроки и организует свою работу?": 5',
+    '"Насколько стажер вовлечен в работу и проявляет инициативу?": 3',
+    '"Насколько эффективно стажер взаимодействует с наставником и командой?": 3',
+])
+
+
+def test_yandex_customer_intern_form(client, monkeypatch):
+    fake_ml(monkeypatch)
+    registered = client.post("/api/v2/pairs", json={
+        "intern_id": "СТ-001", "mentor_id": "Н-001", "department": "Технический блок"})
+    assert registered.status_code == 200, registered.text
+    payload = {"jsonrpc": "2.0", "method": "submit", "id": 763457791, "params": {
+        "s_intern_id": "СТ-001", "s_name": "СТ-001", "s_direction": "Технический блок",
+        "s_month": "Месяц 5", "s_role": "intern", "f_review": INTERN_GRID,
+        "q_issues": "Нагрузка выше нормы", "q_barriers": "Мало обратной связи"}}
+    first = client.post("/api/v2/forms/yandex", json=payload).json()
+    assert first["result"]["status"] == "accepted", first
+    record = [r for r in current_records() if r["role"] == "intern"][-1]
+    assert record["ratings"] == {"clarity": 4, "support": 4, "workload": 5, "interest": 3,
+                                 "growth": 2, "team": 5, "satisfaction": 4}
+    assert record["texts"]["difficulties"] == "Нагрузка выше нормы"
+    assert record["texts"]["barriers"] == "Мало обратной связи"
+    assert record["month"] == 5 and record["intern_id"] == "СТ-001"
+    assert client.post("/api/v2/forms/yandex", json=payload).json()["result"]["status"] == "duplicate"
+
+
+def test_yandex_customer_mentor_form(client, monkeypatch):
+    fake_ml(monkeypatch)
+    payload = {"jsonrpc": "2.0", "method": "submit", "id": 763457792, "params": {
+        "s_mentor_id": "Н-001", "s_mentor": "Н-001", "s_intern_id": "СТ-001", "s_name": "СТ-001",
+        "s_direction": "Технический блок", "s_month": "Месяц 2", "s_role": "mentor",
+        "f_review": MENTOR_GRID, "q_comment": "Работает ровно", "q_attention": "Мало самостоятельности"}}
+    first = client.post("/api/v2/forms/yandex", json=payload).json()
+    assert first["result"]["status"] == "accepted", first
+    record = [r for r in current_records() if r["role"] == "mentor"][-1]
+    assert record["ratings"] == {"clarity": 4, "quality": 4, "autonomy": 2,
+                                 "deadlines": 5, "initiative": 3, "team": 3}
+    assert record["texts"] == {"comment": "Работает ровно", "attention": "Мало самостоятельности"}

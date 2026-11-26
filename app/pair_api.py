@@ -1,6 +1,7 @@
 """Local dashboard persistence and transport for ML-owned v2 analytics."""
 import hmac
 import json
+import re
 import uuid
 from threading import Lock
 from time import perf_counter
@@ -195,6 +196,92 @@ def receive(payload: SurveyInput, background: BackgroundTasks,
     return result
 
 
+# ---------------------------------------------------------------- формы в Яндексе
+# Наша форма собрана по структуре заказчика: служебные поля с префиксом s_,
+# открытые ответы q_, а все оценки приходят одной сеткой f_review строками
+# «"критерий": оценка». Здесь она приводится к каноническому виду.
+
+_INTERN_GRID = {
+    "Мне понятно, каких результатов от меня ожидают по текущим задачам.": "clarity",
+    "Я получаю достаточно поддержки и обратной связи от наставника.": "support",
+    "Моя текущая загрузка комфортна и позволяет качественно выполнять задачи.": "workload",
+    "Мне интересны задачи, над которыми я работаю.": "interest",
+    "Я чувствую, что в процессе стажировки развиваю полезные для себя навыки.": "growth",
+    "Мне комфортно взаимодействовать с командой.": "team",
+    "В целом я доволен тем, как проходит моя стажировка.": "satisfaction",
+}
+
+_MENTOR_GRID = {
+    "Насколько стажер понимает поставленные задачи и ожидаемый результат?": "clarity",
+    "Насколько качественно стажер выполняет поставленные задачи?": "quality",
+    "Насколько самостоятельно стажер выполняет поставленные задачи?": "autonomy",
+    "Насколько стажер соблюдает сроки и организует свою работу?": "deadlines",
+    "Насколько стажер вовлечен в работу и проявляет инициативу?": "initiative",
+    "Насколько эффективно стажер взаимодействует с наставником и командой?": "team",
+}
+
+
+def _question_key(text: str) -> str:
+    """Ключ сравнения формулировок: без кавычек, регистра, ё и пунктуации."""
+    value = str(text or "").strip().strip('"«»').casefold().replace("ё", "е")
+    value = re.sub(r"[^0-9a-zа-я\s]", " ", value)
+    return " ".join(value.split())
+
+
+_GRID_TABLES = {
+    role: {_question_key(question): key for question, key in table.items()}
+    for role, table in (("intern", _INTERN_GRID), ("mentor", _MENTOR_GRID))
+}
+
+
+def parse_rating_grid(value: object, role: str) -> dict[str, int]:
+    """Разбирает сетку оценок формы: строки вида «"критерий": 4»."""
+    table = _GRID_TABLES.get(role) or {}
+    ratings: dict[str, int] = {}
+    for line in str(value or "").splitlines():
+        match = re.match(r'^\s*["«]?(.+?)["»]?\s*:\s*([1-5])\s*$', line)
+        if not match:
+            continue
+        key = table.get(_question_key(match.group(1)))
+        if key:
+            ratings[key] = int(match.group(2))
+    return ratings
+
+
+def canonical_yandex_params(params: dict, response_id: object = None) -> dict:
+    """Поля формы в Яндексе → канонические имена. Канонический вход не трогаем."""
+    if "intern_id" in params or "ratings" in params or "department" in params:
+        return params
+    role = params.get("s_role") or params.get("role")
+    texts: dict[str, str] = {}
+    if role == "mentor":
+        if params.get("q_comment"):
+            texts["comment"] = str(params["q_comment"])
+        if params.get("q_attention"):
+            texts["attention"] = str(params["q_attention"])
+    else:
+        if params.get("q_issues"):
+            texts["difficulties"] = str(params["q_issues"])
+        if params.get("q_barriers"):
+            texts["barriers"] = str(params["q_barriers"])
+    canonical = {
+        "intern_id": params.get("s_intern_id") or params.get("s_name"),
+        "mentor_id": params.get("s_mentor_id") or params.get("s_mentor"),
+        "department": params.get("s_direction"),
+        "role": role,
+        "month": params.get("s_month") if params.get("s_month") is not None else params.get("month"),
+        "ratings": parse_rating_grid(params.get("f_review"), role),
+        "texts": texts,
+        "response_id": response_id if response_id is not None else params.get("response_id"),
+    }
+    if params.get("form_id") is not None:
+        canonical["form_id"] = params["form_id"]
+    if params.get("revision_id") is not None:
+        canonical["revision_id"] = params["revision_id"]
+    return canonical
+
+
+
 def normalize_form(payload: dict) -> SurveyInput:
     """Configured JSON-RPC params use explicit canonical question identifiers."""
     params = payload.get("params", payload)
@@ -276,6 +363,13 @@ async def yandex(request: Request, background: BackgroundTasks,
         supplied = params.pop("key", None)
         require_key(x_ingest_key or (supplied if isinstance(supplied, str) else None))
         payload.pop("key", None)
+        raw_payload = payload
+        # Форма заказчика присылает s_* и сетку f_review: приводим к каноническим
+        # именам до проверки роли и разбора анкеты.
+        params = canonical_yandex_params(
+            params,
+            response_id=(str(payload.get("id")) if payload.get("id") is not None else None),
+        )
         role, form_id = params.get("role"), params.get("form_id")
         if type(form_id) is int:
             form_id = str(form_id)
@@ -288,7 +382,7 @@ async def yandex(request: Request, background: BackgroundTasks,
             raise ValueError("wrong_form_id")
         if "jsonrpc" in payload and (payload["jsonrpc"] != "2.0" or payload.get("method") != "submit"):
             raise ValueError("invalid_rpc_method")
-        survey = normalize_form(payload)
+        survey = normalize_form({"params": params})
         response_id = survey.external_id
         revision_id = params.get("revision_id")
         if not response_id:
@@ -297,7 +391,7 @@ async def yandex(request: Request, background: BackgroundTasks,
         event_id = "yandex:" + digest([form_id, response_id,
                                        revision_id or digest(survey.model_dump(mode="json"))])
         with write_lock, connect() as db:
-            result = accept(db, survey, event_id, payload)
+            result = accept(db, survey, event_id, raw_payload)
             note_yandex(db, role, form_id, accepted=int(result["status"] == "accepted"))
         if result["status"] == "accepted":
             broker.publish({"type": "pair_survey_received", "source_id": result["source_id"]})

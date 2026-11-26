@@ -54,7 +54,7 @@ class DeepSeekProvider:
 
     def __init__(self, config: DeepSeekConfig | None = None, component: Component = "signal_extractor",
                  *, transport: httpx.AsyncBaseTransport | None = None, limiter: asyncio.Semaphore | None = None):
-        if component not in {"signal_extractor", "rule_extractor", "semantic_validator"}:
+        if component not in {"signal_extractor", "rule_extractor", "semantic_validator", "summary_builder"}:
             raise ValueError("unknown_nlp_component")
         if os.getenv("MGTS_ALLOW_SYNTHETIC_LLM") != "1":
             raise ValueError("synthetic_llm_opt_in_required")

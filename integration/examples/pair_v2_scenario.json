@@ -1,0 +1,203 @@
+{
+  "request": {
+    "scope": {
+      "type": "PAIR_MONTH",
+      "pair_id": "pair-b79a76c6c1557104",
+      "start": 1,
+      "end": 1
+    },
+    "selected": [
+      {
+        "action_id": "action_pair_clarity",
+        "scope": {
+          "type": "PAIR_MONTH",
+          "pair_id": "pair-b79a76c6c1557104",
+          "start": 1,
+          "end": 1
+        }
+      }
+    ]
+  },
+  "indices": {
+    "x": 7.5,
+    "y": 17.5,
+    "z": 12.5,
+    "actual": {
+      "x": 27.5,
+      "y": 32.5,
+      "z": 30.0
+    },
+    "scenario": {
+      "x": 7.5,
+      "y": 17.5,
+      "z": 12.5
+    },
+    "bands": {
+      "x": "green",
+      "y": "green"
+    },
+    "coverage": 1.0,
+    "observation_count": 1,
+    "eligible_count": 1,
+    "observations": [
+      {
+        "pair_id": "pair-b79a76c6c1557104",
+        "month": 1
+      }
+    ],
+    "side_statistics": {
+      "mentor": {
+        "mean": 7.5,
+        "count": 1
+      },
+      "intern": {
+        "mean": 17.5,
+        "count": 1
+      }
+    },
+    "received_surveys": 2,
+    "expected_surveys": 2,
+    "risk_distribution": {
+      "green": 1,
+      "yellow": 0,
+      "red": 0,
+      "gray": 0
+    },
+    "factor_contributions": {
+      "x": [
+        {
+          "id": "clarity",
+          "name": "Понимание задач и ожиданий",
+          "contribution": 20.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:clarity:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        },
+        {
+          "id": "quality",
+          "name": "Качество выполнения задач",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:quality:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        },
+        {
+          "id": "autonomy",
+          "name": "Самостоятельность",
+          "contribution": 7.5,
+          "scenario_contribution": 7.5,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:autonomy:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        },
+        {
+          "id": "deadlines",
+          "name": "Сроки и организация работы",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:deadlines:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        },
+        {
+          "id": "initiative",
+          "name": "Вовлечённость и инициативность",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:initiative:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        },
+        {
+          "id": "team",
+          "name": "Взаимодействие с наставником и командой",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:team:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        }
+      ],
+      "y": [
+        {
+          "id": "clarity",
+          "name": "Понятность задач",
+          "contribution": 15.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:clarity:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "support",
+          "name": "Поддержка и обратная связь наставника",
+          "contribution": 10.0,
+          "scenario_contribution": 10.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:support:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "workload",
+          "name": "Комфортность нагрузки",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:workload:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "interest",
+          "name": "Интерес к задачам",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:interest:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "growth",
+          "name": "Профессиональное развитие",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:growth:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "team",
+          "name": "Взаимодействие с командой",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:team:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "satisfaction",
+          "name": "Общая удовлетворённость стажировкой",
+          "contribution": 7.5,
+          "scenario_contribution": 7.5,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:satisfaction:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        }
+      ]
+    }
+  }
+}

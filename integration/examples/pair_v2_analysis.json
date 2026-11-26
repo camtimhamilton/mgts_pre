@@ -1,0 +1,4239 @@
+{
+  "analysis_version": "4e8e6cf033558b673a37f1beb3ef1f067ead7e0ea0bf964452cd7807c4fd8bf7",
+  "methodology": {
+    "version": "2.0.1-expert-draft",
+    "status": "expert_project_assumption",
+    "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+    "min_coverage": 0.7,
+    "thresholds": {
+      "yellow": 30,
+      "red": 70
+    }
+  },
+  "scope": {
+    "type": "PAIR_MONTH",
+    "pair_id": "pair-b79a76c6c1557104",
+    "start": 1,
+    "end": 1
+  },
+  "updated_at": "2026-11-26T08:24:27.015751+00:00",
+  "matrix": [
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "mentor_id": "demo-M",
+      "intern_id": "demo-I",
+      "department": "Учебное направление",
+      "months": [
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "x": {
+            "score": 27.5,
+            "actual_score": 27.5,
+            "band": "green",
+            "coverage": 1.0,
+            "status": "completed",
+            "factors": [
+              {
+                "id": "clarity",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:clarity:v1:survey-fb49299340c84731907222ff2edeb08b",
+                "name": "Понимание задач и ожиданий",
+                "weight": 20.0,
+                "severity": 1,
+                "state": "active",
+                "contribution": 20.0,
+                "scenario_contribution": 20.0,
+                "rating": 2,
+                "rule_id": "rule_mentor_clarity",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "e39f7a6c3537170a8e95",
+                    "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "mentor",
+                    "question_id": "clarity",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 2,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_mentor_clarity",
+                    "temporal_status": null,
+                    "polarity": null
+                  }
+                ],
+                "score_evidence_refs": [
+                  "e39f7a6c3537170a8e95"
+                ]
+              },
+              {
+                "id": "quality",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:quality:v1:survey-fb49299340c84731907222ff2edeb08b",
+                "name": "Качество выполнения задач",
+                "weight": 20.0,
+                "severity": 0,
+                "state": "observed_no_signal",
+                "contribution": 0.0,
+                "scenario_contribution": 0.0,
+                "rating": 4,
+                "rule_id": "rule_mentor_quality",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "5570769a4b70e6ffb564",
+                    "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "mentor",
+                    "question_id": "quality",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 4,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_mentor_quality",
+                    "temporal_status": null,
+                    "polarity": null
+                  }
+                ],
+                "score_evidence_refs": [
+                  "5570769a4b70e6ffb564"
+                ]
+              },
+              {
+                "id": "autonomy",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:autonomy:v1:survey-fb49299340c84731907222ff2edeb08b",
+                "name": "Самостоятельность",
+                "weight": 15.0,
+                "severity": 0.5,
+                "state": "active",
+                "contribution": 7.5,
+                "scenario_contribution": 7.5,
+                "rating": 3,
+                "rule_id": "rule_mentor_autonomy",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "102cb7e04bf7649b343f",
+                    "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "mentor",
+                    "question_id": "autonomy",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 3,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_mentor_autonomy",
+                    "temporal_status": null,
+                    "polarity": null
+                  },
+                  {
+                    "id": "64ac8409bb5c37c4585f",
+                    "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "mentor",
+                    "question_id": "comment",
+                    "quote": "Работает самостоятельно.",
+                    "kind": "text",
+                    "value": null,
+                    "validation_status": "accepted",
+                    "rule_id": "text.mentor.autonomy",
+                    "temporal_status": "current",
+                    "polarity": "positive"
+                  }
+                ],
+                "score_evidence_refs": [
+                  "102cb7e04bf7649b343f"
+                ]
+              },
+              {
+                "id": "deadlines",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:deadlines:v1:survey-fb49299340c84731907222ff2edeb08b",
+                "name": "Сроки и организация работы",
+                "weight": 15.0,
+                "severity": 0,
+                "state": "observed_no_signal",
+                "contribution": 0.0,
+                "scenario_contribution": 0.0,
+                "rating": 5,
+                "rule_id": "rule_mentor_deadlines",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "1fc82934d7471cfaaaeb",
+                    "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "mentor",
+                    "question_id": "deadlines",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 5,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_mentor_deadlines",
+                    "temporal_status": null,
+                    "polarity": null
+                  }
+                ],
+                "score_evidence_refs": [
+                  "1fc82934d7471cfaaaeb"
+                ]
+              },
+              {
+                "id": "initiative",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:initiative:v1:survey-fb49299340c84731907222ff2edeb08b",
+                "name": "Вовлечённость и инициативность",
+                "weight": 15.0,
+                "severity": 0,
+                "state": "observed_no_signal",
+                "contribution": 0.0,
+                "scenario_contribution": 0.0,
+                "rating": 4,
+                "rule_id": "rule_mentor_initiative",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "8e1bb21d2b8661a70dcc",
+                    "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "mentor",
+                    "question_id": "initiative",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 4,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_mentor_initiative",
+                    "temporal_status": null,
+                    "polarity": null
+                  }
+                ],
+                "score_evidence_refs": [
+                  "8e1bb21d2b8661a70dcc"
+                ]
+              },
+              {
+                "id": "team",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:team:v1:survey-fb49299340c84731907222ff2edeb08b",
+                "name": "Взаимодействие с наставником и командой",
+                "weight": 15.0,
+                "severity": 0,
+                "state": "observed_no_signal",
+                "contribution": 0.0,
+                "scenario_contribution": 0.0,
+                "rating": 5,
+                "rule_id": "rule_mentor_team",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "bb3dc56217094488d620",
+                    "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "mentor",
+                    "question_id": "team",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 5,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_mentor_team",
+                    "temporal_status": null,
+                    "polarity": null
+                  }
+                ],
+                "score_evidence_refs": [
+                  "bb3dc56217094488d620"
+                ]
+              }
+            ],
+            "unknown_factors": [],
+            "evidence": [
+              {
+                "id": "e39f7a6c3537170a8e95",
+                "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "mentor",
+                "question_id": "clarity",
+                "quote": null,
+                "kind": "rating",
+                "value": 2,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_mentor_clarity",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "5570769a4b70e6ffb564",
+                "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "mentor",
+                "question_id": "quality",
+                "quote": null,
+                "kind": "rating",
+                "value": 4,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_mentor_quality",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "102cb7e04bf7649b343f",
+                "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "mentor",
+                "question_id": "autonomy",
+                "quote": null,
+                "kind": "rating",
+                "value": 3,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_mentor_autonomy",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "64ac8409bb5c37c4585f",
+                "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "mentor",
+                "question_id": "comment",
+                "quote": "Работает самостоятельно.",
+                "kind": "text",
+                "value": null,
+                "validation_status": "accepted",
+                "rule_id": "text.mentor.autonomy",
+                "temporal_status": "current",
+                "polarity": "positive"
+              },
+              {
+                "id": "1fc82934d7471cfaaaeb",
+                "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "mentor",
+                "question_id": "deadlines",
+                "quote": null,
+                "kind": "rating",
+                "value": 5,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_mentor_deadlines",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "8e1bb21d2b8661a70dcc",
+                "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "mentor",
+                "question_id": "initiative",
+                "quote": null,
+                "kind": "rating",
+                "value": 4,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_mentor_initiative",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "bb3dc56217094488d620",
+                "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "mentor",
+                "question_id": "team",
+                "quote": null,
+                "kind": "rating",
+                "value": 5,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_mentor_team",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "d6b2ddcda6d16eaa1d22",
+                "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "mentor",
+                "question_id": "comment",
+                "quote": "Работает самостоятельно.",
+                "kind": "text",
+                "value": null,
+                "validation_status": null,
+                "rule_id": null,
+                "temporal_status": null,
+                "polarity": null
+              }
+            ],
+            "critical_flags": [],
+            "signals": [
+              {
+                "assertion": "Работает самостоятельно.",
+                "factor_id": "autonomy",
+                "intern_id": "demo-I",
+                "month": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "polarity": "positive",
+                "question_id": "comment",
+                "quote": "Работает самостоятельно.",
+                "role": "mentor",
+                "rule_id": "text.mentor.autonomy",
+                "severity": "none",
+                "signal_id": "f877f2ad920401c54c1af835",
+                "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+                "temporal_status": "current",
+                "validation_status": "accepted",
+                "version": 1
+              }
+            ],
+            "text_analysis_status": "completed",
+            "text_interpretation_status": "local_matched",
+            "unclassified_fragments": [],
+            "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+            "version": 1,
+            "nlp_audit": {
+              "calls": [],
+              "config_hash": "20caa7a91b8939c3bd59dae9f47f6c13d0151f9822e88bdb6baa63e66fce7a14",
+              "mode": "local_rules",
+              "pipeline": "pair-text-2.1.0"
+            },
+            "text_mode": "local_rules",
+            "nlp_identity": {
+              "version": "20caa7a91b8939c3bd59dae9f47f6c13d0151f9822e88bdb6baa63e66fce7a14",
+              "mode": "local_rules",
+              "pipeline": "pair-text-2.1.0",
+              "config_hash": "20caa7a91b8939c3bd59dae9f47f6c13d0151f9822e88bdb6baa63e66fce7a14",
+              "encoder_versions": []
+            }
+          },
+          "y": {
+            "score": 32.5,
+            "actual_score": 32.5,
+            "band": "yellow",
+            "coverage": 1.0,
+            "status": "completed",
+            "factors": [
+              {
+                "id": "clarity",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:clarity:v1:survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "name": "Понятность задач",
+                "weight": 15.0,
+                "severity": 1,
+                "state": "active",
+                "contribution": 15.0,
+                "scenario_contribution": 15.0,
+                "rating": 2,
+                "rule_id": "rule_intern_clarity",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "416f2103a4fcd5176b15",
+                    "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "intern",
+                    "question_id": "clarity",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 2,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_intern_clarity",
+                    "temporal_status": null,
+                    "polarity": null
+                  }
+                ],
+                "score_evidence_refs": [
+                  "416f2103a4fcd5176b15"
+                ]
+              },
+              {
+                "id": "support",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:support:v1:survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "name": "Поддержка и обратная связь наставника",
+                "weight": 20.0,
+                "severity": 0.5,
+                "state": "active",
+                "contribution": 10.0,
+                "scenario_contribution": 10.0,
+                "rating": 3,
+                "rule_id": "rule_intern_support",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "5687a120071004a44c81",
+                    "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "intern",
+                    "question_id": "support",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 3,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_intern_support",
+                    "temporal_status": null,
+                    "polarity": null
+                  },
+                  {
+                    "id": "c18bd0dc7fe329aba836",
+                    "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "intern",
+                    "question_id": "barriers",
+                    "quote": "Мне не хватает поддержки в учебном проекте.",
+                    "kind": "text",
+                    "value": null,
+                    "validation_status": "accepted",
+                    "rule_id": "text.intern.support",
+                    "temporal_status": "current",
+                    "polarity": "negative"
+                  }
+                ],
+                "score_evidence_refs": [
+                  "5687a120071004a44c81",
+                  "c18bd0dc7fe329aba836"
+                ]
+              },
+              {
+                "id": "workload",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:workload:v1:survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "name": "Комфортность нагрузки",
+                "weight": 15.0,
+                "severity": 0,
+                "state": "observed_no_signal",
+                "contribution": 0.0,
+                "scenario_contribution": 0.0,
+                "rating": 4,
+                "rule_id": "rule_intern_workload",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "678cec2572ef9f2de85f",
+                    "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "intern",
+                    "question_id": "workload",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 4,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_intern_workload",
+                    "temporal_status": null,
+                    "polarity": null
+                  }
+                ],
+                "score_evidence_refs": [
+                  "678cec2572ef9f2de85f"
+                ]
+              },
+              {
+                "id": "interest",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:interest:v1:survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "name": "Интерес к задачам",
+                "weight": 10.0,
+                "severity": 0,
+                "state": "observed_no_signal",
+                "contribution": 0.0,
+                "scenario_contribution": 0.0,
+                "rating": 4,
+                "rule_id": "rule_intern_interest",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "40bda9c8f210610a6384",
+                    "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "intern",
+                    "question_id": "interest",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 4,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_intern_interest",
+                    "temporal_status": null,
+                    "polarity": null
+                  }
+                ],
+                "score_evidence_refs": [
+                  "40bda9c8f210610a6384"
+                ]
+              },
+              {
+                "id": "growth",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:growth:v1:survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "name": "Профессиональное развитие",
+                "weight": 15.0,
+                "severity": 0,
+                "state": "observed_no_signal",
+                "contribution": 0.0,
+                "scenario_contribution": 0.0,
+                "rating": 5,
+                "rule_id": "rule_intern_growth",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "032ab7b1339b01ce100f",
+                    "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "intern",
+                    "question_id": "growth",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 5,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_intern_growth",
+                    "temporal_status": null,
+                    "polarity": null
+                  }
+                ],
+                "score_evidence_refs": [
+                  "032ab7b1339b01ce100f"
+                ]
+              },
+              {
+                "id": "team",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:team:v1:survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "name": "Взаимодействие с командой",
+                "weight": 10.0,
+                "severity": 0,
+                "state": "observed_no_signal",
+                "contribution": 0.0,
+                "scenario_contribution": 0.0,
+                "rating": 4,
+                "rule_id": "rule_intern_team",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "4a83ba35e2828006f6c5",
+                    "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "intern",
+                    "question_id": "team",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 4,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_intern_team",
+                    "temporal_status": null,
+                    "polarity": null
+                  }
+                ],
+                "score_evidence_refs": [
+                  "4a83ba35e2828006f6c5"
+                ]
+              },
+              {
+                "id": "satisfaction",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:satisfaction:v1:survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "name": "Общая удовлетворённость стажировкой",
+                "weight": 15.0,
+                "severity": 0.5,
+                "state": "active",
+                "contribution": 7.5,
+                "scenario_contribution": 7.5,
+                "rating": 3,
+                "rule_id": "rule_intern_satisfaction",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 1, 3 → 0.5, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+                "rule_status": "expert_project_assumption",
+                "validation_status": "deterministic_mapping",
+                "review_flags": [],
+                "evidence": [
+                  {
+                    "id": "d1a1a8c3c60912c6ece7",
+                    "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                    "version": 1,
+                    "pair_id": "pair-b79a76c6c1557104",
+                    "month": 1,
+                    "role": "intern",
+                    "question_id": "satisfaction",
+                    "quote": null,
+                    "kind": "rating",
+                    "value": 3,
+                    "validation_status": "deterministic_mapping",
+                    "rule_id": "rule_intern_satisfaction",
+                    "temporal_status": null,
+                    "polarity": null
+                  }
+                ],
+                "score_evidence_refs": [
+                  "d1a1a8c3c60912c6ece7"
+                ]
+              }
+            ],
+            "unknown_factors": [],
+            "evidence": [
+              {
+                "id": "416f2103a4fcd5176b15",
+                "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "intern",
+                "question_id": "clarity",
+                "quote": null,
+                "kind": "rating",
+                "value": 2,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_intern_clarity",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "5687a120071004a44c81",
+                "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "intern",
+                "question_id": "support",
+                "quote": null,
+                "kind": "rating",
+                "value": 3,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_intern_support",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "c18bd0dc7fe329aba836",
+                "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "intern",
+                "question_id": "barriers",
+                "quote": "Мне не хватает поддержки в учебном проекте.",
+                "kind": "text",
+                "value": null,
+                "validation_status": "accepted",
+                "rule_id": "text.intern.support",
+                "temporal_status": "current",
+                "polarity": "negative"
+              },
+              {
+                "id": "678cec2572ef9f2de85f",
+                "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "intern",
+                "question_id": "workload",
+                "quote": null,
+                "kind": "rating",
+                "value": 4,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_intern_workload",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "40bda9c8f210610a6384",
+                "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "intern",
+                "question_id": "interest",
+                "quote": null,
+                "kind": "rating",
+                "value": 4,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_intern_interest",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "032ab7b1339b01ce100f",
+                "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "intern",
+                "question_id": "growth",
+                "quote": null,
+                "kind": "rating",
+                "value": 5,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_intern_growth",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "4a83ba35e2828006f6c5",
+                "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "intern",
+                "question_id": "team",
+                "quote": null,
+                "kind": "rating",
+                "value": 4,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_intern_team",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "d1a1a8c3c60912c6ece7",
+                "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "intern",
+                "question_id": "satisfaction",
+                "quote": null,
+                "kind": "rating",
+                "value": 3,
+                "validation_status": "deterministic_mapping",
+                "rule_id": "rule_intern_satisfaction",
+                "temporal_status": null,
+                "polarity": null
+              },
+              {
+                "id": "f61110f822778b77ffd2",
+                "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "version": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "month": 1,
+                "role": "intern",
+                "question_id": "barriers",
+                "quote": "Мне не хватает поддержки в учебном проекте.",
+                "kind": "text",
+                "value": null,
+                "validation_status": null,
+                "rule_id": null,
+                "temporal_status": null,
+                "polarity": null
+              }
+            ],
+            "critical_flags": [],
+            "signals": [
+              {
+                "assertion": "Мне не хватает поддержки в учебном проекте.",
+                "factor_id": "support",
+                "intern_id": "demo-I",
+                "month": 1,
+                "pair_id": "pair-b79a76c6c1557104",
+                "polarity": "negative",
+                "question_id": "barriers",
+                "quote": "Мне не хватает поддержки в учебном проекте.",
+                "role": "intern",
+                "rule_id": "text.intern.support",
+                "severity": "moderate",
+                "signal_id": "fddae118a01acc66178003d8",
+                "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+                "temporal_status": "current",
+                "validation_status": "accepted",
+                "version": 1
+              }
+            ],
+            "text_analysis_status": "completed",
+            "text_interpretation_status": "local_matched",
+            "unclassified_fragments": [],
+            "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+            "version": 1,
+            "nlp_audit": {
+              "calls": [],
+              "config_hash": "20caa7a91b8939c3bd59dae9f47f6c13d0151f9822e88bdb6baa63e66fce7a14",
+              "mode": "local_rules",
+              "pipeline": "pair-text-2.1.0"
+            },
+            "text_mode": "local_rules",
+            "nlp_identity": {
+              "version": "20caa7a91b8939c3bd59dae9f47f6c13d0151f9822e88bdb6baa63e66fce7a14",
+              "mode": "local_rules",
+              "pipeline": "pair-text-2.1.0",
+              "config_hash": "20caa7a91b8939c3bd59dae9f47f6c13d0151f9822e88bdb6baa63e66fce7a14",
+              "encoder_versions": []
+            }
+          },
+          "z": 30.0,
+          "eligible": true,
+          "actual": {
+            "x": 27.5,
+            "y": 32.5,
+            "z": 30.0
+          },
+          "scenario": {
+            "x": 27.5,
+            "y": 32.5,
+            "z": 30.0
+          }
+        },
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 2,
+          "x": {
+            "score": null,
+            "actual_score": null,
+            "band": "gray",
+            "coverage": 0.0,
+            "status": "missing",
+            "factors": [],
+            "unknown_factors": [
+              "clarity",
+              "quality",
+              "autonomy",
+              "deadlines",
+              "initiative",
+              "team"
+            ],
+            "evidence": [],
+            "critical_flags": [],
+            "signals": [],
+            "text_analysis_status": "missing",
+            "text_interpretation_status": "missing",
+            "unclassified_fragments": [],
+            "source_id": null,
+            "version": null,
+            "nlp_audit": {},
+            "text_mode": "missing",
+            "nlp_identity": {}
+          },
+          "y": {
+            "score": null,
+            "actual_score": null,
+            "band": "gray",
+            "coverage": 0.0,
+            "status": "missing",
+            "factors": [],
+            "unknown_factors": [
+              "clarity",
+              "support",
+              "workload",
+              "interest",
+              "growth",
+              "team",
+              "satisfaction"
+            ],
+            "evidence": [],
+            "critical_flags": [],
+            "signals": [],
+            "text_analysis_status": "missing",
+            "text_interpretation_status": "missing",
+            "unclassified_fragments": [],
+            "source_id": null,
+            "version": null,
+            "nlp_audit": {},
+            "text_mode": "missing",
+            "nlp_identity": {}
+          },
+          "z": null,
+          "eligible": false,
+          "actual": {
+            "x": null,
+            "y": null,
+            "z": null
+          },
+          "scenario": {
+            "x": null,
+            "y": null,
+            "z": null
+          }
+        },
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 3,
+          "x": {
+            "score": null,
+            "actual_score": null,
+            "band": "gray",
+            "coverage": 0.0,
+            "status": "missing",
+            "factors": [],
+            "unknown_factors": [
+              "clarity",
+              "quality",
+              "autonomy",
+              "deadlines",
+              "initiative",
+              "team"
+            ],
+            "evidence": [],
+            "critical_flags": [],
+            "signals": [],
+            "text_analysis_status": "missing",
+            "text_interpretation_status": "missing",
+            "unclassified_fragments": [],
+            "source_id": null,
+            "version": null,
+            "nlp_audit": {},
+            "text_mode": "missing",
+            "nlp_identity": {}
+          },
+          "y": {
+            "score": null,
+            "actual_score": null,
+            "band": "gray",
+            "coverage": 0.0,
+            "status": "missing",
+            "factors": [],
+            "unknown_factors": [
+              "clarity",
+              "support",
+              "workload",
+              "interest",
+              "growth",
+              "team",
+              "satisfaction"
+            ],
+            "evidence": [],
+            "critical_flags": [],
+            "signals": [],
+            "text_analysis_status": "missing",
+            "text_interpretation_status": "missing",
+            "unclassified_fragments": [],
+            "source_id": null,
+            "version": null,
+            "nlp_audit": {},
+            "text_mode": "missing",
+            "nlp_identity": {}
+          },
+          "z": null,
+          "eligible": false,
+          "actual": {
+            "x": null,
+            "y": null,
+            "z": null
+          },
+          "scenario": {
+            "x": null,
+            "y": null,
+            "z": null
+          }
+        },
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 4,
+          "x": {
+            "score": null,
+            "actual_score": null,
+            "band": "gray",
+            "coverage": 0.0,
+            "status": "missing",
+            "factors": [],
+            "unknown_factors": [
+              "clarity",
+              "quality",
+              "autonomy",
+              "deadlines",
+              "initiative",
+              "team"
+            ],
+            "evidence": [],
+            "critical_flags": [],
+            "signals": [],
+            "text_analysis_status": "missing",
+            "text_interpretation_status": "missing",
+            "unclassified_fragments": [],
+            "source_id": null,
+            "version": null,
+            "nlp_audit": {},
+            "text_mode": "missing",
+            "nlp_identity": {}
+          },
+          "y": {
+            "score": null,
+            "actual_score": null,
+            "band": "gray",
+            "coverage": 0.0,
+            "status": "missing",
+            "factors": [],
+            "unknown_factors": [
+              "clarity",
+              "support",
+              "workload",
+              "interest",
+              "growth",
+              "team",
+              "satisfaction"
+            ],
+            "evidence": [],
+            "critical_flags": [],
+            "signals": [],
+            "text_analysis_status": "missing",
+            "text_interpretation_status": "missing",
+            "unclassified_fragments": [],
+            "source_id": null,
+            "version": null,
+            "nlp_audit": {},
+            "text_mode": "missing",
+            "nlp_identity": {}
+          },
+          "z": null,
+          "eligible": false,
+          "actual": {
+            "x": null,
+            "y": null,
+            "z": null
+          },
+          "scenario": {
+            "x": null,
+            "y": null,
+            "z": null
+          }
+        },
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 5,
+          "x": {
+            "score": null,
+            "actual_score": null,
+            "band": "gray",
+            "coverage": 0.0,
+            "status": "missing",
+            "factors": [],
+            "unknown_factors": [
+              "clarity",
+              "quality",
+              "autonomy",
+              "deadlines",
+              "initiative",
+              "team"
+            ],
+            "evidence": [],
+            "critical_flags": [],
+            "signals": [],
+            "text_analysis_status": "missing",
+            "text_interpretation_status": "missing",
+            "unclassified_fragments": [],
+            "source_id": null,
+            "version": null,
+            "nlp_audit": {},
+            "text_mode": "missing",
+            "nlp_identity": {}
+          },
+          "y": {
+            "score": null,
+            "actual_score": null,
+            "band": "gray",
+            "coverage": 0.0,
+            "status": "missing",
+            "factors": [],
+            "unknown_factors": [
+              "clarity",
+              "support",
+              "workload",
+              "interest",
+              "growth",
+              "team",
+              "satisfaction"
+            ],
+            "evidence": [],
+            "critical_flags": [],
+            "signals": [],
+            "text_analysis_status": "missing",
+            "text_interpretation_status": "missing",
+            "unclassified_fragments": [],
+            "source_id": null,
+            "version": null,
+            "nlp_audit": {},
+            "text_mode": "missing",
+            "nlp_identity": {}
+          },
+          "z": null,
+          "eligible": false,
+          "actual": {
+            "x": null,
+            "y": null,
+            "z": null
+          },
+          "scenario": {
+            "x": null,
+            "y": null,
+            "z": null
+          }
+        },
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 6,
+          "x": {
+            "score": null,
+            "actual_score": null,
+            "band": "gray",
+            "coverage": 0.0,
+            "status": "missing",
+            "factors": [],
+            "unknown_factors": [
+              "clarity",
+              "quality",
+              "autonomy",
+              "deadlines",
+              "initiative",
+              "team"
+            ],
+            "evidence": [],
+            "critical_flags": [],
+            "signals": [],
+            "text_analysis_status": "missing",
+            "text_interpretation_status": "missing",
+            "unclassified_fragments": [],
+            "source_id": null,
+            "version": null,
+            "nlp_audit": {},
+            "text_mode": "missing",
+            "nlp_identity": {}
+          },
+          "y": {
+            "score": null,
+            "actual_score": null,
+            "band": "gray",
+            "coverage": 0.0,
+            "status": "missing",
+            "factors": [],
+            "unknown_factors": [
+              "clarity",
+              "support",
+              "workload",
+              "interest",
+              "growth",
+              "team",
+              "satisfaction"
+            ],
+            "evidence": [],
+            "critical_flags": [],
+            "signals": [],
+            "text_analysis_status": "missing",
+            "text_interpretation_status": "missing",
+            "unclassified_fragments": [],
+            "source_id": null,
+            "version": null,
+            "nlp_audit": {},
+            "text_mode": "missing",
+            "nlp_identity": {}
+          },
+          "z": null,
+          "eligible": false,
+          "actual": {
+            "x": null,
+            "y": null,
+            "z": null
+          },
+          "scenario": {
+            "x": null,
+            "y": null,
+            "z": null
+          }
+        }
+      ]
+    }
+  ],
+  "indices": {
+    "x": 27.5,
+    "y": 32.5,
+    "z": 30.0,
+    "actual": {
+      "x": 27.5,
+      "y": 32.5,
+      "z": 30.0
+    },
+    "scenario": {
+      "x": 27.5,
+      "y": 32.5,
+      "z": 30.0
+    },
+    "bands": {
+      "x": "green",
+      "y": "yellow"
+    },
+    "coverage": 1.0,
+    "observation_count": 1,
+    "eligible_count": 1,
+    "observations": [
+      {
+        "pair_id": "pair-b79a76c6c1557104",
+        "month": 1
+      }
+    ],
+    "side_statistics": {
+      "mentor": {
+        "mean": 27.5,
+        "count": 1
+      },
+      "intern": {
+        "mean": 32.5,
+        "count": 1
+      }
+    },
+    "received_surveys": 2,
+    "expected_surveys": 2,
+    "risk_distribution": {
+      "green": 0,
+      "yellow": 1,
+      "red": 0,
+      "gray": 0
+    },
+    "factor_contributions": {
+      "x": [
+        {
+          "id": "clarity",
+          "name": "Понимание задач и ожиданий",
+          "contribution": 20.0,
+          "scenario_contribution": 20.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:clarity:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        },
+        {
+          "id": "quality",
+          "name": "Качество выполнения задач",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:quality:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        },
+        {
+          "id": "autonomy",
+          "name": "Самостоятельность",
+          "contribution": 7.5,
+          "scenario_contribution": 7.5,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:autonomy:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        },
+        {
+          "id": "deadlines",
+          "name": "Сроки и организация работы",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:deadlines:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        },
+        {
+          "id": "initiative",
+          "name": "Вовлечённость и инициативность",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:initiative:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        },
+        {
+          "id": "team",
+          "name": "Взаимодействие с наставником и командой",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:team:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ]
+        }
+      ],
+      "y": [
+        {
+          "id": "clarity",
+          "name": "Понятность задач",
+          "contribution": 15.0,
+          "scenario_contribution": 15.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:clarity:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "support",
+          "name": "Поддержка и обратная связь наставника",
+          "contribution": 10.0,
+          "scenario_contribution": 10.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:support:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "workload",
+          "name": "Комфортность нагрузки",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:workload:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "interest",
+          "name": "Интерес к задачам",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:interest:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "growth",
+          "name": "Профессиональное развитие",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:growth:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "team",
+          "name": "Взаимодействие с командой",
+          "contribution": 0.0,
+          "scenario_contribution": 0.0,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:team:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        },
+        {
+          "id": "satisfaction",
+          "name": "Общая удовлетворённость стажировкой",
+          "contribution": 7.5,
+          "scenario_contribution": 7.5,
+          "known_count": 1,
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:satisfaction:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ]
+        }
+      ]
+    }
+  },
+  "sections": {
+    "pair": {
+      "title": "Взаимодействие пары",
+      "characteristic": "Области внимания по сохранённым ответам — Понимание задач и ожиданий, Самостоятельность, Понятность задач, Поддержка и обратная связь наставника, Общая удовлетворённость стажировкой. Фактический индекс М1: 30 балла. «Мне не хватает поддержки в учебном проекте.» — Стажёр, М1. В выбранной области 1 наблюдений «пара × месяц». Сопоставимые оценки расходятся в 0 случаях. Явные текстовые сопоставления доступны в 0 случаях.",
+      "generation": "deterministic_evidence_summary",
+      "claims": [
+        {
+          "text": "М1, Понимание задач и ожиданий — оценка 2/5, вклад 20 балла.",
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "evidence_refs": [
+            "e39f7a6c3537170a8e95"
+          ],
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:mentor:clarity:v1:survey-fb49299340c84731907222ff2edeb08b"
+        },
+        {
+          "text": "М1, Самостоятельность — оценка 3/5, вклад 7.5 балла.",
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "evidence_refs": [
+            "102cb7e04bf7649b343f"
+          ],
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:mentor:autonomy:v1:survey-fb49299340c84731907222ff2edeb08b"
+        },
+        {
+          "text": "М1, Понятность задач — оценка 2/5, вклад 15 балла.",
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "evidence_refs": [
+            "416f2103a4fcd5176b15"
+          ],
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:intern:clarity:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+        },
+        {
+          "text": "М1, Поддержка и обратная связь наставника — оценка 3/5, вклад 10 балла.",
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "evidence_refs": [
+            "5687a120071004a44c81",
+            "c18bd0dc7fe329aba836"
+          ],
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:intern:support:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+        },
+        {
+          "text": "М1, Общая удовлетворённость стажировкой — оценка 3/5, вклад 7.5 балла.",
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "evidence_refs": [
+            "d1a1a8c3c60912c6ece7"
+          ],
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:intern:satisfaction:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "e39f7a6c3537170a8e95",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "clarity",
+          "quote": null,
+          "kind": "rating",
+          "value": 2,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_clarity",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "5570769a4b70e6ffb564",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "quality",
+          "quote": null,
+          "kind": "rating",
+          "value": 4,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_quality",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "102cb7e04bf7649b343f",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "autonomy",
+          "quote": null,
+          "kind": "rating",
+          "value": 3,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_autonomy",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "64ac8409bb5c37c4585f",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "comment",
+          "quote": "Работает самостоятельно.",
+          "kind": "text",
+          "value": null,
+          "validation_status": "accepted",
+          "rule_id": "text.mentor.autonomy",
+          "temporal_status": "current",
+          "polarity": "positive"
+        },
+        {
+          "id": "1fc82934d7471cfaaaeb",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "deadlines",
+          "quote": null,
+          "kind": "rating",
+          "value": 5,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_deadlines",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "8e1bb21d2b8661a70dcc",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "initiative",
+          "quote": null,
+          "kind": "rating",
+          "value": 4,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_initiative",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "bb3dc56217094488d620",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "team",
+          "quote": null,
+          "kind": "rating",
+          "value": 5,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_team",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "d6b2ddcda6d16eaa1d22",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "comment",
+          "quote": "Работает самостоятельно.",
+          "kind": "text",
+          "value": null,
+          "validation_status": null,
+          "rule_id": null,
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "416f2103a4fcd5176b15",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "clarity",
+          "quote": null,
+          "kind": "rating",
+          "value": 2,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_clarity",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "5687a120071004a44c81",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "support",
+          "quote": null,
+          "kind": "rating",
+          "value": 3,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_support",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "c18bd0dc7fe329aba836",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "barriers",
+          "quote": "Мне не хватает поддержки в учебном проекте.",
+          "kind": "text",
+          "value": null,
+          "validation_status": "accepted",
+          "rule_id": "text.intern.support",
+          "temporal_status": "current",
+          "polarity": "negative"
+        },
+        {
+          "id": "678cec2572ef9f2de85f",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "workload",
+          "quote": null,
+          "kind": "rating",
+          "value": 4,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_workload",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "40bda9c8f210610a6384",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "interest",
+          "quote": null,
+          "kind": "rating",
+          "value": 4,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_interest",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "032ab7b1339b01ce100f",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "growth",
+          "quote": null,
+          "kind": "rating",
+          "value": 5,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_growth",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "4a83ba35e2828006f6c5",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "team",
+          "quote": null,
+          "kind": "rating",
+          "value": 4,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_team",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "d1a1a8c3c60912c6ece7",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "satisfaction",
+          "quote": null,
+          "kind": "rating",
+          "value": 3,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_satisfaction",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "f61110f822778b77ffd2",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "barriers",
+          "quote": "Мне не хватает поддержки в учебном проекте.",
+          "kind": "text",
+          "value": null,
+          "validation_status": null,
+          "rule_id": null,
+          "temporal_status": null,
+          "polarity": null
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "action_pair_clarity_3a43facd062f",
+          "action_id": "action_pair_clarity",
+          "scope": {
+            "type": "PAIR_MONTH",
+            "pair_id": "pair-b79a76c6c1557104",
+            "start": 1,
+            "end": 1
+          },
+          "impact_scope": "PAIR",
+          "title": "Согласовать задачи и критерии результата",
+          "name": "Согласовать задачи и критерии результата",
+          "rationale": "Подтверждённые активные факторы выбранной области",
+          "responsible": "mentor",
+          "target_factors": [
+            "clarity"
+          ],
+          "targets": [
+            "pair-b79a76c6c1557104:M1:mentor:clarity:v1:survey-fb49299340c84731907222ff2edeb08b",
+            "pair-b79a76c6c1557104:M1:intern:clarity:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ],
+          "target_observations": [
+            {
+              "pair_id": "pair-b79a76c6c1557104",
+              "month": 1,
+              "role": "mentor"
+            },
+            {
+              "pair_id": "pair-b79a76c6c1557104",
+              "month": 1,
+              "role": "intern"
+            }
+          ],
+          "evidence_refs": [
+            "416f2103a4fcd5176b15",
+            "e39f7a6c3537170a8e95"
+          ],
+          "delta": {
+            "x": 20.0,
+            "y": 15.0,
+            "z": 17.5
+          },
+          "additional_delta": {
+            "x": 20.0,
+            "y": 15.0,
+            "z": 17.5
+          },
+          "completion_criteria": "Зафиксированы задачи и критерии результата",
+          "resolution_criteria": "Обе стороны подтвердили понятность задач",
+          "status": "expert_project_assumption",
+          "assumption": "full_resolution"
+        }
+      ],
+      "critical_flags": [],
+      "coverage": 1.0,
+      "review_flags": [],
+      "history_summary": {
+        "first": {
+          "month": 1,
+          "score": 30.0,
+          "observation_count": 1,
+          "pair_ids": [
+            "pair-b79a76c6c1557104"
+          ],
+          "source_ids": [
+            "survey-d68f4843730f43ae9d8e4fcb12af7796",
+            "survey-fb49299340c84731907222ff2edeb08b"
+          ],
+          "evidence_refs": [
+            "032ab7b1339b01ce100f",
+            "102cb7e04bf7649b343f",
+            "1fc82934d7471cfaaaeb",
+            "40bda9c8f210610a6384",
+            "416f2103a4fcd5176b15",
+            "4a83ba35e2828006f6c5",
+            "5570769a4b70e6ffb564",
+            "5687a120071004a44c81",
+            "678cec2572ef9f2de85f",
+            "8e1bb21d2b8661a70dcc",
+            "bb3dc56217094488d620",
+            "c18bd0dc7fe329aba836",
+            "d1a1a8c3c60912c6ece7",
+            "e39f7a6c3537170a8e95"
+          ]
+        },
+        "last": {
+          "month": 1,
+          "score": 30.0,
+          "observation_count": 1,
+          "pair_ids": [
+            "pair-b79a76c6c1557104"
+          ],
+          "source_ids": [
+            "survey-d68f4843730f43ae9d8e4fcb12af7796",
+            "survey-fb49299340c84731907222ff2edeb08b"
+          ],
+          "evidence_refs": [
+            "032ab7b1339b01ce100f",
+            "102cb7e04bf7649b343f",
+            "1fc82934d7471cfaaaeb",
+            "40bda9c8f210610a6384",
+            "416f2103a4fcd5176b15",
+            "4a83ba35e2828006f6c5",
+            "5570769a4b70e6ffb564",
+            "5687a120071004a44c81",
+            "678cec2572ef9f2de85f",
+            "8e1bb21d2b8661a70dcc",
+            "bb3dc56217094488d620",
+            "c18bd0dc7fe329aba836",
+            "d1a1a8c3c60912c6ece7",
+            "e39f7a6c3537170a8e95"
+          ]
+        },
+        "max": {
+          "month": 1,
+          "score": 30.0,
+          "observation_count": 1,
+          "pair_ids": [
+            "pair-b79a76c6c1557104"
+          ],
+          "source_ids": [
+            "survey-d68f4843730f43ae9d8e4fcb12af7796",
+            "survey-fb49299340c84731907222ff2edeb08b"
+          ],
+          "evidence_refs": [
+            "032ab7b1339b01ce100f",
+            "102cb7e04bf7649b343f",
+            "1fc82934d7471cfaaaeb",
+            "40bda9c8f210610a6384",
+            "416f2103a4fcd5176b15",
+            "4a83ba35e2828006f6c5",
+            "5570769a4b70e6ffb564",
+            "5687a120071004a44c81",
+            "678cec2572ef9f2de85f",
+            "8e1bb21d2b8661a70dcc",
+            "bb3dc56217094488d620",
+            "c18bd0dc7fe329aba836",
+            "d1a1a8c3c60912c6ece7",
+            "e39f7a6c3537170a8e95"
+          ]
+        },
+        "timeline": [
+          {
+            "month": 1,
+            "score": 30.0,
+            "observation_count": 1,
+            "pair_ids": [
+              "pair-b79a76c6c1557104"
+            ],
+            "source_ids": [
+              "survey-d68f4843730f43ae9d8e4fcb12af7796",
+              "survey-fb49299340c84731907222ff2edeb08b"
+            ],
+            "evidence_refs": [
+              "032ab7b1339b01ce100f",
+              "102cb7e04bf7649b343f",
+              "1fc82934d7471cfaaaeb",
+              "40bda9c8f210610a6384",
+              "416f2103a4fcd5176b15",
+              "4a83ba35e2828006f6c5",
+              "5570769a4b70e6ffb564",
+              "5687a120071004a44c81",
+              "678cec2572ef9f2de85f",
+              "8e1bb21d2b8661a70dcc",
+              "bb3dc56217094488d620",
+              "c18bd0dc7fe329aba836",
+              "d1a1a8c3c60912c6ece7",
+              "e39f7a6c3537170a8e95"
+            ]
+          },
+          {
+            "month": 2,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 3,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 4,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 5,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 6,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          }
+        ],
+        "periods_available": 1,
+        "trend": {
+          "direction": "not_applicable",
+          "change": null,
+          "population": "fixed",
+          "warning": null
+        },
+        "population": "paired_observations",
+        "actual_only": true
+      },
+      "text_interpretation": {
+        "status_counts": {
+          "local_matched": 2
+        },
+        "text_modes": [
+          "local_rules"
+        ],
+        "unclassified_count": 0,
+        "rule_limitations": "Локальные правила выделяют явно заданные формулировки. Остальные фрагменты сохраняются для ручного просмотра."
+      },
+      "highlighted_evidence": {
+        "id": "c18bd0dc7fe329aba836",
+        "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+        "version": 1,
+        "pair_id": "pair-b79a76c6c1557104",
+        "month": 1,
+        "role": "intern",
+        "question_id": "barriers",
+        "quote": "Мне не хватает поддержки в учебном проекте.",
+        "kind": "text",
+        "value": null,
+        "validation_status": "accepted",
+        "rule_id": "text.intern.support",
+        "temporal_status": "current",
+        "polarity": "negative"
+      },
+      "characteristic_evidence_refs": [
+        "c18bd0dc7fe329aba836"
+      ],
+      "source_facets": {
+        "source_ids": [
+          "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "survey-fb49299340c84731907222ff2edeb08b"
+        ],
+        "months": [
+          1
+        ],
+        "text_modes": [
+          "local_rules"
+        ],
+        "roles": [
+          "mentor",
+          "intern"
+        ]
+      }
+    },
+    "mentor": {
+      "title": "Наставник",
+      "characteristic": "Области внимания по сохранённым ответам — Понимание задач и ожиданий, Самостоятельность. Фактический индекс М1: 27.5 балла. «Работает самостоятельно.» — Наставник, М1.",
+      "generation": "deterministic_evidence_summary",
+      "claims": [
+        {
+          "text": "М1, Понимание задач и ожиданий — оценка 2/5, вклад 20 балла.",
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "evidence_refs": [
+            "e39f7a6c3537170a8e95"
+          ],
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:mentor:clarity:v1:survey-fb49299340c84731907222ff2edeb08b"
+        },
+        {
+          "text": "М1, Самостоятельность — оценка 3/5, вклад 7.5 балла.",
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "evidence_refs": [
+            "102cb7e04bf7649b343f"
+          ],
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:mentor:autonomy:v1:survey-fb49299340c84731907222ff2edeb08b"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "e39f7a6c3537170a8e95",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "clarity",
+          "quote": null,
+          "kind": "rating",
+          "value": 2,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_clarity",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "5570769a4b70e6ffb564",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "quality",
+          "quote": null,
+          "kind": "rating",
+          "value": 4,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_quality",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "102cb7e04bf7649b343f",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "autonomy",
+          "quote": null,
+          "kind": "rating",
+          "value": 3,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_autonomy",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "64ac8409bb5c37c4585f",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "comment",
+          "quote": "Работает самостоятельно.",
+          "kind": "text",
+          "value": null,
+          "validation_status": "accepted",
+          "rule_id": "text.mentor.autonomy",
+          "temporal_status": "current",
+          "polarity": "positive"
+        },
+        {
+          "id": "1fc82934d7471cfaaaeb",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "deadlines",
+          "quote": null,
+          "kind": "rating",
+          "value": 5,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_deadlines",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "8e1bb21d2b8661a70dcc",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "initiative",
+          "quote": null,
+          "kind": "rating",
+          "value": 4,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_initiative",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "bb3dc56217094488d620",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "team",
+          "quote": null,
+          "kind": "rating",
+          "value": 5,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_mentor_team",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "d6b2ddcda6d16eaa1d22",
+          "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor",
+          "question_id": "comment",
+          "quote": "Работает самостоятельно.",
+          "kind": "text",
+          "value": null,
+          "validation_status": null,
+          "rule_id": null,
+          "temporal_status": null,
+          "polarity": null
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "action_mentor_clarity_3a43facd062f",
+          "action_id": "action_mentor_clarity",
+          "scope": {
+            "type": "PAIR_MONTH",
+            "pair_id": "pair-b79a76c6c1557104",
+            "start": 1,
+            "end": 1
+          },
+          "impact_scope": "MENTOR",
+          "title": "Согласовать задачи и критерии результата",
+          "name": "Согласовать задачи и критерии результата",
+          "rationale": "Подтверждённые активные факторы выбранной области",
+          "responsible": "mentor",
+          "target_factors": [
+            "clarity"
+          ],
+          "targets": [
+            "pair-b79a76c6c1557104:M1:mentor:clarity:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ],
+          "target_observations": [
+            {
+              "pair_id": "pair-b79a76c6c1557104",
+              "month": 1,
+              "role": "mentor"
+            }
+          ],
+          "evidence_refs": [
+            "e39f7a6c3537170a8e95"
+          ],
+          "delta": {
+            "x": 20.0,
+            "y": 0.0,
+            "z": 10.0
+          },
+          "additional_delta": {
+            "x": 20.0,
+            "y": 0.0,
+            "z": 10.0
+          },
+          "completion_criteria": "Зафиксированы задачи и критерии результата",
+          "resolution_criteria": "Обе стороны подтвердили понятность задач",
+          "status": "expert_project_assumption",
+          "assumption": "full_resolution"
+        },
+        {
+          "id": "action_mentor_autonomy_3a43facd062f",
+          "action_id": "action_mentor_autonomy",
+          "scope": {
+            "type": "PAIR_MONTH",
+            "pair_id": "pair-b79a76c6c1557104",
+            "start": 1,
+            "end": 1
+          },
+          "impact_scope": "MENTOR",
+          "title": "Согласовать план развития самостоятельности",
+          "name": "Согласовать план развития самостоятельности",
+          "rationale": "Подтверждённые активные факторы выбранной области",
+          "responsible": "mentor",
+          "target_factors": [
+            "autonomy"
+          ],
+          "targets": [
+            "pair-b79a76c6c1557104:M1:mentor:autonomy:v1:survey-fb49299340c84731907222ff2edeb08b"
+          ],
+          "target_observations": [
+            {
+              "pair_id": "pair-b79a76c6c1557104",
+              "month": 1,
+              "role": "mentor"
+            }
+          ],
+          "evidence_refs": [
+            "102cb7e04bf7649b343f"
+          ],
+          "delta": {
+            "x": 7.5,
+            "y": 0.0,
+            "z": 3.75
+          },
+          "additional_delta": {
+            "x": 7.5,
+            "y": 0.0,
+            "z": 3.75
+          },
+          "completion_criteria": "Определены этапы самостоятельного выполнения",
+          "resolution_criteria": "Подтверждено самостоятельное выполнение согласованных задач",
+          "status": "expert_project_assumption",
+          "assumption": "full_resolution"
+        }
+      ],
+      "critical_flags": [],
+      "coverage": 1.0,
+      "review_flags": [],
+      "history_summary": {
+        "first": {
+          "month": 1,
+          "score": 27.5,
+          "observation_count": 1,
+          "pair_ids": [
+            "pair-b79a76c6c1557104"
+          ],
+          "source_ids": [
+            "survey-fb49299340c84731907222ff2edeb08b"
+          ],
+          "evidence_refs": [
+            "102cb7e04bf7649b343f",
+            "1fc82934d7471cfaaaeb",
+            "5570769a4b70e6ffb564",
+            "8e1bb21d2b8661a70dcc",
+            "bb3dc56217094488d620",
+            "e39f7a6c3537170a8e95"
+          ]
+        },
+        "last": {
+          "month": 1,
+          "score": 27.5,
+          "observation_count": 1,
+          "pair_ids": [
+            "pair-b79a76c6c1557104"
+          ],
+          "source_ids": [
+            "survey-fb49299340c84731907222ff2edeb08b"
+          ],
+          "evidence_refs": [
+            "102cb7e04bf7649b343f",
+            "1fc82934d7471cfaaaeb",
+            "5570769a4b70e6ffb564",
+            "8e1bb21d2b8661a70dcc",
+            "bb3dc56217094488d620",
+            "e39f7a6c3537170a8e95"
+          ]
+        },
+        "max": {
+          "month": 1,
+          "score": 27.5,
+          "observation_count": 1,
+          "pair_ids": [
+            "pair-b79a76c6c1557104"
+          ],
+          "source_ids": [
+            "survey-fb49299340c84731907222ff2edeb08b"
+          ],
+          "evidence_refs": [
+            "102cb7e04bf7649b343f",
+            "1fc82934d7471cfaaaeb",
+            "5570769a4b70e6ffb564",
+            "8e1bb21d2b8661a70dcc",
+            "bb3dc56217094488d620",
+            "e39f7a6c3537170a8e95"
+          ]
+        },
+        "timeline": [
+          {
+            "month": 1,
+            "score": 27.5,
+            "observation_count": 1,
+            "pair_ids": [
+              "pair-b79a76c6c1557104"
+            ],
+            "source_ids": [
+              "survey-fb49299340c84731907222ff2edeb08b"
+            ],
+            "evidence_refs": [
+              "102cb7e04bf7649b343f",
+              "1fc82934d7471cfaaaeb",
+              "5570769a4b70e6ffb564",
+              "8e1bb21d2b8661a70dcc",
+              "bb3dc56217094488d620",
+              "e39f7a6c3537170a8e95"
+            ]
+          },
+          {
+            "month": 2,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 3,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 4,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 5,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 6,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          }
+        ],
+        "periods_available": 1,
+        "trend": {
+          "direction": "not_applicable",
+          "change": null,
+          "population": "fixed",
+          "warning": null
+        },
+        "population": "side_observations",
+        "actual_only": true
+      },
+      "text_interpretation": {
+        "status_counts": {
+          "local_matched": 1
+        },
+        "text_modes": [
+          "local_rules"
+        ],
+        "unclassified_count": 0,
+        "rule_limitations": "Локальные правила выделяют явно заданные формулировки. Остальные фрагменты сохраняются для ручного просмотра."
+      },
+      "highlighted_evidence": {
+        "id": "64ac8409bb5c37c4585f",
+        "source_id": "survey-fb49299340c84731907222ff2edeb08b",
+        "version": 1,
+        "pair_id": "pair-b79a76c6c1557104",
+        "month": 1,
+        "role": "mentor",
+        "question_id": "comment",
+        "quote": "Работает самостоятельно.",
+        "kind": "text",
+        "value": null,
+        "validation_status": "accepted",
+        "rule_id": "text.mentor.autonomy",
+        "temporal_status": "current",
+        "polarity": "positive"
+      },
+      "characteristic_evidence_refs": [
+        "64ac8409bb5c37c4585f"
+      ],
+      "source_facets": {
+        "source_ids": [
+          "survey-fb49299340c84731907222ff2edeb08b"
+        ],
+        "months": [
+          1
+        ],
+        "text_modes": [
+          "local_rules"
+        ],
+        "roles": [
+          "mentor"
+        ]
+      }
+    },
+    "intern": {
+      "title": "Стажёр",
+      "characteristic": "Области внимания по сохранённым ответам — Понятность задач, Поддержка и обратная связь наставника, Общая удовлетворённость стажировкой. Фактический индекс М1: 32.5 балла. «Мне не хватает поддержки в учебном проекте.» — Стажёр, М1.",
+      "generation": "deterministic_evidence_summary",
+      "claims": [
+        {
+          "text": "М1, Понятность задач — оценка 2/5, вклад 15 балла.",
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "evidence_refs": [
+            "416f2103a4fcd5176b15"
+          ],
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:intern:clarity:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+        },
+        {
+          "text": "М1, Поддержка и обратная связь наставника — оценка 3/5, вклад 10 балла.",
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "evidence_refs": [
+            "5687a120071004a44c81",
+            "c18bd0dc7fe329aba836"
+          ],
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:intern:support:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+        },
+        {
+          "text": "М1, Общая удовлетворённость стажировкой — оценка 3/5, вклад 7.5 балла.",
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "evidence_refs": [
+            "d1a1a8c3c60912c6ece7"
+          ],
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:intern:satisfaction:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "416f2103a4fcd5176b15",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "clarity",
+          "quote": null,
+          "kind": "rating",
+          "value": 2,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_clarity",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "5687a120071004a44c81",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "support",
+          "quote": null,
+          "kind": "rating",
+          "value": 3,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_support",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "c18bd0dc7fe329aba836",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "barriers",
+          "quote": "Мне не хватает поддержки в учебном проекте.",
+          "kind": "text",
+          "value": null,
+          "validation_status": "accepted",
+          "rule_id": "text.intern.support",
+          "temporal_status": "current",
+          "polarity": "negative"
+        },
+        {
+          "id": "678cec2572ef9f2de85f",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "workload",
+          "quote": null,
+          "kind": "rating",
+          "value": 4,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_workload",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "40bda9c8f210610a6384",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "interest",
+          "quote": null,
+          "kind": "rating",
+          "value": 4,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_interest",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "032ab7b1339b01ce100f",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "growth",
+          "quote": null,
+          "kind": "rating",
+          "value": 5,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_growth",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "4a83ba35e2828006f6c5",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "team",
+          "quote": null,
+          "kind": "rating",
+          "value": 4,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_team",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "d1a1a8c3c60912c6ece7",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "satisfaction",
+          "quote": null,
+          "kind": "rating",
+          "value": 3,
+          "validation_status": "deterministic_mapping",
+          "rule_id": "rule_intern_satisfaction",
+          "temporal_status": null,
+          "polarity": null
+        },
+        {
+          "id": "f61110f822778b77ffd2",
+          "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "version": 1,
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern",
+          "question_id": "barriers",
+          "quote": "Мне не хватает поддержки в учебном проекте.",
+          "kind": "text",
+          "value": null,
+          "validation_status": null,
+          "rule_id": null,
+          "temporal_status": null,
+          "polarity": null
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "action_intern_clarity_3a43facd062f",
+          "action_id": "action_intern_clarity",
+          "scope": {
+            "type": "PAIR_MONTH",
+            "pair_id": "pair-b79a76c6c1557104",
+            "start": 1,
+            "end": 1
+          },
+          "impact_scope": "INTERN",
+          "title": "Согласовать задачи и критерии результата",
+          "name": "Согласовать задачи и критерии результата",
+          "rationale": "Подтверждённые активные факторы выбранной области",
+          "responsible": "mentor",
+          "target_factors": [
+            "clarity"
+          ],
+          "targets": [
+            "pair-b79a76c6c1557104:M1:intern:clarity:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ],
+          "target_observations": [
+            {
+              "pair_id": "pair-b79a76c6c1557104",
+              "month": 1,
+              "role": "intern"
+            }
+          ],
+          "evidence_refs": [
+            "416f2103a4fcd5176b15"
+          ],
+          "delta": {
+            "x": 0.0,
+            "y": 15.0,
+            "z": 7.5
+          },
+          "additional_delta": {
+            "x": 0.0,
+            "y": 15.0,
+            "z": 7.5
+          },
+          "completion_criteria": "Зафиксированы задачи и критерии результата",
+          "resolution_criteria": "Обе стороны подтвердили понятность задач",
+          "status": "expert_project_assumption",
+          "assumption": "full_resolution"
+        },
+        {
+          "id": "action_intern_support_3a43facd062f",
+          "action_id": "action_intern_support",
+          "scope": {
+            "type": "PAIR_MONTH",
+            "pair_id": "pair-b79a76c6c1557104",
+            "start": 1,
+            "end": 1
+          },
+          "impact_scope": "INTERN",
+          "title": "Организовать регулярную обратную связь",
+          "name": "Организовать регулярную обратную связь",
+          "rationale": "Подтверждённые активные факторы выбранной области",
+          "responsible": "mentor",
+          "target_factors": [
+            "support"
+          ],
+          "targets": [
+            "pair-b79a76c6c1557104:M1:intern:support:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ],
+          "target_observations": [
+            {
+              "pair_id": "pair-b79a76c6c1557104",
+              "month": 1,
+              "role": "intern"
+            }
+          ],
+          "evidence_refs": [
+            "5687a120071004a44c81",
+            "c18bd0dc7fe329aba836"
+          ],
+          "delta": {
+            "x": 0.0,
+            "y": 10.0,
+            "z": 5.0
+          },
+          "additional_delta": {
+            "x": 0.0,
+            "y": 10.0,
+            "z": 5.0
+          },
+          "completion_criteria": "Назначены регулярные встречи и резервный контакт",
+          "resolution_criteria": "Стажёр подтвердил доступность поддержки",
+          "status": "expert_project_assumption",
+          "assumption": "full_resolution"
+        },
+        {
+          "id": "action_intern_satisfaction_3a43facd062f",
+          "action_id": "action_intern_satisfaction",
+          "scope": {
+            "type": "PAIR_MONTH",
+            "pair_id": "pair-b79a76c6c1557104",
+            "start": 1,
+            "end": 1
+          },
+          "impact_scope": "INTERN",
+          "title": "Обсудить удовлетворённость стажировкой",
+          "name": "Обсудить удовлетворённость стажировкой",
+          "rationale": "Подтверждённые активные факторы выбранной области",
+          "responsible": "hr",
+          "target_factors": [
+            "satisfaction"
+          ],
+          "targets": [
+            "pair-b79a76c6c1557104:M1:intern:satisfaction:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ],
+          "target_observations": [
+            {
+              "pair_id": "pair-b79a76c6c1557104",
+              "month": 1,
+              "role": "intern"
+            }
+          ],
+          "evidence_refs": [
+            "d1a1a8c3c60912c6ece7"
+          ],
+          "delta": {
+            "x": 0.0,
+            "y": 7.5,
+            "z": 3.75
+          },
+          "additional_delta": {
+            "x": 0.0,
+            "y": 7.5,
+            "z": 3.75
+          },
+          "completion_criteria": "Проведена конфиденциальная встреча и согласованы действия",
+          "resolution_criteria": "Стажёр подтвердил изменение ситуации",
+          "status": "expert_project_assumption",
+          "assumption": "full_resolution"
+        }
+      ],
+      "critical_flags": [],
+      "coverage": 1.0,
+      "review_flags": [],
+      "history_summary": {
+        "first": {
+          "month": 1,
+          "score": 32.5,
+          "observation_count": 1,
+          "pair_ids": [
+            "pair-b79a76c6c1557104"
+          ],
+          "source_ids": [
+            "survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ],
+          "evidence_refs": [
+            "032ab7b1339b01ce100f",
+            "40bda9c8f210610a6384",
+            "416f2103a4fcd5176b15",
+            "4a83ba35e2828006f6c5",
+            "5687a120071004a44c81",
+            "678cec2572ef9f2de85f",
+            "c18bd0dc7fe329aba836",
+            "d1a1a8c3c60912c6ece7"
+          ]
+        },
+        "last": {
+          "month": 1,
+          "score": 32.5,
+          "observation_count": 1,
+          "pair_ids": [
+            "pair-b79a76c6c1557104"
+          ],
+          "source_ids": [
+            "survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ],
+          "evidence_refs": [
+            "032ab7b1339b01ce100f",
+            "40bda9c8f210610a6384",
+            "416f2103a4fcd5176b15",
+            "4a83ba35e2828006f6c5",
+            "5687a120071004a44c81",
+            "678cec2572ef9f2de85f",
+            "c18bd0dc7fe329aba836",
+            "d1a1a8c3c60912c6ece7"
+          ]
+        },
+        "max": {
+          "month": 1,
+          "score": 32.5,
+          "observation_count": 1,
+          "pair_ids": [
+            "pair-b79a76c6c1557104"
+          ],
+          "source_ids": [
+            "survey-d68f4843730f43ae9d8e4fcb12af7796"
+          ],
+          "evidence_refs": [
+            "032ab7b1339b01ce100f",
+            "40bda9c8f210610a6384",
+            "416f2103a4fcd5176b15",
+            "4a83ba35e2828006f6c5",
+            "5687a120071004a44c81",
+            "678cec2572ef9f2de85f",
+            "c18bd0dc7fe329aba836",
+            "d1a1a8c3c60912c6ece7"
+          ]
+        },
+        "timeline": [
+          {
+            "month": 1,
+            "score": 32.5,
+            "observation_count": 1,
+            "pair_ids": [
+              "pair-b79a76c6c1557104"
+            ],
+            "source_ids": [
+              "survey-d68f4843730f43ae9d8e4fcb12af7796"
+            ],
+            "evidence_refs": [
+              "032ab7b1339b01ce100f",
+              "40bda9c8f210610a6384",
+              "416f2103a4fcd5176b15",
+              "4a83ba35e2828006f6c5",
+              "5687a120071004a44c81",
+              "678cec2572ef9f2de85f",
+              "c18bd0dc7fe329aba836",
+              "d1a1a8c3c60912c6ece7"
+            ]
+          },
+          {
+            "month": 2,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 3,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 4,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 5,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          },
+          {
+            "month": 6,
+            "score": null,
+            "observation_count": 0,
+            "pair_ids": [],
+            "source_ids": [],
+            "evidence_refs": []
+          }
+        ],
+        "periods_available": 1,
+        "trend": {
+          "direction": "not_applicable",
+          "change": null,
+          "population": "fixed",
+          "warning": null
+        },
+        "population": "side_observations",
+        "actual_only": true
+      },
+      "text_interpretation": {
+        "status_counts": {
+          "local_matched": 1
+        },
+        "text_modes": [
+          "local_rules"
+        ],
+        "unclassified_count": 0,
+        "rule_limitations": "Локальные правила выделяют явно заданные формулировки. Остальные фрагменты сохраняются для ручного просмотра."
+      },
+      "highlighted_evidence": {
+        "id": "c18bd0dc7fe329aba836",
+        "source_id": "survey-d68f4843730f43ae9d8e4fcb12af7796",
+        "version": 1,
+        "pair_id": "pair-b79a76c6c1557104",
+        "month": 1,
+        "role": "intern",
+        "question_id": "barriers",
+        "quote": "Мне не хватает поддержки в учебном проекте.",
+        "kind": "text",
+        "value": null,
+        "validation_status": "accepted",
+        "rule_id": "text.intern.support",
+        "temporal_status": "current",
+        "polarity": "negative"
+      },
+      "characteristic_evidence_refs": [
+        "c18bd0dc7fe329aba836"
+      ],
+      "source_facets": {
+        "source_ids": [
+          "survey-d68f4843730f43ae9d8e4fcb12af7796"
+        ],
+        "months": [
+          1
+        ],
+        "text_modes": [
+          "local_rules"
+        ],
+        "roles": [
+          "intern"
+        ]
+      }
+    }
+  },
+  "recommendations": [
+    {
+      "id": "action_pair_clarity_3a43facd062f",
+      "action_id": "action_pair_clarity",
+      "scope": {
+        "type": "PAIR_MONTH",
+        "pair_id": "pair-b79a76c6c1557104",
+        "start": 1,
+        "end": 1
+      },
+      "impact_scope": "PAIR",
+      "title": "Согласовать задачи и критерии результата",
+      "name": "Согласовать задачи и критерии результата",
+      "rationale": "Подтверждённые активные факторы выбранной области",
+      "responsible": "mentor",
+      "target_factors": [
+        "clarity"
+      ],
+      "targets": [
+        "pair-b79a76c6c1557104:M1:mentor:clarity:v1:survey-fb49299340c84731907222ff2edeb08b",
+        "pair-b79a76c6c1557104:M1:intern:clarity:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+      ],
+      "target_observations": [
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor"
+        },
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern"
+        }
+      ],
+      "evidence_refs": [
+        "416f2103a4fcd5176b15",
+        "e39f7a6c3537170a8e95"
+      ],
+      "delta": {
+        "x": 20.0,
+        "y": 15.0,
+        "z": 17.5
+      },
+      "additional_delta": {
+        "x": 20.0,
+        "y": 15.0,
+        "z": 17.5
+      },
+      "completion_criteria": "Зафиксированы задачи и критерии результата",
+      "resolution_criteria": "Обе стороны подтвердили понятность задач",
+      "status": "expert_project_assumption",
+      "assumption": "full_resolution"
+    },
+    {
+      "id": "action_mentor_clarity_3a43facd062f",
+      "action_id": "action_mentor_clarity",
+      "scope": {
+        "type": "PAIR_MONTH",
+        "pair_id": "pair-b79a76c6c1557104",
+        "start": 1,
+        "end": 1
+      },
+      "impact_scope": "MENTOR",
+      "title": "Согласовать задачи и критерии результата",
+      "name": "Согласовать задачи и критерии результата",
+      "rationale": "Подтверждённые активные факторы выбранной области",
+      "responsible": "mentor",
+      "target_factors": [
+        "clarity"
+      ],
+      "targets": [
+        "pair-b79a76c6c1557104:M1:mentor:clarity:v1:survey-fb49299340c84731907222ff2edeb08b"
+      ],
+      "target_observations": [
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor"
+        }
+      ],
+      "evidence_refs": [
+        "e39f7a6c3537170a8e95"
+      ],
+      "delta": {
+        "x": 20.0,
+        "y": 0.0,
+        "z": 10.0
+      },
+      "additional_delta": {
+        "x": 20.0,
+        "y": 0.0,
+        "z": 10.0
+      },
+      "completion_criteria": "Зафиксированы задачи и критерии результата",
+      "resolution_criteria": "Обе стороны подтвердили понятность задач",
+      "status": "expert_project_assumption",
+      "assumption": "full_resolution"
+    },
+    {
+      "id": "action_intern_clarity_3a43facd062f",
+      "action_id": "action_intern_clarity",
+      "scope": {
+        "type": "PAIR_MONTH",
+        "pair_id": "pair-b79a76c6c1557104",
+        "start": 1,
+        "end": 1
+      },
+      "impact_scope": "INTERN",
+      "title": "Согласовать задачи и критерии результата",
+      "name": "Согласовать задачи и критерии результата",
+      "rationale": "Подтверждённые активные факторы выбранной области",
+      "responsible": "mentor",
+      "target_factors": [
+        "clarity"
+      ],
+      "targets": [
+        "pair-b79a76c6c1557104:M1:intern:clarity:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+      ],
+      "target_observations": [
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern"
+        }
+      ],
+      "evidence_refs": [
+        "416f2103a4fcd5176b15"
+      ],
+      "delta": {
+        "x": 0.0,
+        "y": 15.0,
+        "z": 7.5
+      },
+      "additional_delta": {
+        "x": 0.0,
+        "y": 15.0,
+        "z": 7.5
+      },
+      "completion_criteria": "Зафиксированы задачи и критерии результата",
+      "resolution_criteria": "Обе стороны подтвердили понятность задач",
+      "status": "expert_project_assumption",
+      "assumption": "full_resolution"
+    },
+    {
+      "id": "action_mentor_autonomy_3a43facd062f",
+      "action_id": "action_mentor_autonomy",
+      "scope": {
+        "type": "PAIR_MONTH",
+        "pair_id": "pair-b79a76c6c1557104",
+        "start": 1,
+        "end": 1
+      },
+      "impact_scope": "MENTOR",
+      "title": "Согласовать план развития самостоятельности",
+      "name": "Согласовать план развития самостоятельности",
+      "rationale": "Подтверждённые активные факторы выбранной области",
+      "responsible": "mentor",
+      "target_factors": [
+        "autonomy"
+      ],
+      "targets": [
+        "pair-b79a76c6c1557104:M1:mentor:autonomy:v1:survey-fb49299340c84731907222ff2edeb08b"
+      ],
+      "target_observations": [
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "mentor"
+        }
+      ],
+      "evidence_refs": [
+        "102cb7e04bf7649b343f"
+      ],
+      "delta": {
+        "x": 7.5,
+        "y": 0.0,
+        "z": 3.75
+      },
+      "additional_delta": {
+        "x": 7.5,
+        "y": 0.0,
+        "z": 3.75
+      },
+      "completion_criteria": "Определены этапы самостоятельного выполнения",
+      "resolution_criteria": "Подтверждено самостоятельное выполнение согласованных задач",
+      "status": "expert_project_assumption",
+      "assumption": "full_resolution"
+    },
+    {
+      "id": "action_intern_support_3a43facd062f",
+      "action_id": "action_intern_support",
+      "scope": {
+        "type": "PAIR_MONTH",
+        "pair_id": "pair-b79a76c6c1557104",
+        "start": 1,
+        "end": 1
+      },
+      "impact_scope": "INTERN",
+      "title": "Организовать регулярную обратную связь",
+      "name": "Организовать регулярную обратную связь",
+      "rationale": "Подтверждённые активные факторы выбранной области",
+      "responsible": "mentor",
+      "target_factors": [
+        "support"
+      ],
+      "targets": [
+        "pair-b79a76c6c1557104:M1:intern:support:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+      ],
+      "target_observations": [
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern"
+        }
+      ],
+      "evidence_refs": [
+        "5687a120071004a44c81",
+        "c18bd0dc7fe329aba836"
+      ],
+      "delta": {
+        "x": 0.0,
+        "y": 10.0,
+        "z": 5.0
+      },
+      "additional_delta": {
+        "x": 0.0,
+        "y": 10.0,
+        "z": 5.0
+      },
+      "completion_criteria": "Назначены регулярные встречи и резервный контакт",
+      "resolution_criteria": "Стажёр подтвердил доступность поддержки",
+      "status": "expert_project_assumption",
+      "assumption": "full_resolution"
+    },
+    {
+      "id": "action_intern_satisfaction_3a43facd062f",
+      "action_id": "action_intern_satisfaction",
+      "scope": {
+        "type": "PAIR_MONTH",
+        "pair_id": "pair-b79a76c6c1557104",
+        "start": 1,
+        "end": 1
+      },
+      "impact_scope": "INTERN",
+      "title": "Обсудить удовлетворённость стажировкой",
+      "name": "Обсудить удовлетворённость стажировкой",
+      "rationale": "Подтверждённые активные факторы выбранной области",
+      "responsible": "hr",
+      "target_factors": [
+        "satisfaction"
+      ],
+      "targets": [
+        "pair-b79a76c6c1557104:M1:intern:satisfaction:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+      ],
+      "target_observations": [
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1,
+          "role": "intern"
+        }
+      ],
+      "evidence_refs": [
+        "d1a1a8c3c60912c6ece7"
+      ],
+      "delta": {
+        "x": 0.0,
+        "y": 7.5,
+        "z": 3.75
+      },
+      "additional_delta": {
+        "x": 0.0,
+        "y": 7.5,
+        "z": 3.75
+      },
+      "completion_criteria": "Проведена конфиденциальная встреча и согласованы действия",
+      "resolution_criteria": "Стажёр подтвердил изменение ситуации",
+      "status": "expert_project_assumption",
+      "assumption": "full_resolution"
+    }
+  ],
+  "dynamics": [
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "mentor",
+      "factor_id": "clarity",
+      "name": "Понимание задач и ожиданий",
+      "values": [
+        2,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "mentor",
+      "factor_id": "quality",
+      "name": "Качество выполнения задач",
+      "values": [
+        4,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "mentor",
+      "factor_id": "autonomy",
+      "name": "Самостоятельность",
+      "values": [
+        3,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "mentor",
+      "factor_id": "deadlines",
+      "name": "Сроки и организация работы",
+      "values": [
+        5,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "mentor",
+      "factor_id": "initiative",
+      "name": "Вовлечённость и инициативность",
+      "values": [
+        4,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "mentor",
+      "factor_id": "team",
+      "name": "Взаимодействие с наставником и командой",
+      "values": [
+        5,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "intern",
+      "factor_id": "clarity",
+      "name": "Понятность задач",
+      "values": [
+        2,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "intern",
+      "factor_id": "support",
+      "name": "Поддержка и обратная связь наставника",
+      "values": [
+        3,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "intern",
+      "factor_id": "workload",
+      "name": "Комфортность нагрузки",
+      "values": [
+        4,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "intern",
+      "factor_id": "interest",
+      "name": "Интерес к задачам",
+      "values": [
+        4,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "intern",
+      "factor_id": "growth",
+      "name": "Профессиональное развитие",
+      "values": [
+        5,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "intern",
+      "factor_id": "team",
+      "name": "Взаимодействие с командой",
+      "values": [
+        4,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "role": "intern",
+      "factor_id": "satisfaction",
+      "name": "Общая удовлетворённость стажировкой",
+      "values": [
+        3,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "changes": [],
+      "scale": [
+        1,
+        5
+      ]
+    }
+  ],
+  "discrepancies": [],
+  "patterns": [],
+  "warnings": [],
+  "versions": {
+    "knowledge": "2.0.1-expert-draft",
+    "pipeline": "pair-2.0.2",
+    "mapping": "mgts-official-v2",
+    "prompt": "pair-signals-v2",
+    "semantic_rules": "2.0.1-project-semantic-rules",
+    "nlp_identities": [
+      {
+        "config_hash": "20caa7a91b8939c3bd59dae9f47f6c13d0151f9822e88bdb6baa63e66fce7a14",
+        "encoder_versions": [],
+        "mode": "local_rules",
+        "pipeline": "pair-text-2.1.0",
+        "version": "20caa7a91b8939c3bd59dae9f47f6c13d0151f9822e88bdb6baa63e66fce7a14"
+      }
+    ]
+  },
+  "summary": {
+    "pair_count": 1,
+    "top_factors": [
+      {
+        "role": "mentor",
+        "factor_id": "clarity",
+        "name": "Понимание задач и ожиданий",
+        "observation_count": 1,
+        "contribution_sum": 20
+      },
+      {
+        "role": "intern",
+        "factor_id": "clarity",
+        "name": "Понятность задач",
+        "observation_count": 1,
+        "contribution_sum": 15
+      },
+      {
+        "role": "intern",
+        "factor_id": "support",
+        "name": "Поддержка и обратная связь наставника",
+        "observation_count": 1,
+        "contribution_sum": 10.0
+      },
+      {
+        "role": "intern",
+        "factor_id": "satisfaction",
+        "name": "Общая удовлетворённость стажировкой",
+        "observation_count": 1,
+        "contribution_sum": 7.5
+      },
+      {
+        "role": "mentor",
+        "factor_id": "autonomy",
+        "name": "Самостоятельность",
+        "observation_count": 1,
+        "contribution_sum": 7.5
+      }
+    ],
+    "critical_cases": [],
+    "discrepancy_count": 0,
+    "recurring_problem_count": 0,
+    "aggregation": "equal_weight_eligible_pair_month",
+    "scenario_assumption": "full_resolution",
+    "retrospective": false,
+    "formula": {
+      "x": "sum(weight_mentor * max(validated_severity))",
+      "y": "sum(weight_intern * max(validated_severity))",
+      "z": "(x+y)/2"
+    },
+    "semantic_comparison_counts": {
+      "AGREEMENT": 0,
+      "CONTRADICTION": 0,
+      "AWARENESS_GAP": 0,
+      "COMPLEMENTARY": 0,
+      "NOT_COMPARABLE": 2
+    },
+    "trend": {
+      "first": {
+        "month": 1,
+        "score": 30.0,
+        "observation_count": 1,
+        "pair_ids": [
+          "pair-b79a76c6c1557104"
+        ],
+        "source_ids": [
+          "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "survey-fb49299340c84731907222ff2edeb08b"
+        ],
+        "evidence_refs": [
+          "032ab7b1339b01ce100f",
+          "102cb7e04bf7649b343f",
+          "1fc82934d7471cfaaaeb",
+          "40bda9c8f210610a6384",
+          "416f2103a4fcd5176b15",
+          "4a83ba35e2828006f6c5",
+          "5570769a4b70e6ffb564",
+          "5687a120071004a44c81",
+          "678cec2572ef9f2de85f",
+          "8e1bb21d2b8661a70dcc",
+          "bb3dc56217094488d620",
+          "c18bd0dc7fe329aba836",
+          "d1a1a8c3c60912c6ece7",
+          "e39f7a6c3537170a8e95"
+        ]
+      },
+      "last": {
+        "month": 1,
+        "score": 30.0,
+        "observation_count": 1,
+        "pair_ids": [
+          "pair-b79a76c6c1557104"
+        ],
+        "source_ids": [
+          "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "survey-fb49299340c84731907222ff2edeb08b"
+        ],
+        "evidence_refs": [
+          "032ab7b1339b01ce100f",
+          "102cb7e04bf7649b343f",
+          "1fc82934d7471cfaaaeb",
+          "40bda9c8f210610a6384",
+          "416f2103a4fcd5176b15",
+          "4a83ba35e2828006f6c5",
+          "5570769a4b70e6ffb564",
+          "5687a120071004a44c81",
+          "678cec2572ef9f2de85f",
+          "8e1bb21d2b8661a70dcc",
+          "bb3dc56217094488d620",
+          "c18bd0dc7fe329aba836",
+          "d1a1a8c3c60912c6ece7",
+          "e39f7a6c3537170a8e95"
+        ]
+      },
+      "max": {
+        "month": 1,
+        "score": 30.0,
+        "observation_count": 1,
+        "pair_ids": [
+          "pair-b79a76c6c1557104"
+        ],
+        "source_ids": [
+          "survey-d68f4843730f43ae9d8e4fcb12af7796",
+          "survey-fb49299340c84731907222ff2edeb08b"
+        ],
+        "evidence_refs": [
+          "032ab7b1339b01ce100f",
+          "102cb7e04bf7649b343f",
+          "1fc82934d7471cfaaaeb",
+          "40bda9c8f210610a6384",
+          "416f2103a4fcd5176b15",
+          "4a83ba35e2828006f6c5",
+          "5570769a4b70e6ffb564",
+          "5687a120071004a44c81",
+          "678cec2572ef9f2de85f",
+          "8e1bb21d2b8661a70dcc",
+          "bb3dc56217094488d620",
+          "c18bd0dc7fe329aba836",
+          "d1a1a8c3c60912c6ece7",
+          "e39f7a6c3537170a8e95"
+        ]
+      },
+      "timeline": [
+        {
+          "month": 1,
+          "score": 30.0,
+          "observation_count": 1,
+          "pair_ids": [
+            "pair-b79a76c6c1557104"
+          ],
+          "source_ids": [
+            "survey-d68f4843730f43ae9d8e4fcb12af7796",
+            "survey-fb49299340c84731907222ff2edeb08b"
+          ],
+          "evidence_refs": [
+            "032ab7b1339b01ce100f",
+            "102cb7e04bf7649b343f",
+            "1fc82934d7471cfaaaeb",
+            "40bda9c8f210610a6384",
+            "416f2103a4fcd5176b15",
+            "4a83ba35e2828006f6c5",
+            "5570769a4b70e6ffb564",
+            "5687a120071004a44c81",
+            "678cec2572ef9f2de85f",
+            "8e1bb21d2b8661a70dcc",
+            "bb3dc56217094488d620",
+            "c18bd0dc7fe329aba836",
+            "d1a1a8c3c60912c6ece7",
+            "e39f7a6c3537170a8e95"
+          ]
+        },
+        {
+          "month": 2,
+          "score": null,
+          "observation_count": 0,
+          "pair_ids": [],
+          "source_ids": [],
+          "evidence_refs": []
+        },
+        {
+          "month": 3,
+          "score": null,
+          "observation_count": 0,
+          "pair_ids": [],
+          "source_ids": [],
+          "evidence_refs": []
+        },
+        {
+          "month": 4,
+          "score": null,
+          "observation_count": 0,
+          "pair_ids": [],
+          "source_ids": [],
+          "evidence_refs": []
+        },
+        {
+          "month": 5,
+          "score": null,
+          "observation_count": 0,
+          "pair_ids": [],
+          "source_ids": [],
+          "evidence_refs": []
+        },
+        {
+          "month": 6,
+          "score": null,
+          "observation_count": 0,
+          "pair_ids": [],
+          "source_ids": [],
+          "evidence_refs": []
+        }
+      ],
+      "periods_available": 1,
+      "trend": {
+        "direction": "not_applicable",
+        "change": null,
+        "population": "fixed",
+        "warning": null
+      },
+      "population": "paired_observations",
+      "actual_only": true
+    },
+    "pair_summary": "В выбранной области 1 наблюдений «пара × месяц». Сопоставимые оценки расходятся в 0 случаях. Явные текстовые сопоставления доступны в 0 случаях."
+  },
+  "index_dynamics": [
+    {
+      "month": 1,
+      "x": 27.5,
+      "y": 32.5,
+      "z": 30.0,
+      "actual": {
+        "x": 27.5,
+        "y": 32.5,
+        "z": 30.0
+      },
+      "scenario": {
+        "x": 27.5,
+        "y": 32.5,
+        "z": 30.0
+      },
+      "bands": {
+        "x": "green",
+        "y": "yellow"
+      },
+      "coverage": 1.0,
+      "observation_count": 1,
+      "eligible_count": 1,
+      "observations": [
+        {
+          "pair_id": "pair-b79a76c6c1557104",
+          "month": 1
+        }
+      ],
+      "side_statistics": {
+        "mentor": {
+          "mean": 27.5,
+          "count": 1
+        },
+        "intern": {
+          "mean": 32.5,
+          "count": 1
+        }
+      },
+      "received_surveys": 2,
+      "expected_surveys": 2,
+      "risk_distribution": {
+        "green": 0,
+        "yellow": 1,
+        "red": 0,
+        "gray": 0
+      },
+      "factor_contributions": {
+        "x": [
+          {
+            "id": "clarity",
+            "name": "Понимание задач и ожиданий",
+            "contribution": 20.0,
+            "scenario_contribution": 20.0,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:mentor:clarity:v1:survey-fb49299340c84731907222ff2edeb08b"
+            ]
+          },
+          {
+            "id": "quality",
+            "name": "Качество выполнения задач",
+            "contribution": 0.0,
+            "scenario_contribution": 0.0,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:mentor:quality:v1:survey-fb49299340c84731907222ff2edeb08b"
+            ]
+          },
+          {
+            "id": "autonomy",
+            "name": "Самостоятельность",
+            "contribution": 7.5,
+            "scenario_contribution": 7.5,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:mentor:autonomy:v1:survey-fb49299340c84731907222ff2edeb08b"
+            ]
+          },
+          {
+            "id": "deadlines",
+            "name": "Сроки и организация работы",
+            "contribution": 0.0,
+            "scenario_contribution": 0.0,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:mentor:deadlines:v1:survey-fb49299340c84731907222ff2edeb08b"
+            ]
+          },
+          {
+            "id": "initiative",
+            "name": "Вовлечённость и инициативность",
+            "contribution": 0.0,
+            "scenario_contribution": 0.0,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:mentor:initiative:v1:survey-fb49299340c84731907222ff2edeb08b"
+            ]
+          },
+          {
+            "id": "team",
+            "name": "Взаимодействие с наставником и командой",
+            "contribution": 0.0,
+            "scenario_contribution": 0.0,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:mentor:team:v1:survey-fb49299340c84731907222ff2edeb08b"
+            ]
+          }
+        ],
+        "y": [
+          {
+            "id": "clarity",
+            "name": "Понятность задач",
+            "contribution": 15.0,
+            "scenario_contribution": 15.0,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:intern:clarity:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+            ]
+          },
+          {
+            "id": "support",
+            "name": "Поддержка и обратная связь наставника",
+            "contribution": 10.0,
+            "scenario_contribution": 10.0,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:intern:support:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+            ]
+          },
+          {
+            "id": "workload",
+            "name": "Комфортность нагрузки",
+            "contribution": 0.0,
+            "scenario_contribution": 0.0,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:intern:workload:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+            ]
+          },
+          {
+            "id": "interest",
+            "name": "Интерес к задачам",
+            "contribution": 0.0,
+            "scenario_contribution": 0.0,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:intern:interest:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+            ]
+          },
+          {
+            "id": "growth",
+            "name": "Профессиональное развитие",
+            "contribution": 0.0,
+            "scenario_contribution": 0.0,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:intern:growth:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+            ]
+          },
+          {
+            "id": "team",
+            "name": "Взаимодействие с командой",
+            "contribution": 0.0,
+            "scenario_contribution": 0.0,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:intern:team:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+            ]
+          },
+          {
+            "id": "satisfaction",
+            "name": "Общая удовлетворённость стажировкой",
+            "contribution": 7.5,
+            "scenario_contribution": 7.5,
+            "known_count": 1,
+            "instance_ids": [
+              "pair-b79a76c6c1557104:M1:intern:satisfaction:v1:survey-d68f4843730f43ae9d8e4fcb12af7796"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "month": 2,
+      "x": null,
+      "y": null,
+      "z": null,
+      "actual": {
+        "x": null,
+        "y": null,
+        "z": null
+      },
+      "scenario": {
+        "x": null,
+        "y": null,
+        "z": null
+      },
+      "bands": {
+        "x": "gray",
+        "y": "gray"
+      },
+      "coverage": 0,
+      "observation_count": 0,
+      "eligible_count": 0,
+      "observations": [],
+      "side_statistics": {
+        "mentor": {
+          "mean": null,
+          "count": 0
+        },
+        "intern": {
+          "mean": null,
+          "count": 0
+        }
+      },
+      "received_surveys": 0,
+      "expected_surveys": 0,
+      "risk_distribution": {
+        "green": 0,
+        "yellow": 0,
+        "red": 0,
+        "gray": 0
+      },
+      "factor_contributions": {
+        "x": [],
+        "y": []
+      }
+    },
+    {
+      "month": 3,
+      "x": null,
+      "y": null,
+      "z": null,
+      "actual": {
+        "x": null,
+        "y": null,
+        "z": null
+      },
+      "scenario": {
+        "x": null,
+        "y": null,
+        "z": null
+      },
+      "bands": {
+        "x": "gray",
+        "y": "gray"
+      },
+      "coverage": 0,
+      "observation_count": 0,
+      "eligible_count": 0,
+      "observations": [],
+      "side_statistics": {
+        "mentor": {
+          "mean": null,
+          "count": 0
+        },
+        "intern": {
+          "mean": null,
+          "count": 0
+        }
+      },
+      "received_surveys": 0,
+      "expected_surveys": 0,
+      "risk_distribution": {
+        "green": 0,
+        "yellow": 0,
+        "red": 0,
+        "gray": 0
+      },
+      "factor_contributions": {
+        "x": [],
+        "y": []
+      }
+    },
+    {
+      "month": 4,
+      "x": null,
+      "y": null,
+      "z": null,
+      "actual": {
+        "x": null,
+        "y": null,
+        "z": null
+      },
+      "scenario": {
+        "x": null,
+        "y": null,
+        "z": null
+      },
+      "bands": {
+        "x": "gray",
+        "y": "gray"
+      },
+      "coverage": 0,
+      "observation_count": 0,
+      "eligible_count": 0,
+      "observations": [],
+      "side_statistics": {
+        "mentor": {
+          "mean": null,
+          "count": 0
+        },
+        "intern": {
+          "mean": null,
+          "count": 0
+        }
+      },
+      "received_surveys": 0,
+      "expected_surveys": 0,
+      "risk_distribution": {
+        "green": 0,
+        "yellow": 0,
+        "red": 0,
+        "gray": 0
+      },
+      "factor_contributions": {
+        "x": [],
+        "y": []
+      }
+    },
+    {
+      "month": 5,
+      "x": null,
+      "y": null,
+      "z": null,
+      "actual": {
+        "x": null,
+        "y": null,
+        "z": null
+      },
+      "scenario": {
+        "x": null,
+        "y": null,
+        "z": null
+      },
+      "bands": {
+        "x": "gray",
+        "y": "gray"
+      },
+      "coverage": 0,
+      "observation_count": 0,
+      "eligible_count": 0,
+      "observations": [],
+      "side_statistics": {
+        "mentor": {
+          "mean": null,
+          "count": 0
+        },
+        "intern": {
+          "mean": null,
+          "count": 0
+        }
+      },
+      "received_surveys": 0,
+      "expected_surveys": 0,
+      "risk_distribution": {
+        "green": 0,
+        "yellow": 0,
+        "red": 0,
+        "gray": 0
+      },
+      "factor_contributions": {
+        "x": [],
+        "y": []
+      }
+    },
+    {
+      "month": 6,
+      "x": null,
+      "y": null,
+      "z": null,
+      "actual": {
+        "x": null,
+        "y": null,
+        "z": null
+      },
+      "scenario": {
+        "x": null,
+        "y": null,
+        "z": null
+      },
+      "bands": {
+        "x": "gray",
+        "y": "gray"
+      },
+      "coverage": 0,
+      "observation_count": 0,
+      "eligible_count": 0,
+      "observations": [],
+      "side_statistics": {
+        "mentor": {
+          "mean": null,
+          "count": 0
+        },
+        "intern": {
+          "mean": null,
+          "count": 0
+        }
+      },
+      "received_surveys": 0,
+      "expected_surveys": 0,
+      "risk_distribution": {
+        "green": 0,
+        "yellow": 0,
+        "red": 0,
+        "gray": 0
+      },
+      "factor_contributions": {
+        "x": [],
+        "y": []
+      }
+    }
+  ],
+  "semantic_comparisons": [
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "month": 1,
+      "aspect": "clarity",
+      "type": "NOT_COMPARABLE",
+      "status": "abstained",
+      "mentor_states": [],
+      "intern_states": [],
+      "explanation": "Недостаточно явных сопоставимых текстовых утверждений по этому аспекту.",
+      "evidence": [],
+      "evidence_refs": [],
+      "rule_version": "2.0.1-project-semantic-rules",
+      "score_effect": 0
+    },
+    {
+      "pair_id": "pair-b79a76c6c1557104",
+      "month": 1,
+      "aspect": "team",
+      "type": "NOT_COMPARABLE",
+      "status": "abstained",
+      "mentor_states": [],
+      "intern_states": [],
+      "explanation": "Недостаточно явных сопоставимых текстовых утверждений по этому аспекту.",
+      "evidence": [],
+      "evidence_refs": [],
+      "rule_version": "2.0.1-project-semantic-rules",
+      "score_effect": 0
+    }
+  ],
+  "ml_analysis_version": "06fba3fc3a8ce95bc3ac270a2f55862f8abd3e4d3efccdd9d2019de36fd2f767",
+  "analysis_id": "analysis-2ad4e82d8b8b4b56b9bd7d0a0c7f151f",
+  "trace_id": "trace-e456a6659f1e41f38f3641fe10e994c9",
+  "processing_ms": 237.02,
+  "data_version": "ab76411c5c2c85efe0b3027b40650da81b856d460fd616c8354752bda9a99d19",
+  "methodology_cache_version": "a6cfe12055653bca1bb96b2ab9aca4579c573a39d9d6b518a499c5220809706c"
+}

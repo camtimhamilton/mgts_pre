@@ -6,7 +6,7 @@ from pydantic import Field, ValidationError, model_validator
 
 from app.schemas import Model
 
-Component = Literal["signal_extractor", "rule_extractor", "semantic_validator"]
+Component = Literal["signal_extractor", "rule_extractor", "semantic_validator", "summary_builder"]
 
 
 class ComponentConfig(Model):
@@ -20,6 +20,7 @@ class DeepSeekConfig(Model):
     signal_extractor: ComponentConfig = ComponentConfig(model="deepseek-flash")
     rule_extractor: ComponentConfig = ComponentConfig(model="deepseek-v4-pro")
     semantic_validator: ComponentConfig = ComponentConfig(model="deepseek-v4-pro")
+    summary_builder: ComponentConfig = ComponentConfig(model="deepseek-flash")
     timeout_seconds: float = Field(default=30, ge=0.1, le=120)
     total_timeout_seconds: float = Field(default=90, ge=0.1, le=300)
     queue_timeout_seconds: float = Field(default=2, ge=0.01, le=30)
@@ -43,7 +44,7 @@ class DeepSeekConfig(Model):
                 value = os.getenv("DEEPSEEK_" + name.upper())
                 if value is not None:
                     values[name] = value
-            for component in ("signal_extractor", "rule_extractor", "semantic_validator"):
+            for component in ("signal_extractor", "rule_extractor", "semantic_validator", "summary_builder"):
                 defaults = cls.model_fields[component].default.model_dump()
                 prefix = "DEEPSEEK_" + component.upper() + "_"
                 for name in ("model", "max_tokens", "thinking"):

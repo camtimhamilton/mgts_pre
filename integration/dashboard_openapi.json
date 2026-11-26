@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Пульс программы",
-    "version": "0.2"
+    "title": "ПУЛЬС · дашборд программы",
+    "version": "2.0.0"
   },
   "paths": {
     "/api/health": {
@@ -499,10 +499,793 @@
           }
         }
       }
+    },
+    "/api/v2/analytics": {
+      "post": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Analyze",
+        "operationId": "analyze_api_v2_analytics_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyticsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardAnalysis"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/analysis/{analysis_id}": {
+      "get": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Replay",
+        "operationId": "replay_api_v2_analysis__analysis_id__get",
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Replay Api V2 Analysis  Analysis Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/records": {
+      "get": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Records",
+        "operationId": "records_api_v2_records_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Records Api V2 Records Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/revision": {
+      "get": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Revision",
+        "operationId": "revision_api_v2_revision_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Revision Api V2 Revision Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/pairs": {
+      "get": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Pairs",
+        "operationId": "pairs_api_v2_pairs_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  },
+                  "title": "Response Pairs Api V2 Pairs Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Add Pair",
+        "operationId": "add_pair_api_v2_pairs_post",
+        "parameters": [
+          {
+            "name": "x-ingest-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Ingest-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PairRegistration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Add Pair Api V2 Pairs Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/source/{source_id}": {
+      "get": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Get Source",
+        "operationId": "get_source_api_v2_source__source_id__get",
+        "parameters": [
+          {
+            "name": "source_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Source Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Source Api V2 Source  Source Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/ingest": {
+      "post": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Receive",
+        "operationId": "receive_api_v2_ingest_post",
+        "parameters": [
+          {
+            "name": "x-delivery-id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "title": "X-Delivery-Id"
+            }
+          },
+          {
+            "name": "x-ingest-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Ingest-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Receive Api V2 Ingest Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/forms/yandex": {
+      "post": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Yandex",
+        "operationId": "yandex_api_v2_forms_yandex_post",
+        "parameters": [
+          {
+            "name": "x-ingest-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Ingest-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Yandex Api V2 Forms Yandex Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/scenarios": {
+      "get": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Scenarios",
+        "operationId": "scenarios_api_v2_scenarios_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  "type": "array",
+                  "title": "Response Scenarios Api V2 Scenarios Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Save Scenario",
+        "operationId": "save_scenario_api_v2_scenarios_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScenarioSave"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Save Scenario Api V2 Scenarios Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/scenarios/{scenario_id}": {
+      "get": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Get Scenario",
+        "operationId": "get_scenario_api_v2_scenarios__scenario_id__get",
+        "parameters": [
+          {
+            "name": "scenario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scenario Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Scenario Api V2 Scenarios  Scenario Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/scenarios/{scenario_id}/restore": {
+      "post": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Restore Scenario",
+        "operationId": "restore_scenario_api_v2_scenarios__scenario_id__restore_post",
+        "parameters": [
+          {
+            "name": "scenario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scenario Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Restore Scenario Api V2 Scenarios  Scenario Id  Restore Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AggregateResult": {
+        "properties": {
+          "x": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "X"
+          },
+          "y": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Y"
+          },
+          "z": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Z"
+          },
+          "actual": {
+            "$ref": "#/components/schemas/Indices"
+          },
+          "scenario": {
+            "$ref": "#/components/schemas/Indices"
+          },
+          "bands": {
+            "$ref": "#/components/schemas/SideBands"
+          },
+          "coverage": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Coverage"
+          },
+          "observation_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Observation Count"
+          },
+          "eligible_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Eligible Count"
+          },
+          "observations": {
+            "items": {
+              "$ref": "#/components/schemas/ObservationRef"
+            },
+            "type": "array",
+            "title": "Observations"
+          },
+          "side_statistics": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/SideStatistic"
+            },
+            "propertyNames": {
+              "enum": [
+                "mentor",
+                "intern"
+              ]
+            },
+            "type": "object",
+            "title": "Side Statistics"
+          },
+          "received_surveys": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Received Surveys"
+          },
+          "expected_surveys": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Surveys"
+          },
+          "risk_distribution": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "enum": [
+                "gray",
+                "green",
+                "yellow",
+                "red"
+              ]
+            },
+            "type": "object",
+            "title": "Risk Distribution"
+          },
+          "factor_contributions": {
+            "additionalProperties": {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Factor Contributions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "x",
+          "y",
+          "z",
+          "actual",
+          "scenario",
+          "bands",
+          "coverage",
+          "observation_count",
+          "eligible_count",
+          "observations",
+          "side_statistics",
+          "received_surveys",
+          "expected_surveys",
+          "risk_distribution",
+          "factor_contributions"
+        ],
+        "title": "AggregateResult"
+      },
+      "AnalyticsRequest": {
+        "properties": {
+          "scope": {
+            "$ref": "#/components/schemas/AnalyticsScope"
+          },
+          "selected": {
+            "items": {
+              "$ref": "#/components/schemas/SelectedAction"
+            },
+            "type": "array",
+            "maxItems": 500,
+            "title": "Selected"
+          },
+          "expected_data_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Data Version"
+          },
+          "expected_methodology_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Methodology Version"
+          },
+          "current_month": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Current Month",
+            "default": 6
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "AnalyticsRequest"
+      },
+      "AnalyticsScope": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "GLOBAL",
+              "PAIR_MONTH",
+              "PAIR_RANGE"
+            ],
+            "title": "Type",
+            "default": "GLOBAL"
+          },
+          "pair_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pair Id"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 6.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 6.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "AnalyticsScope"
+      },
       "Body_commit_api_import_commit_post": {
         "properties": {
           "file": {
@@ -585,6 +1368,454 @@
         ],
         "title": "Body_preview_api_import_preview_post"
       },
+      "Change": {
+        "properties": {
+          "month": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Month"
+          },
+          "from": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "From"
+          },
+          "to": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "To"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "improvement",
+              "deterioration"
+            ],
+            "title": "Direction"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "month",
+          "from",
+          "to",
+          "direction"
+        ],
+        "title": "Change"
+      },
+      "Claim": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "pair_id": {
+            "type": "string",
+            "title": "Pair Id"
+          },
+          "month": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Month"
+          },
+          "source_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Id"
+          },
+          "evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Refs"
+          },
+          "factor_instance_id": {
+            "type": "string",
+            "title": "Factor Instance Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "text",
+          "pair_id",
+          "month",
+          "source_id",
+          "evidence_refs",
+          "factor_instance_id"
+        ],
+        "title": "Claim"
+      },
+      "DashboardAnalysis": {
+        "properties": {
+          "analysis_version": {
+            "type": "string",
+            "title": "Analysis Version"
+          },
+          "methodology": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Methodology"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/AnalyticsScope"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          },
+          "matrix": {
+            "items": {
+              "$ref": "#/components/schemas/MatrixRow"
+            },
+            "type": "array",
+            "title": "Matrix"
+          },
+          "indices": {
+            "$ref": "#/components/schemas/AggregateResult"
+          },
+          "sections": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Section"
+            },
+            "propertyNames": {
+              "enum": [
+                "pair",
+                "mentor",
+                "intern"
+              ]
+            },
+            "type": "object",
+            "title": "Sections"
+          },
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/PairRecommendation"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          },
+          "dynamics": {
+            "items": {
+              "$ref": "#/components/schemas/Dynamics"
+            },
+            "type": "array",
+            "title": "Dynamics"
+          },
+          "discrepancies": {
+            "items": {
+              "$ref": "#/components/schemas/PairDiscrepancy"
+            },
+            "type": "array",
+            "title": "Discrepancies"
+          },
+          "patterns": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Patterns"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "versions": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Versions"
+          },
+          "summary": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Summary"
+          },
+          "index_dynamics": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Index Dynamics"
+          },
+          "semantic_comparisons": {
+            "items": {
+              "$ref": "#/components/schemas/SemanticComparison"
+            },
+            "type": "array",
+            "title": "Semantic Comparisons"
+          },
+          "ml_analysis_version": {
+            "type": "string",
+            "title": "Ml Analysis Version"
+          },
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "trace_id": {
+            "type": "string",
+            "title": "Trace Id"
+          },
+          "processing_ms": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Processing Ms"
+          },
+          "data_version": {
+            "type": "string",
+            "title": "Data Version"
+          },
+          "methodology_cache_version": {
+            "type": "string",
+            "title": "Methodology Cache Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "analysis_version",
+          "methodology",
+          "scope",
+          "updated_at",
+          "matrix",
+          "indices",
+          "sections",
+          "recommendations",
+          "dynamics",
+          "discrepancies",
+          "patterns",
+          "warnings",
+          "versions",
+          "summary",
+          "index_dynamics",
+          "semantic_comparisons",
+          "ml_analysis_version",
+          "analysis_id",
+          "trace_id",
+          "processing_ms",
+          "data_version",
+          "methodology_cache_version"
+        ],
+        "title": "DashboardAnalysis"
+      },
+      "Dynamics": {
+        "properties": {
+          "pair_id": {
+            "type": "string",
+            "title": "Pair Id"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "mentor",
+              "intern"
+            ],
+            "title": "Role"
+          },
+          "factor_id": {
+            "type": "string",
+            "title": "Factor Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "values": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 6,
+            "title": "Values"
+          },
+          "changes": {
+            "items": {
+              "$ref": "#/components/schemas/Change"
+            },
+            "type": "array",
+            "title": "Changes"
+          },
+          "scale": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Scale"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pair_id",
+          "role",
+          "factor_id",
+          "name",
+          "values",
+          "changes",
+          "scale"
+        ],
+        "title": "Dynamics"
+      },
+      "Evidence": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "source_id": {
+            "type": "string",
+            "title": "Source Id"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Version"
+          },
+          "pair_id": {
+            "type": "string",
+            "title": "Pair Id"
+          },
+          "month": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Month"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "mentor",
+              "intern"
+            ],
+            "title": "Role"
+          },
+          "question_id": {
+            "type": "string",
+            "title": "Question Id"
+          },
+          "quote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quote"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "text",
+              "rating"
+            ],
+            "title": "Kind"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "validation_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Validation Status"
+          },
+          "rule_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Id"
+          },
+          "temporal_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temporal Status"
+          },
+          "polarity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polarity"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "source_id",
+          "version",
+          "pair_id",
+          "month",
+          "role",
+          "question_id",
+          "quote",
+          "kind",
+          "value"
+        ],
+        "title": "Evidence"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -597,6 +1828,593 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "Indices": {
+        "properties": {
+          "x": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "X"
+          },
+          "y": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Y"
+          },
+          "z": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Z"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "x",
+          "y",
+          "z"
+        ],
+        "title": "Indices"
+      },
+      "MatrixCell": {
+        "properties": {
+          "pair_id": {
+            "type": "string",
+            "title": "Pair Id"
+          },
+          "month": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Month"
+          },
+          "x": {
+            "$ref": "#/components/schemas/SideResult"
+          },
+          "y": {
+            "$ref": "#/components/schemas/SideResult"
+          },
+          "z": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Z"
+          },
+          "eligible": {
+            "type": "boolean",
+            "title": "Eligible"
+          },
+          "actual": {
+            "$ref": "#/components/schemas/Indices"
+          },
+          "scenario": {
+            "$ref": "#/components/schemas/Indices"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pair_id",
+          "month",
+          "x",
+          "y",
+          "z",
+          "eligible",
+          "actual",
+          "scenario"
+        ],
+        "title": "MatrixCell"
+      },
+      "MatrixRow": {
+        "properties": {
+          "pair_id": {
+            "type": "string",
+            "title": "Pair Id"
+          },
+          "mentor_id": {
+            "type": "string",
+            "title": "Mentor Id"
+          },
+          "intern_id": {
+            "type": "string",
+            "title": "Intern Id"
+          },
+          "department": {
+            "type": "string",
+            "title": "Department"
+          },
+          "months": {
+            "items": {
+              "$ref": "#/components/schemas/MatrixCell"
+            },
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 6,
+            "title": "Months"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pair_id",
+          "mentor_id",
+          "intern_id",
+          "department",
+          "months"
+        ],
+        "title": "MatrixRow"
+      },
+      "ObservationRef": {
+        "properties": {
+          "pair_id": {
+            "type": "string",
+            "title": "Pair Id"
+          },
+          "month": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Month"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pair_id",
+          "month"
+        ],
+        "title": "ObservationRef"
+      },
+      "PairDiscrepancy": {
+        "properties": {
+          "pair_id": {
+            "type": "string",
+            "title": "Pair Id"
+          },
+          "month": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Month"
+          },
+          "aspect": {
+            "type": "string",
+            "title": "Aspect"
+          },
+          "mentor_rating": {
+            "type": "integer",
+            "title": "Mentor Rating"
+          },
+          "intern_rating": {
+            "type": "integer",
+            "title": "Intern Rating"
+          },
+          "normalized_gap": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Normalized Gap"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "mentor_higher",
+              "intern_higher"
+            ],
+            "title": "Direction"
+          },
+          "type": {
+            "type": "string",
+            "const": "rating_gap",
+            "title": "Type"
+          },
+          "status": {
+            "type": "string",
+            "const": "requires_clarification",
+            "title": "Status"
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pair_id",
+          "month",
+          "aspect",
+          "mentor_rating",
+          "intern_rating",
+          "normalized_gap",
+          "direction",
+          "type",
+          "status",
+          "explanation",
+          "evidence"
+        ],
+        "title": "PairDiscrepancy"
+      },
+      "PairFactor": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "instance_id": {
+            "type": "string",
+            "title": "Instance Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "weight": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Weight"
+          },
+          "severity": {
+            "anyOf": [
+              {
+                "enum": [
+                  0,
+                  0.5,
+                  1
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Severity"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "active",
+              "observed_no_signal"
+            ],
+            "title": "State"
+          },
+          "contribution": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Contribution"
+          },
+          "scenario_contribution": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Scenario Contribution"
+          },
+          "rating": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rating"
+          },
+          "rule_id": {
+            "type": "string",
+            "title": "Rule Id"
+          },
+          "activation_rule": {
+            "type": "string",
+            "title": "Activation Rule"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "rule_status": {
+            "type": "string",
+            "title": "Rule Status"
+          },
+          "validation_status": {
+            "type": "string",
+            "title": "Validation Status"
+          },
+          "review_flags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Review Flags"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          },
+          "score_evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Score Evidence Refs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "instance_id",
+          "name",
+          "weight",
+          "severity",
+          "state",
+          "contribution",
+          "scenario_contribution",
+          "rating",
+          "rule_id",
+          "activation_rule",
+          "source",
+          "rule_status",
+          "validation_status",
+          "review_flags",
+          "evidence",
+          "score_evidence_refs"
+        ],
+        "title": "PairFactor"
+      },
+      "PairRecommendation": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "action_id": {
+            "type": "string",
+            "title": "Action Id"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/AnalyticsScope"
+          },
+          "impact_scope": {
+            "type": "string",
+            "enum": [
+              "PAIR",
+              "MENTOR",
+              "INTERN"
+            ],
+            "title": "Impact Scope"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "rationale": {
+            "type": "string",
+            "title": "Rationale"
+          },
+          "responsible": {
+            "type": "string",
+            "title": "Responsible"
+          },
+          "target_factors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Target Factors"
+          },
+          "targets": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Targets"
+          },
+          "target_observations": {
+            "items": {
+              "$ref": "#/components/schemas/TargetObservation"
+            },
+            "type": "array",
+            "title": "Target Observations"
+          },
+          "evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Refs"
+          },
+          "delta": {
+            "$ref": "#/components/schemas/Indices"
+          },
+          "additional_delta": {
+            "$ref": "#/components/schemas/Indices"
+          },
+          "completion_criteria": {
+            "type": "string",
+            "title": "Completion Criteria"
+          },
+          "resolution_criteria": {
+            "type": "string",
+            "title": "Resolution Criteria"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "assumption": {
+            "type": "string",
+            "const": "full_resolution",
+            "title": "Assumption"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "action_id",
+          "scope",
+          "impact_scope",
+          "title",
+          "name",
+          "rationale",
+          "responsible",
+          "target_factors",
+          "targets",
+          "target_observations",
+          "evidence_refs",
+          "delta",
+          "additional_delta",
+          "completion_criteria",
+          "resolution_criteria",
+          "status",
+          "assumption"
+        ],
+        "title": "PairRecommendation"
+      },
+      "PairRegistration": {
+        "properties": {
+          "intern_id": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "pattern": "^[\\w-]+$",
+            "title": "Intern Id"
+          },
+          "mentor_id": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "pattern": "^[\\w-]+$",
+            "title": "Mentor Id"
+          },
+          "department": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Department"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "intern_id",
+          "mentor_id",
+          "department"
+        ],
+        "title": "PairRegistration"
+      },
+      "ScenarioSave": {
+        "properties": {
+          "scope": {
+            "$ref": "#/components/schemas/AnalyticsScope"
+          },
+          "selected": {
+            "items": {
+              "$ref": "#/components/schemas/SelectedAction"
+            },
+            "type": "array",
+            "maxItems": 500,
+            "title": "Selected"
+          },
+          "expected_data_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Data Version"
+          },
+          "expected_methodology_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Methodology Version"
+          },
+          "current_month": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Current Month",
+            "default": 6
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Name",
+            "default": "Мой сценарий"
+          },
+          "scenario_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scenario Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ScenarioSave"
       },
       "ScenarioSelection": {
         "properties": {
@@ -615,6 +2433,590 @@
           "action_ids"
         ],
         "title": "ScenarioSelection"
+      },
+      "Section": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "characteristic": {
+            "type": "string",
+            "title": "Characteristic"
+          },
+          "generation": {
+            "type": "string",
+            "const": "deterministic_evidence_summary",
+            "title": "Generation"
+          },
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/Claim"
+            },
+            "type": "array",
+            "title": "Claims"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          },
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/PairRecommendation"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          },
+          "critical_flags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Critical Flags"
+          },
+          "coverage": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Coverage"
+          },
+          "review_flags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Review Flags"
+          },
+          "history_summary": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "History Summary"
+          },
+          "text_interpretation": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Text Interpretation"
+          },
+          "highlighted_evidence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Evidence"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "characteristic_evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Characteristic Evidence Refs"
+          },
+          "source_facets": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Source Facets"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "title",
+          "characteristic",
+          "generation",
+          "claims",
+          "evidence",
+          "recommendations",
+          "critical_flags",
+          "coverage",
+          "review_flags",
+          "history_summary",
+          "text_interpretation",
+          "highlighted_evidence",
+          "characteristic_evidence_refs",
+          "source_facets"
+        ],
+        "title": "Section"
+      },
+      "SelectedAction": {
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Action Id"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/AnalyticsScope"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action_id",
+          "scope"
+        ],
+        "title": "SelectedAction"
+      },
+      "SemanticComparison": {
+        "properties": {
+          "pair_id": {
+            "type": "string",
+            "title": "Pair Id"
+          },
+          "month": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Month"
+          },
+          "aspect": {
+            "type": "string",
+            "title": "Aspect"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "AGREEMENT",
+              "CONTRADICTION",
+              "AWARENESS_GAP",
+              "COMPLEMENTARY",
+              "NOT_COMPARABLE"
+            ],
+            "title": "Type"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "abstained",
+              "project_rule_provisional",
+              "requires_clarification"
+            ],
+            "title": "Status"
+          },
+          "mentor_states": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "positive",
+                "negative",
+                "proposal",
+                "awareness_gap"
+              ]
+            },
+            "type": "array",
+            "title": "Mentor States"
+          },
+          "intern_states": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "positive",
+                "negative",
+                "proposal",
+                "awareness_gap"
+              ]
+            },
+            "type": "array",
+            "title": "Intern States"
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          },
+          "evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Refs"
+          },
+          "rule_version": {
+            "type": "string",
+            "title": "Rule Version"
+          },
+          "score_effect": {
+            "type": "integer",
+            "const": 0,
+            "title": "Score Effect"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pair_id",
+          "month",
+          "aspect",
+          "type",
+          "status",
+          "mentor_states",
+          "intern_states",
+          "explanation",
+          "evidence",
+          "evidence_refs",
+          "rule_version",
+          "score_effect"
+        ],
+        "title": "SemanticComparison"
+      },
+      "SideBands": {
+        "properties": {
+          "x": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "green",
+              "yellow",
+              "red"
+            ],
+            "title": "X"
+          },
+          "y": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "green",
+              "yellow",
+              "red"
+            ],
+            "title": "Y"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "x",
+          "y"
+        ],
+        "title": "SideBands"
+      },
+      "SideResult": {
+        "properties": {
+          "score": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          },
+          "actual_score": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actual Score"
+          },
+          "band": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "green",
+              "yellow",
+              "red"
+            ],
+            "title": "Band"
+          },
+          "coverage": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Coverage"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "missing",
+              "future",
+              "insufficient_data",
+              "partial",
+              "completed"
+            ],
+            "title": "Status"
+          },
+          "factors": {
+            "items": {
+              "$ref": "#/components/schemas/PairFactor"
+            },
+            "type": "array",
+            "title": "Factors"
+          },
+          "unknown_factors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unknown Factors"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          },
+          "critical_flags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Critical Flags"
+          },
+          "signals": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Signals"
+          },
+          "text_analysis_status": {
+            "type": "string",
+            "title": "Text Analysis Status"
+          },
+          "text_interpretation_status": {
+            "type": "string",
+            "enum": [
+              "missing",
+              "empty",
+              "error",
+              "not_run",
+              "local_abstain",
+              "abstained",
+              "local_partial",
+              "partial",
+              "local_matched",
+              "matched",
+              "local_encoder_review"
+            ],
+            "title": "Text Interpretation Status"
+          },
+          "unclassified_fragments": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "title": "Unclassified Fragments"
+          },
+          "source_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Id"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "nlp_audit": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Nlp Audit"
+          },
+          "text_mode": {
+            "type": "string",
+            "title": "Text Mode"
+          },
+          "nlp_identity": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Nlp Identity"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "score",
+          "actual_score",
+          "band",
+          "coverage",
+          "status",
+          "factors",
+          "unknown_factors",
+          "evidence",
+          "critical_flags",
+          "signals",
+          "text_analysis_status",
+          "text_interpretation_status",
+          "unclassified_fragments",
+          "text_mode",
+          "nlp_identity"
+        ],
+        "title": "SideResult"
+      },
+      "SideStatistic": {
+        "properties": {
+          "mean": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Count"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mean",
+          "count"
+        ],
+        "title": "SideStatistic"
+      },
+      "SurveyInput": {
+        "properties": {
+          "intern_id": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "pattern": "^[\\w-]+$",
+            "title": "Intern Id"
+          },
+          "mentor_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80,
+                "minLength": 1,
+                "pattern": "^[\\w-]+$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mentor Id"
+          },
+          "department": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Department"
+          },
+          "month": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Month"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "mentor",
+              "intern"
+            ],
+            "title": "Role"
+          },
+          "ratings": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Ratings"
+          },
+          "texts": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Texts"
+          },
+          "external_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "intern_id",
+          "department",
+          "month",
+          "role"
+        ],
+        "title": "SurveyInput"
+      },
+      "TargetObservation": {
+        "properties": {
+          "pair_id": {
+            "type": "string",
+            "title": "Pair Id"
+          },
+          "month": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Month"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "mentor",
+              "intern"
+            ],
+            "title": "Role"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pair_id",
+          "month",
+          "role"
+        ],
+        "title": "TargetObservation"
       },
       "ValidationError": {
         "properties": {

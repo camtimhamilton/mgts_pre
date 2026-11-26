@@ -17,6 +17,12 @@ from app.llm import FixtureProvider, ProviderError
 from app.orchestrator import CAPABILITIES, Pipeline
 from app.schemas import AnalysisResult, ScenarioRequest, ScenarioResult, SurveyPeriod
 from app.storage import SQLiteSnapshots
+from app.pair_schemas import AnalyticsRequest, AnalyticsResponse
+from app.pair_analytics import analyze as analyze_pairs
+from app.pair_analytics import load_policy as load_pair_policy
+from app.pair_analytics import PIPELINE_VERSION as PAIR_PIPELINE_VERSION
+from app.pair_semantics import load_semantic_rules
+from app.serialization import digest
 
 
 class APIError(BaseModel):
@@ -47,8 +53,9 @@ def create_app(database: Path | None = None, provider=None) -> FastAPI:
     kb, mapping = load_knowledge(), load_mapping()
     repository = SQLiteSnapshots(database or Path(os.getenv("MGTS_DATABASE", "data/demo.sqlite3")))
     pipeline = Pipeline(kb, mapping, provider, repository)
-    api = FastAPI(title="MGTS Internship ML — synthetic demo", version="0.1.1",
-                  description="Expert support index, not an attrition probability. Local synthetic data only.",
+    api = FastAPI(title="ПУЛЬС · аналитика стажировок МГТС", version="2.0.0",
+                  description="Pair survey analytics v2 and the original synthetic v1 API. "
+                              "Local evidence, independent role indices and conditional scenarios.",
                   responses={422: {"model": APIError}, 409: {"model": APIError}, 503: {"model": APIError}})
     api.state.pipeline = pipeline
 
@@ -60,7 +67,7 @@ def create_app(database: Path | None = None, provider=None) -> FastAPI:
             body = bytearray()
             async for chunk in request.stream():
                 body.extend(chunk)
-                if len(body) > 300000:
+                if len(body) > (10000000 if request.url.path == "/v2/analytics" else 300000):
                     return JSONResponse(status_code=413, content=error_body(request, "request_too_large"))
             request._body = bytes(body)
         response = await call_next(request)
@@ -114,6 +121,23 @@ def create_app(database: Path | None = None, provider=None) -> FastAPI:
         if result is None:
             raise KeyError("snapshot_not_found")
         return scenario(result, body)
+
+    @api.post("/v2/analytics", response_model=AnalyticsResponse)
+    async def pair_analytics(body: AnalyticsRequest):
+        from app.pulse_nlp import enrich
+        records = [await enrich(record.model_dump()) for record in body.records]
+        return analyze_pairs(records, body.scope.model_dump(),
+                             [selection.model_dump() for selection in body.selected], body.current_month,
+                             pairs=[pair.model_dump() for pair in body.pairs])
+
+    @api.get("/v2/methodology")
+    async def pair_methodology():
+        from app.pulse_nlp import configuration
+        policy = load_pair_policy()
+        mode, _, nlp_version = configuration()
+        return {"cache_version": digest([policy, load_semantic_rules(), nlp_version, PAIR_PIPELINE_VERSION]),
+                "policy": policy, "nlp_version": nlp_version, "text_mode": mode,
+                "pipeline": PAIR_PIPELINE_VERSION}
 
     return api
 

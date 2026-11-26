@@ -1,0 +1,58 @@
+{
+  "version": "2.0.1-expert-draft",
+  "status": "expert_project_assumption",
+  "source": "Автор проекта, предварительная операционализация официальных анкет МГТС",
+  "min_coverage": 0.7,
+  "rating_gap_threshold": 0.5,
+  "thresholds": {"yellow": 30, "red": 70},
+  "rating_levels": {"1": 1, "2": 1, "3": 0.5, "4": 0, "5": 0},
+  "roles": {
+    "mentor": {
+      "clarity": {"name": "Понимание задач и ожиданий", "weight": 20},
+      "quality": {"name": "Качество выполнения задач", "weight": 20},
+      "autonomy": {"name": "Самостоятельность", "weight": 15},
+      "deadlines": {"name": "Сроки и организация работы", "weight": 15},
+      "initiative": {"name": "Вовлечённость и инициативность", "weight": 15},
+      "team": {"name": "Взаимодействие с наставником и командой", "weight": 15}
+    },
+    "intern": {
+      "clarity": {"name": "Понятность задач", "weight": 15},
+      "support": {"name": "Поддержка и обратная связь наставника", "weight": 20},
+      "workload": {"name": "Комфортность нагрузки", "weight": 15},
+      "interest": {"name": "Интерес к задачам", "weight": 10},
+      "growth": {"name": "Профессиональное развитие", "weight": 15},
+      "team": {"name": "Взаимодействие с командой", "weight": 10},
+      "satisfaction": {"name": "Общая удовлетворённость стажировкой", "weight": 15}
+    }
+  },
+  "comparisons": ["clarity", "team"],
+  "sources": {"project-author": {"title": "Автор проекта, предварительные экспертные правила", "status": "expert_project_assumption"}},
+  "rules": {
+    "rule_mentor_clarity": {"role": "mentor", "factor_id": "clarity", "action_factor": "clarity", "source_id": "project-author"},
+    "rule_mentor_quality": {"role": "mentor", "factor_id": "quality", "action_factor": "quality", "source_id": "project-author"},
+    "rule_mentor_autonomy": {"role": "mentor", "factor_id": "autonomy", "action_factor": "autonomy", "source_id": "project-author"},
+    "rule_mentor_deadlines": {"role": "mentor", "factor_id": "deadlines", "action_factor": "deadlines", "source_id": "project-author"},
+    "rule_mentor_initiative": {"role": "mentor", "factor_id": "initiative", "action_factor": "initiative", "source_id": "project-author"},
+    "rule_mentor_team": {"role": "mentor", "factor_id": "team", "action_factor": "team", "source_id": "project-author"},
+    "rule_intern_clarity": {"role": "intern", "factor_id": "clarity", "action_factor": "clarity", "source_id": "project-author"},
+    "rule_intern_support": {"role": "intern", "factor_id": "support", "action_factor": "support", "source_id": "project-author"},
+    "rule_intern_workload": {"role": "intern", "factor_id": "workload", "action_factor": "workload", "source_id": "project-author"},
+    "rule_intern_interest": {"role": "intern", "factor_id": "interest", "action_factor": "interest", "source_id": "project-author"},
+    "rule_intern_growth": {"role": "intern", "factor_id": "growth", "action_factor": "growth", "source_id": "project-author"},
+    "rule_intern_team": {"role": "intern", "factor_id": "team", "action_factor": "team", "source_id": "project-author"},
+    "rule_intern_satisfaction": {"role": "intern", "factor_id": "satisfaction", "action_factor": "satisfaction", "source_id": "project-author"}
+  },
+  "actions": {
+    "clarity": {"title": "Согласовать задачи и критерии результата", "responsible": "mentor", "completion": "Зафиксированы задачи и критерии результата", "resolution": "Обе стороны подтвердили понятность задач"},
+    "quality": {"title": "Провести совместный разбор результата работы", "responsible": "mentor", "completion": "Согласованы примеры и критерии качества", "resolution": "Новая работа отвечает согласованным критериям"},
+    "autonomy": {"title": "Согласовать план развития самостоятельности", "responsible": "mentor", "completion": "Определены этапы самостоятельного выполнения", "resolution": "Подтверждено самостоятельное выполнение согласованных задач"},
+    "deadlines": {"title": "Пересмотреть план и контрольные сроки", "responsible": "mentor", "completion": "Согласован реалистичный план", "resolution": "Сроки следующего периода соблюдены"},
+    "initiative": {"title": "Обсудить вовлечённость и содержание задач", "responsible": "mentor", "completion": "Согласованы интересные задачи и регулярная обратная связь", "resolution": "Получено подтверждение вовлечённости"},
+    "team": {"title": "Договориться о правилах коммуникации", "responsible": "mentor", "completion": "Назначены контакты и регулярные встречи", "resolution": "Стороны подтвердили доступность коммуникации"},
+    "support": {"title": "Организовать регулярную обратную связь", "responsible": "mentor", "completion": "Назначены регулярные встречи и резервный контакт", "resolution": "Стажёр подтвердил доступность поддержки"},
+    "workload": {"title": "Согласовать комфортную нагрузку", "responsible": "mentor", "completion": "Пересмотрены объём и приоритеты задач", "resolution": "Стажёр подтвердил комфортную нагрузку"},
+    "interest": {"title": "Обсудить интерес к задачам", "responsible": "mentor", "completion": "Согласованы задачи с учётом обратной связи", "resolution": "Стажёр подтвердил интерес к новым задачам"},
+    "growth": {"title": "Согласовать план профессионального развития", "responsible": "mentor", "completion": "Зафиксированы цели и обучающие задачи", "resolution": "Стажёр подтвердил прогресс в развитии"},
+    "satisfaction": {"title": "Обсудить удовлетворённость стажировкой", "responsible": "hr", "completion": "Проведена конфиденциальная встреча и согласованы действия", "resolution": "Стажёр подтвердил изменение ситуации"}
+  }
+}

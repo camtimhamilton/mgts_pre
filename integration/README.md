@@ -1,4 +1,60 @@
-# P0.1–P0.2: совместный прототип
+# Совместный запуск ПУЛЬС v2
+
+Два процесса привязываются к localhost. В подготовленном рабочем каталоге уже есть обе среды, модель и импортированная история. Повторный запуск использует `data/pair-v2.db`. Для чистого checkout выполните из корня следующие команды PowerShell с Python от 3.11. При проверке использован CPython 3.13.7.
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt -r integration/requirements-browser.txt
+python -m venv ml_service/.venv
+.\ml_service\.venv\Scripts\python.exe -m pip install -r ml_service/requirements-dev.lock
+```
+
+Для обработки текстов локальной нейромоделью подготовьте публичные веса один раз. Загрузчик проверяет закреплённые ревизию, размер и SHA-256. Для режима `local_rules` достаточно базовой установки.
+
+```powershell
+.\ml_service\.venv\Scripts\python.exe -m pip install -r ml_service/requirements-encoder.txt
+.\ml_service\.venv\Scripts\python.exe ml_service/scripts/prepare_pair_encoder.py --smoke
+```
+
+### История и запуск
+
+```powershell
+$inbox = Join-Path $env:USERPROFILE 'Downloads\Telegram Desktop'
+$mentorBook = Join-Path $inbox 'doc-1795639935.xlsx'
+$internBook = Join-Path $inbox 'doc-1795639948.xlsx'
+powershell -NoProfile -ExecutionPolicy Bypass -File .\integration\run.ps1 -MentorXlsx $mentorBook -InternXlsx $internBook -TextMode local_encoder
+```
+
+Первый импорт предоставленных книг принимает 30 + 30 строк. Следующий идентичный импорт возвращает 60 дубликатов. Копировать оригиналы в Git не требуется. При уже загруженной истории достаточно `powershell -NoProfile -ExecutionPolicy Bypass -File .\integration\run.ps1 -TextMode local_encoder`. Доступны параметры `-DashboardPort` и `-MLPort`. Ctrl+C в окне запуска завершает процессы. Для изолированного импорта можно задать `$env:DB_PATH` и выполнить `.\.venv\Scripts\python.exe -m tools.import_pair_history --mentor $mentorBook --intern $internBook`.
+
+Панель доступна по адресу [127.0.0.1:8000](http://127.0.0.1:8000/). Машиночитаемые схемы доступны на `/openapi.json` каждого сервиса. Для проверки области в другом окне PowerShell
+
+```powershell
+$r = Invoke-RestMethod http://127.0.0.1:8000/api/v2/analytics -Method Post -ContentType application/json -Body '{"scope":{"type":"GLOBAL"}}'
+$r.indices.actual
+$r.matrix | Select-Object mentor_id,intern_id,department
+```
+
+### Проверки
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests -q
+Push-Location ml_service
+$env:PULSE_RUN_ENCODER_SMOKE='1'
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m scripts.evaluate_pair --encoder
+Pop-Location
+.\.venv\Scripts\python.exe -m integration.export_pair
+.\.venv\Scripts\python.exe -m integration.pair_browser --mentor $mentorBook --intern $internBook --text-mode local_encoder
+```
+
+Последняя команда использует установленный Microsoft Edge и отдельную временную БД. Она сверяет ответы с оригиналами, переключает области, проверяет гипотезы, сохранение сценария, повтор JSON-RPC и отключение ML. Приватные отчёты и изображения сохраняются в `data/review/`. Публичный экспорт работает на двух синтетических анкетах.
+
+Ключ DeepSeek задаётся только окружением процесса. Для отдельного платного smoke на разрешённой синтетике используйте `MGTS_RUN_DEEPSEEK_SMOKE=1`, `MGTS_ALLOW_SYNTHETIC_LLM=1`, `DEEPSEEK_API_KEY` и команду `.\.venv\Scripts\python.exe -m scripts.smoke_deepseek` из `ml_service`. Режим парного API `PULSE_TEXT_MODE=deepseek` проверяет точный синтетический вход до обращения к провайдеру. Методологию и конфигурацию модели показывает `GET /v2/methodology`. Чтобы запросить новый независимый прогон вместо сохранённого результата, задайте новый `PULSE_NLP_RUN_ID` перед запуском ML.
+
+## Архив · P0.1–P0.2
+
+Дальнейшее описание относится к API v1 и странице /legacy.
 
 Ветка `integration/ml-dashboard` создана от `origin/main` **485f486**. ML импортирован
 из `origin/ml` **46e74d0** в `ml_service/`. Исходные main/ml не менялись, push/PR не выполнялись.

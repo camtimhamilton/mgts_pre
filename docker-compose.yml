@@ -18,12 +18,12 @@ services:
     # `python -m tools.seed_demo` пишут в одну базу без root-овых файлов.
     user: "${PULSE_UID:-1000}:${PULSE_GID:-1000}"
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     env_file:
       - path: .env
         required: false
     environment:
-      DB_PATH: /data/app.db
+      DB_PATH: /data/pair-v2.db
       ANALYSIS_MODE: ml
       ML_API_URL: http://ml:8001
       ML_MAPPING_VERSION: dashboard-demo-1

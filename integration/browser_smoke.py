@@ -17,7 +17,7 @@ def main():
             page.set_default_timeout(5000)
             errors = []
             page.on("pageerror", lambda error: errors.append(str(error)))
-            page.goto(base)
+            page.goto(base + "/legacy")
             expect(page.locator(".hero-risk")).to_have_text("17")
             expect(page.locator("#card .reason")).to_have_count(10)
             expect(page.locator(".ml-status")).to_contain_text("22%")

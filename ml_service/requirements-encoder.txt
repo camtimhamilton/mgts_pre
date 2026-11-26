@@ -1,0 +1,4 @@
+# Optional CPU-only local neural evidence matching. Core installation stays usable.
+numpy==2.2.6
+onnxruntime==1.23.2
+tokenizers==0.22.1

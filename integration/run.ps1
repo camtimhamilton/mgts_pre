@@ -1,4 +1,6 @@
-param([int]$DashboardPort = 8000, [int]$MLPort = 8001, [switch]$Seed, [int]$RunSeconds = 0)
+param([int]$DashboardPort = 8000, [int]$MLPort = 8001, [switch]$Seed, [int]$RunSeconds = 0,
+      [string]$MentorXlsx, [string]$InternXlsx,
+      [ValidateSet('local_rules','local_encoder','deepseek')][string]$TextMode)
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $logsPath = Join-Path $projectRoot 'data/integration'
@@ -14,9 +16,22 @@ $env:ML_API_URL = "http://127.0.0.1:$MLPort"
 $env:ML_MAPPING_VERSION = 'dashboard-demo-1'
 $env:ML_KNOWLEDGE_VERSION = '0.1.0'
 $env:ML_PROGRAM_ID = 'synthetic_dashboard'
-$env:DB_PATH = Join-Path $logsPath 'backend.sqlite3'
+$env:DB_PATH = Join-Path $projectRoot 'data/pair-v2.db'
+if ([bool]$MentorXlsx -ne [bool]$InternXlsx) { throw 'Supply both -MentorXlsx and -InternXlsx.' }
+if ($MentorXlsx) {
+    $mentorPath = (Resolve-Path -LiteralPath $MentorXlsx).Path
+    $internPath = (Resolve-Path -LiteralPath $InternXlsx).Path
+    Push-Location $projectRoot
+    try {
+        & $backendPython -m tools.import_pair_history --mentor $mentorPath --intern $internPath
+        if ($LASTEXITCODE -ne 0) { throw 'History import failed.' }
+    } finally { Pop-Location }
+}
+if ($TextMode) { $env:PULSE_TEXT_MODE = $TextMode }
+elseif (!$env:PULSE_TEXT_MODE) { $env:PULSE_TEXT_MODE = 'local_rules' }
+if (!$env:ML_API_TIMEOUT) { $env:ML_API_TIMEOUT = '60' }
 $env:MGTS_PROVIDER = 'mock'
-$env:MGTS_ALLOW_SYNTHETIC_LLM = '0'
+if (!$env:MGTS_ALLOW_SYNTHETIC_LLM) { $env:MGTS_ALLOW_SYNTHETIC_LLM = '0' }
 $env:MGTS_DATABASE = Join-Path $logsPath 'ml.sqlite3'
 $env:MGTS_MAPPING_PATH = Join-Path $projectRoot 'ml_service/mappings/dashboard-demo.yaml'
 $env:MGTS_FIXTURE_CATALOG = Join-Path $projectRoot 'ml_service/tests/fixtures/dashboard_mock_extractions.json'
@@ -43,7 +58,7 @@ try {
         }
     }
     Write-Host "Dashboard http://127.0.0.1:$DashboardPort | ML http://127.0.0.1:$MLPort/docs"
-    Write-Host "Mock only. Data/logs: $logsPath | Ctrl+C stops both services; data is retained."
+    Write-Host "Pair analytics text mode: $env:PULSE_TEXT_MODE | DB: $env:DB_PATH | Ctrl+C stops both services."
     $startedAt = Get-Date
     while ($RunSeconds -le 0 -or ((Get-Date) - $startedAt).TotalSeconds -lt $RunSeconds) {
         if ($processes | Where-Object { $_.HasExited }) { throw "Service exited. See $logsPath" }

@@ -1,0 +1,149 @@
+{
+  "purpose": "Авторский синтетический набор для инженерной проверки. Независимая экспертная разметка отсутствует.",
+  "cases": [
+    {
+      "role": "intern",
+      "topic": "support",
+      "text": "В учебной лаборатории мне не хватает поддержки.",
+      "current_problem": true
+    },
+    {
+      "role": "intern",
+      "topic": "support",
+      "text": "Обратной связи недостаточно для проверки макета.",
+      "current_problem": true
+    },
+    {
+      "role": "intern",
+      "topic": "workload",
+      "text": "Не справляюсь с объёмом учебных заданий.",
+      "current_problem": true
+    },
+    {
+      "role": "intern",
+      "topic": "workload",
+      "text": "Текущая нагрузка комфортна.",
+      "current_problem": false
+    },
+    {
+      "role": "intern",
+      "topic": "clarity",
+      "text": "Неясные задачи приходится разбирать по несколько раз.",
+      "current_problem": true
+    },
+    {
+      "role": "intern",
+      "topic": "clarity",
+      "text": "Мне понятны условия нового задания.",
+      "current_problem": false
+    },
+    {
+      "role": "intern",
+      "topic": "team",
+      "text": "Сложно общаться с командой во время практикума.",
+      "current_problem": true
+    },
+    {
+      "role": "intern",
+      "topic": "interest",
+      "text": "Задачи мне неинтересны.",
+      "current_problem": true
+    },
+    {
+      "role": "intern",
+      "topic": "growth",
+      "text": "Не хватает возможностей для развития в лаборатории.",
+      "current_problem": true
+    },
+    {
+      "role": "intern",
+      "topic": null,
+      "text": "В пятницу я забрал пропуск у администратора.",
+      "current_problem": false
+    },
+    {
+      "role": "intern",
+      "topic": "support",
+      "text": "Не могу сказать, что не хватает поддержки.",
+      "current_problem": false
+    },
+    {
+      "role": "intern",
+      "topic": "workload",
+      "text": "Если нагрузка вырастет, обсудим график.",
+      "current_problem": false
+    },
+    {
+      "role": "mentor",
+      "topic": "quality",
+      "text": "Результат регулярно требует существенной доработки.",
+      "current_problem": true
+    },
+    {
+      "role": "mentor",
+      "topic": "autonomy",
+      "text": "Требуется постоянное сопровождение при сборке макета.",
+      "current_problem": true
+    },
+    {
+      "role": "mentor",
+      "topic": "autonomy",
+      "text": "Работает самостоятельно на всех учебных сменах.",
+      "current_problem": false
+    },
+    {
+      "role": "mentor",
+      "topic": "deadlines",
+      "text": "Регулярно нарушает сроки проверки прототипа.",
+      "current_problem": true
+    },
+    {
+      "role": "mentor",
+      "topic": "clarity",
+      "text": "Не понимает ожидаемый результат учебной работы.",
+      "current_problem": true
+    },
+    {
+      "role": "mentor",
+      "topic": "team",
+      "text": "Сохраняются сложности в коммуникации с коллегами.",
+      "current_problem": true
+    },
+    {
+      "role": "mentor",
+      "topic": "initiative",
+      "text": "Включается в работу только после напоминаний.",
+      "current_problem": true
+    },
+    {
+      "role": "mentor",
+      "topic": "deadlines",
+      "text": "Если стажёр не укладывается в сроки, мы договариваемся о помощи.",
+      "current_problem": false
+    },
+    {
+      "role": "mentor",
+      "topic": null,
+      "text": "Встречу перенесли в другой кабинет.",
+      "current_problem": false
+    },
+    {
+      "role": "intern",
+      "topic": "support",
+      "text": "Приходится неделями ждать ответа куратора.",
+      "current_problem": true
+    },
+    {
+      "role": "mentor",
+      "topic": "quality",
+      "text": "У каждого чертежа обнаруживаются новые дефекты.",
+      "current_problem": true
+    },
+    {
+      "role": "intern",
+      "topic": "team",
+      "text": "Мне трудно наладить контакт с коллегами.",
+      "current_problem": true
+    }
+  ]
+}

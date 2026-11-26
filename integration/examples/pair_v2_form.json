@@ -1,0 +1,22 @@
+{
+  "jsonrpc": "2.0",
+  "method": "submit",
+  "id": "synthetic",
+  "params": {
+    "form_id": "synthetic-intern",
+    "response_id": "synthetic-answer",
+    "revision_id": "1",
+    "intern_id": "demo-I",
+    "department": "Учебное направление",
+    "month": 1,
+    "role": "intern",
+    "clarity": 2,
+    "support": 3,
+    "workload": 4,
+    "interest": 4,
+    "growth": 5,
+    "team": 4,
+    "satisfaction": 3,
+    "barriers": "Мне не хватает поддержки в учебном проекте."
+  }
+}

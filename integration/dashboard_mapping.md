@@ -1,4 +1,21 @@
-# Контракт dashboard ↔ ML, adapter v1
+# Контракт матрицы v2
+
+| Элемент | Поле или запрос |
+|---|---|
+| Строки n × 6 | `matrix[].mentor_id, intern_id, department, months[]`. Реестр включает пары без анкет. |
+| Левая и правая половины | `month.x.band`, `month.y.band`. Цвет и статус пригодности выдаёт ML. |
+| Область | `scope.type` GLOBAL, PAIR_MONTH или PAIR_RANGE. Для пары обязательны `pair_id` и `start`. Обе границы входят в диапазон. |
+| Три числа и выборка | `indices.actual`, `indices.scenario`, `eligible_count`, `observations`, `side_statistics`. |
+| Основания | `sections.{pair,mentor,intern}`, `claims[].evidence_refs`, `matrix[].months[].{x,y}.factors`. Значение оценки и дословный текст различаются по `evidence.kind`. |
+| Исходный ответ | `GET /api/v2/source/{source_id}`, поля `record`, `raw`, `versions`. |
+| Динамика | `dynamics[].values` в исходной шкале 1–5, `index_dynamics`, `discrepancies`, `semantic_comparisons`, `patterns`. |
+| Мероприятия | `recommendations[].impact_scope`, `targets`, `delta`, `additional_delta`. Выбор передаётся в `selected` как пара `action_id` и исходная область. |
+| Сценарии | `POST /api/v2/scenarios`, список и история через GET, восстановление через `POST /api/v2/scenarios/{id}/restore`. Несовместимая база даёт HTTP 409. |
+| Версии и обновление | `data_version`, `methodology_cache_version`, `updated_at`, `analysis_id`. Счётчик для обновления страницы — `GET /api/v2/revision`. |
+
+Backend принимает `POST /api/v2/analytics` и вызывает `POST /v2/analytics` ML-сервиса. Примеры в `integration/examples/pair_v2_*.json` получены из запущенного локального API на маркированной синтетике. Процесс экспорта воспроизводится командой `python -m integration.export_pair`.
+
+## Архив · adapter v1
 
 Backend хранит исходные `Submission`, связывает людей, нормализует выгрузки, вызывает ML,
 сохраняет полный ответ, агрегирует и отдаёт frontend. ML владеет факторами, правилами,

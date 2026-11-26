@@ -34,7 +34,7 @@ class Settings(BaseSettings):
 
     ingest_key: str = ""
 
-    db_path: str = "./data/app.db"
+    db_path: str = "./data/pair-v2.db"
     program_start: str = "2026-02-01"
 
     @property

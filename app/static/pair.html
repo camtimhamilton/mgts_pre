@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light">
+<title>ПУЛЬС · Аналитика стажировок</title><link rel="stylesheet" href="/static/pair.css"></head>
+<body><header class="top"><div class="brand"><span class="pulsemark" aria-hidden="true">∿</span>ПУЛЬС</div><span class="product">Аналитика стажировок</span><span class="connection" id="connection" role="status">Загрузка…</span></header>
+<main><div class="heading"><div><p class="eyebrow">Программа стажировок МГТС</p><h1>Обзор программы</h1></div><div class="actions"><button id="compare" hidden>Показать факт</button><button id="manage">Сценарии <span aria-hidden="true">↗</span></button></div></div>
+<div class="workspace"><aside class="panel rail"><div class="pad"><h2>Контрольные точки</h2><div class="modes" role="group" aria-label="Область анализа">
+<button data-mode="GLOBAL" aria-pressed="true">Общая аналитика</button><button data-mode="PAIR_MONTH">Пара за месяц</button><button data-mode="PAIR_RANGE">Пара за период</button></div>
+<p class="hint" id="hint"></p></div><div class="matrix-scroll"><table class="matrix" id="matrix" aria-label="Пары и месяцы"></table></div>
+<div class="pad legend"><span><i class="green"></i>Низкий</span><span><i class="yellow"></i>Внимание</span><span><i class="red"></i>Высокий</span><span><i class="gray"></i>Мало данных</span><small>Левая половина — наставник · правая — стажёр</small></div>
+<div class="method"><strong>Как читать индекс</strong><p>Баллы отражают наблюдаемые сложности. Вклад каждого фактора и источник оценки доступны по нажатию на число.</p><p id="methodology"></p></div></aside>
+<section class="analysis" aria-label="Аналитика выбранной области"><div class="panel summary"><div class="summary-header"><div><p class="eyebrow" id="view-label">Фактические показатели</p><h2 id="scope-title">Общая аналитика</h2></div><span id="refresh-time" class="subtle"></span></div><div id="metrics" class="metrics"></div><div id="summary-extra"></div></div>
+<div id="message" role="status" aria-live="polite"></div><div id="sections"></div></section></div></main>
+<dialog id="dialog"><div class="dialog-heading"><h2 id="dialog-title"></h2><button type="button" id="close" aria-label="Закрыть">×</button></div><div id="dialog-body"></div></dialog>
+<script type="module" src="/static/pair.js"></script></body></html>

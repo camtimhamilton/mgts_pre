@@ -88,6 +88,7 @@ class MLClient:
         self.transport = transport
 
     def _request(self, method: str, path: str, payload=None) -> dict[str, Any]:
+        limit = 32_000_000 if path == "/v2/analytics" else 2_000_000
         try:
             with httpx.Client(transport=self.transport, timeout=self.timeout, follow_redirects=False,
                               trust_env=False) as client:
@@ -97,7 +98,7 @@ class MLClient:
                     chunks = bytearray()
                     for chunk in response.iter_bytes():
                         chunks.extend(chunk)
-                        if len(chunks) > 2_000_000:
+                        if len(chunks) > limit:
                             raise MLUnavailable("ml_response_too_large")
             import json
             value = json.loads(chunks)

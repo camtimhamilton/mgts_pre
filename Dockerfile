@@ -10,6 +10,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app ./app
+COPY ml_service/app/pair_schemas.py ./ml_service/app/pair_schemas.py
 COPY fixtures ./fixtures
 COPY tools ./tools
 

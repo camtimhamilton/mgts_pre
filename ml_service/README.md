@@ -1,4 +1,19 @@
-# MGTS Internship Analytics ML — P0
+# ML-сервис ПУЛЬС
+
+Парный API v2 и совместный запуск описаны в [инструкции интеграции](../integration/README.md). Контракт v1 и его команды сохранены ниже.
+
+## Предложения к экспертным правилам
+
+Выполните из `ml_service`. Команды создают отдельные файлы, поэтому для следующей редакции задайте новое имя выхода.
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.rule_proposal draft --input tests/fixtures/rule_proposal_synthetic.json --author demo-author --output ../data/rule-proposals/draft.json
+.\.venv\Scripts\python.exe -m scripts.rule_proposal review --input ../data/rule-proposals/draft.json --reviewer demo-reviewer --decision approved --version 2.0.2-review.1 --note "Проверена учебная формулировка" --output ../data/rule-proposals/reviewed.json
+```
+
+Оба результата сохраняют `active=false`. Человек проверяет смысл цитаты и выбирает, готовить ли отдельное изменение политики. Предложение содержит статус источника, версию, ссылку на исходное правило и перечень изменений. Для проверки адаптера на заранее зафиксированном синтетическом источнике доступна команда `extract-synthetic --author demo-author --output ../data/rule-proposals/remote-draft.json` с ключом DeepSeek и разрешением на синтетический вызов. Произвольный внешний ввод эта команда не принимает.
+
+## Архив · P0
 
 Автономный ML REST API для **экспертного индекса наблюдаемых проблем / приоритета поддержки**. Индекс не является вероятностью ухода, психологической характеристикой или оценкой пригодности. Веса, правила, анкеты и примеры — **демонстрационные, не согласованы с МГТС**.
 

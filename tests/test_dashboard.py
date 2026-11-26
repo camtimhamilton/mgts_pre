@@ -42,6 +42,7 @@ def test_script_calls_contract_endpoints():
 
 def test_index_served_with_script():
     with TestClient(app) as client:
-        response = client.get("/")
+        assert "/static/pair.js" in client.get("/").text
+        response = client.get("/legacy")
         assert response.status_code == 200
         assert "dashboard.js" in response.text

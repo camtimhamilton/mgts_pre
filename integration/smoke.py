@@ -11,7 +11,7 @@ import subprocess
 import sys
 import tempfile
 import time
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 from pathlib import Path
 
 import httpx
@@ -40,7 +40,7 @@ def wait_until(check, timeout=20):
 
 
 @contextmanager
-def running_stack():
+def running_stack(*, text_mode="local_rules", timeout=3):
     ml_python = ROOT / "ml_service/.venv/Scripts/python.exe"
     if not ml_python.exists():
         ml_python = ROOT / "ml_service/.venv/bin/python"
@@ -54,11 +54,12 @@ def running_stack():
         ml_base = f"http://127.0.0.1:{ml_port}"
         env = {k: v for k, v in os.environ.items() if k not in {"DEEPSEEK_API_KEY", "LLM_API_KEY"}}
         env.update(MGTS_PROVIDER="mock", MGTS_ALLOW_SYNTHETIC_LLM="0", MGTS_RUN_DEEPSEEK_SMOKE="0",
+            PULSE_TEXT_MODE=text_mode,
             MGTS_DATABASE=str(temp / "ml.sqlite3"),
             MGTS_MAPPING_PATH=str(ROOT / "ml_service/mappings/dashboard-demo.yaml"),
             MGTS_FIXTURE_CATALOG=str(ROOT / "ml_service/tests/fixtures/dashboard_mock_extractions.json"),
             ANALYSIS_MODE="ml", DEMO_MODE="false", LLM_MODE="fake", DB_PATH=str(temp / "backend.sqlite3"),
-            ML_API_URL=ml_base, ML_API_TIMEOUT="1", ML_MAPPING_VERSION="dashboard-demo-1", ML_KNOWLEDGE_VERSION="0.1.0",
+            ML_API_URL=ml_base, ML_API_TIMEOUT=str(timeout), ML_MAPPING_VERSION="dashboard-demo-1", ML_KNOWLEDGE_VERSION="0.1.0",
             ML_PROGRAM_ID="synthetic_dashboard", INGEST_KEY="")
         handles = []
         try:
@@ -72,7 +73,7 @@ def running_stack():
                     args.append("--factory")
                 processes.append(subprocess.Popen(args, cwd=cwd, env=env, stdout=log, stderr=log,
                     creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0))
-            with httpx.Client(timeout=3, trust_env=False) as client:
+            with httpx.Client(timeout=timeout+3, trust_env=False) as client:
                 wait_until(lambda: client.get(ml_base + "/health").status_code == 200)
                 wait_until(lambda: client.get(base + "/api/health").status_code == 200)
                 yield client, base, ml_base, temp, processes
@@ -126,7 +127,7 @@ def exercise(client, base, ml_base, temp, processes, export=False, outage=True):
         assert result["scenario_score"] == 5 and result["potential_reduction"] == 12
     assert get(f"/api/pairs/{pair_id}?month=M3")["risk"] == 17
     def run_count():
-        with sqlite3.connect(temp / "ml.sqlite3") as conn:
+        with closing(sqlite3.connect(temp / "ml.sqlite3")) as conn:
             return conn.execute("SELECT COUNT(*) FROM snapshots").fetchone()[0]
     before = run_count()
     for _ in range(3):

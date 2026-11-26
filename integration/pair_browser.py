@@ -77,8 +77,17 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules", expert_b
                 cell(pair_id, month).click()
                 ready()
 
+            last_choices = []
+
+            def track_preview(request):
+                if "/api/v2/analytics?preview=true" in request.url:
+                    last_choices[:] = request.post_data_json["selected"]
+
+            page.on("request", track_preview)
+
             def session():
-                return page.evaluate('JSON.parse(sessionStorage.getItem("pulse-pair-session"))')
+                return {**page.evaluate('JSON.parse(sessionStorage.getItem("pulse-pair-session"))'),
+                        "selected": last_choices}
 
             def screenshot(name):
                 page.evaluate("window.scrollTo(0,0)")
@@ -175,14 +184,12 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules", expert_b
             individual = next(r for r in scenario["recommendations"] if r["impact_scope"] == "MENTOR" and (r["additional_delta"]["x"] or 0) > 0)
             individual_box = page.locator(f'input[data-action="{individual["action_id"]}"]')
             individual_box.check()
-            page.wait_for_function('JSON.parse(sessionStorage.getItem("pulse-pair-session")).selected.length===2')
             ready()
             expect(individual_box).to_be_checked()
             individual_result = client.post(base + "/api/v2/analytics", json={"scope": session()["scope"], "selected": session()["selected"]}).json()
             assert individual_result["indices"]["x"] < scenario["indices"]["x"]
             assert individual_result["indices"]["y"] == scenario["indices"]["y"]
             individual_box.uncheck()
-            page.wait_for_function('JSON.parse(sessionStorage.getItem("pulse-pair-session")).selected.length===1')
             ready()
             expect(individual_box).not_to_be_checked()
             assert len(session()["selected"]) == 1
@@ -198,29 +205,9 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules", expert_b
             mode("PAIR_MONTH")
             click_cell(pair_id, selected_month)
             expect(page.locator(f'input[data-action="{action_id}"]')).to_be_checked()
-            page.locator("#manage").click()
-            page.get_by_role("textbox", name="Название сценария").fill("Browser saved")
-            page.get_by_role("button", name="Сохранить", exact=True).click()
-            expect(page.locator("#dialog-body")).to_contain_text("Browser saved")
-            page.get_by_role("button", name="Сбросить весь сценарий").click()
-            expect(page.locator("#dialog")).not_to_be_visible()
-            ready()
-            expect(page.locator('#metrics .metric').first).to_contain_text("Баллы из 100")
-            assert not session()["selected"]
-            page.locator("#manage").click()
-            saved_row = page.locator("#dialog .saved .actions").filter(has=page.locator("span", has_text="Browser saved")).first
-            saved_row.get_by_role("button", name="Восстановить").click()
-            expect(page.locator("#dialog")).not_to_be_visible()
-            ready()
-            assert len(session()["selected"]) == 1
-            page.locator("#manage").click()
-            page.get_by_role("button", name="История").first.click()
-            expect(page.locator("#dialog-title")).to_contain_text("История")
-            expect(page.locator("#dialog table")).to_be_visible()
-            page.locator("#close").click()
-            checks.extend(["conditional intern action lowers Y only" if expert_baseline else "joint recommendation lowers both indices",
-                           "individual recommendation changes only mentor index and can be removed",
-                           "scenario colors agree with ML", "selection persists across scopes", "save reset restore and history"])
+            expect(page.locator("#manage")).to_have_count(0)
+            assert client.get(base + "/api/v2/scenarios").json() == []
+            checks.extend(["scenario colors agree with ML", "selection persists across scopes", "no saved versions"])
 
             # Delay one response after the network finishes. A later scope must win.
             page.evaluate("""() => { const original=window.fetch; window.__originalFetch=original;

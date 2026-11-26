@@ -32,17 +32,16 @@ function conn(text,state){$("connection").textContent=text;$("connection").datas
 async function api(path,body,signal){
   const response=await fetch("/api/v2/"+path,{method:body===undefined?"GET":"POST",
     headers:body===undefined?{}:{"Content-Type":"application/json"},body:JSON.stringify(body),signal});
-  if(!response.ok){const e=new Error(response.status===409?"Исходные данные изменились. Восстановите актуальный сценарий.":"Сервис аналитики недоступен.");e.status=response.status;throw e;}
+  if(!response.ok){const e=new Error("Сервис аналитики недоступен.");e.status=response.status;
+    e.detail=(await response.json().catch(()=>null))?.detail;throw e;}
   return response.json();
 }
 function readDraft(){try{return JSON.parse(sessionStorage.getItem("pulse-pair-session"))||{};}catch{return {};}}
 const draft=readDraft();
-let selected=draft.selected??[], scope=draft.scope??globalScope, mode=scope.type, base=draft.base, method=draft.method;
-let scenarioId=draft.scenarioId??null,scenarioName=draft.scenarioName??"Рабочий сценарий";
-let savedBaseId=draft.savedBaseId??null;
+let selected=[], scope=draft.scope??globalScope, mode=scope.type, method;
 let previewFact=false;
-let data=null,anchor=null,seq=0,controller=null,busy=false,revision=null,dialogSeq=0,recalculating=false;
-function remember(){sessionStorage.setItem("pulse-pair-session",JSON.stringify({selected,scope,base,method,scenarioId,scenarioName,savedBaseId}));}
+let data=null,anchor=null,seq=0,controller=null,busy=false,revision=null,dialogSeq=0,refreshing=false,polling=false;
+function remember(){sessionStorage.setItem("pulse-pair-session",JSON.stringify({scope}));}
 function same(a,b){return a.type===b.type&&a.pair_id==b.pair_id&&a.start==b.start&&a.end==b.end;}
 function selectedHere(r){return selected.some(s=>s.action_id===r.action_id && same(s.scope,r.scope));}
 function belongs(row,month){return scope.type==="GLOBAL"||(row.pair_id===scope.pair_id&&month>=scope.start&&month<=scope.end);}
@@ -59,45 +58,39 @@ function analysisLabel(sides){
   if(ai)return `Частичный AI-анализ · ${ai} из ${sides.length} анкет`;
   return "Предварительный расчёт по оценкам";
 }
-async function refresh(){
-  const id=++seq;controller?.abort();controller=new AbortController();conn("Анализ выполняется…","loading");
+async function refresh(retry=true){
+  const id=++seq;controller?.abort();controller=new AbortController();refreshing=true;conn("Анализ выполняется…","loading");
+  const choices=previewFact?[]:selected;
   try{
-    const result=await api("analytics",{scope,selected:previewFact?[]:selected,expected_data_version:selected.length?base:undefined,expected_methodology_version:selected.length?method:undefined},controller.signal);
-    if(seq!==id)return;
-    if(selected.length&&method&&result.methodology_cache_version!==method){await invalidate();return;}
-    data=result;base=result.data_version;method=result.methodology_cache_version;remember();render();conn("Данные загружены","ready");
+    const result=await api(choices.length?"analytics?preview=true":"analytics",
+      {scope,selected:choices,expected_methodology_version:choices.length?method:undefined},controller.signal);
+    if(seq!==id)return false;
+    data=result;method=result.methodology_cache_version;remember();render();conn("Данные загружены","ready");return true;
   }catch(e){
-    if(id!==seq||e.name==="AbortError")return;
-    if(e.status===409&&selected.length){
-      const previous=scenarioId||savedBaseId;
-      if(previous){
-        try{
-          const saved=await api("scenarios/"+encodeURIComponent(previous)+"/restore",{},controller.signal);
-          if(id!==seq)return;
-          if(saved.data_version!==base && saved.state.selected.length===selected.length &&
-             selected.every(a=>saved.state.selected.some(b=>a.action_id===b.action_id&&same(a.scope,b.scope)))){
-            base=saved.data_version;remember();await refresh();return;
-          }
-        }catch{if(id!==seq)return;}
-      }
-      await invalidate();return;
+    if(id!==seq||e.name==="AbortError")return false;
+    if(retry&&e.detail==="analysis_inputs_changed_retry")return refresh(false);
+    if(choices.length&&(e.detail==="methodology_base_stale"||[400,404,422].includes(e.status))){
+      selected=[];previewFact=false;
+      const ok=await refresh();
+      if(ok)notice("Анкеты или методика обновились. Выберите мероприятия по актуальным данным.");
+      return ok;
     }
     data=null;$("sections").replaceChildren();$("metrics").replaceChildren();$("matrix").replaceChildren();
     $("summary-extra").replaceChildren();$("refresh-time").textContent="";$("scope-title").textContent=modes[mode];
     $("view-label").textContent="Ошибка анализа";
     conn("Нет связи с аналитикой","error");notice("Не удалось получить актуальные индексы. Проверьте, запущен ли сервис аналитики.",true);
     $("message").append(button("Повторить",()=>{notice("");refresh();}));
-  }
+    return false;
+  }finally{if(id===seq)refreshing=false;}
 }
-async function invalidate(){selected=[];scenarioId=null;savedBaseId=null;previewFact=false;remember();await refresh();notice("Анкеты или методология обновились. Предыдущий сценарий доступен в истории. Выберите мероприятия по актуальным данным.");}
-function setMode(next){if(busy||recalculating)return;mode=next;anchor=null;
+function setMode(next){if(busy)return;mode=next;anchor=null;
   if(next==="GLOBAL")scope=globalScope;
   else {const row=data?.matrix.find(x=>x.pair_id===scope.pair_id)??data?.matrix[0];if(!row){mode="GLOBAL";return;}
     const month=scope.start??1;scope={type:next,pair_id:row.pair_id,start:month,end:month};}
   notice("");remember();refresh();
 }
 document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
-function pick(row,month){if(mode==="GLOBAL"||busy||recalculating)return;
+function pick(row,month){if(mode==="GLOBAL"||busy)return;
   if(mode==="PAIR_RANGE"&&anchor&&anchor.pair_id===row.pair_id){scope={type:mode,pair_id:row.pair_id,start:Math.min(anchor.month,month),end:Math.max(anchor.month,month)};anchor=null;}
   else{scope={type:mode,pair_id:row.pair_id,start:month,end:month};anchor=mode==="PAIR_RANGE"?{pair_id:row.pair_id,month}:null;}
   notice("");remember();refresh();
@@ -146,18 +139,33 @@ function showIndex(key){
     wrap.append(table(["Фактор","Средний вклад","После мероприятий"],contributions.map(f=>[f.name,number(f.contribution),number(f.scenario_contribution)])),
       element("strong","Сумма средних вкладов · "+number(i[key])));
   }
-  for(const row of data.matrix) for(const cell of row.months){if(!belongs(row,cell.month))continue;
-    const label=`${row.mentor_id} — ${row.intern_id}, М${cell.month}`;
-    if(key==="z"){const details=disclosure(`${label} · X ${number(cell.x.score)} · Y ${number(cell.y.score)} · Z ${number(cell.z)}`);
-      for(const side of ["x","y"])for(const f of cell[side].factors.filter(f=>f.contribution>0)){
-        details.append(disclosure(f.name+" · "+number(f.contribution),element("p",`Вес ${f.weight} · ${f.rule_id}. ${f.activation_rule}`),...f.evidence.map(sourceButton)));
+  const observations=element("div",null,"detail-tree");
+  for(const row of data.matrix){
+    const months=row.months.filter(cell=>belongs(row,cell.month));
+    if(!months.length)continue;
+    const pair=disclosure(`${row.mentor_id} — ${row.intern_id} · месяцев: ${months.length}`);
+    pair.open=scope.type!=="GLOBAL";
+    for(const cell of months){
+      const month=disclosure(`М${cell.month} · ${number(key==="z"?cell.z:cell[key].score)} балл.`);
+      month.open=months.length===1;
+      for(const side of key==="z"?["x","y"]:[key]){
+        const s=cell[side],rows=s.factors.map(f=>[f.name,f.rating??"—",f.weight,number(f.severity),number(f.contribution),number(f.scenario_contribution)]);
+        const factors=disclosure(`${indicesNames[side]} · ${number(s.score)} балл.`,
+          element("p",`Покрытие ${percent(s.coverage)} · ${states[s.status]??s.status}`));
+        factors.open=key!=="z";
+        if(rows.length)factors.append(table(["Фактор","1–5","Вес","Степень","Факт","Сценарий"],rows));
+        for(const f of s.factors){
+          const detail=disclosure(`${f.name} · ${number(f.contribution)} балл.`,element("p",f.activation_rule),
+            element("p",`${f.rule_id} · ${f.source} · ${f.rule_status} · ${f.validation_status}`,"muted"),...f.evidence.map(sourceButton));
+          factors.append(detail);
+        }
+        month.append(factors);
       }
-      wrap.append(details);continue;}
-    const s=cell[key], rows=s.factors.map(f=>[f.name,f.rating??"—",f.weight,number(f.severity),number(f.contribution),number(f.scenario_contribution)]);
-    const details=disclosure(label+" · "+number(s.score),element("p",`Покрытие ${percent(s.coverage)} · ${states[s.status]??s.status}`),table(["Фактор","1–5","Вес","Степень","Факт","Сценарий"],rows));
-    for(const f of s.factors){const d=disclosure(f.name,element("p",f.activation_rule),element("p",`${f.rule_id} · ${f.source} · ${f.rule_status} · ${f.validation_status}`,"muted"));f.evidence.forEach(q=>d.append(sourceButton(q)));details.append(d);}
-    if(data.indices.observation_count===1)details.open=true;wrap.append(details);
+      pair.append(month);
+    }
+    observations.append(pair);
   }
+  if(observations.childElementCount)wrap.append(element("h3","Расчёт по парам и месяцам"),observations);
   if(selected.length&&!previewFact)wrap.append(element("h3","Выбранные мероприятия"),...selected.map(x=>element("p",(data.recommendations.find(r=>r.action_id===x.action_id)?.title??x.action_id)+" · "+title(x.scope))));
   dialog(section.title+" · расчёт индекса",wrap);
 }
@@ -167,17 +175,17 @@ function dyn(key){const series=data.dynamics.filter(d=>d.role===key);const rows=
   return disclosure("Динамика исходных оценок · шкала 1–5",table(["Показатель","М1","М2","М3","М4","М5","М6"],rows));
 }
 function effect(d){return ["x","y","z"].map(k=>k.toUpperCase()+" "+number(d[k])).join(" · ");}
-async function changeChoices(next,name=scenarioName,snapshot=false){
-  if(busy||recalculating||!data)return false;busy=true;conn("Сохранение плана…","loading");
+async function changeChoices(next){
+  if(busy||!data)return;busy=true;
   document.querySelectorAll(".rec input").forEach(c=>c.disabled=true);
-  try{const result=await api("scenarios",{scenario_id:snapshot?null:scenarioId,name:snapshot?name:"Рабочий сценарий",scope,selected:next,expected_data_version:base, ...(method?{expected_methodology_version:method}:{})});
-    if(!snapshot)scenarioId=result.scenario_id;scenarioName=name;selected=next;previewFact=false;remember();notice("");await refresh();return true;
-  }catch(e){notice(e.message,true);if(e.status===409)await invalidate();else if(data){render();conn("Сбой сохранения","error");}return false;}finally{busy=false;}
+  selected=next;previewFact=false;
+  try{await refresh();}finally{busy=false;}
 }
 function section(key){
   const s=data.sections[key],i=data.indices,k={mentor:"x",intern:"y",pair:"z"}[key];
   const box=element("article",null,"section");box.dataset.section=key;
   const details=disclosure("Подробнее",element("p",s.characteristic),element("p","Покрытие "+percent(s.coverage),"muted"));
+  details.classList.add("detail-tree");
   const active=data.summary.top_factors.filter(f=>key==="pair"||f.role===key);
   const summary=key==="pair"
     ? `Расхождения оценок: ${data.discrepancies.length} ${data.discrepancies.length===1?"случай":"случ."}.`
@@ -193,12 +201,25 @@ function section(key){
     if(t.trend.warning)details.append(element("p",t.trend.warning,"muted"));
   }
   const texts=s.evidence.filter(q=>q.quote);if(texts.length){
-    const qlist=element("div",null,"source-list");texts.forEach(q=>qlist.append(sourceButton(q)));
-    details.append(disclosure(`Цитаты из анкет (${texts.length})`,qlist));
+    const quotes=disclosure(`Цитаты из анкет (${texts.length})`);
+    for(const row of data.matrix){
+      const entries=texts.filter(q=>q.pair_id===row.pair_id);
+      if(!entries.length)continue;
+      const pair=disclosure(`${row.mentor_id} — ${row.intern_id} · цитат: ${entries.length}`);
+      pair.open=scope.type!=="GLOBAL";
+      for(const month of [...new Set(entries.map(q=>q.month))].sort((a,b)=>a-b)){
+        const matches=entries.filter(q=>q.month===month);
+        const group=disclosure(`М${month} · цитат: ${matches.length}`,...matches.map(sourceButton));
+        group.open=scope.type==="PAIR_MONTH";pair.append(group);
+      }
+      quotes.append(pair);
+    }
+    details.append(quotes);
   }
   if(s.claims.length){const cl=element("div",null,"source-list"),refs=new Map(s.evidence.map(q=>[q.id,q]));for(const c of s.claims){const p=element("div",c.text);for(const ref of c.evidence_refs||[])if(refs.has(ref))p.append(" ",sourceButton(refs.get(ref)));cl.append(p);}details.append(disclosure("Основания характеристики",cl));}
   if(s.recommendations.length){
     const list=element("ul",null,"recs"), discuss=element("ul",null,"recs");
+    const actionDetails=disclosure("Основания мероприятий");
     const evidence=new Map(s.evidence.map(q=>[q.id,q]));
     const ordered=[...s.recommendations].sort((a,b)=>Number(selectedHere(b))-Number(selectedHere(a)) || (b.delta[k]??0)-(a.delta[k]??0));
     for(const r of ordered){const actionable=r.assumption!=="no_score_change"&&(selectedHere(r)||r.delta[k]>0||r.additional_delta[k]>0);
@@ -214,11 +235,12 @@ function section(key){
       const sources=r.evidence_refs.map(id=>evidence.get(id)).filter(Boolean)
         .sort((a,b)=>Number(b.kind==="text")-Number(a.kind==="text")).slice(0,2).map(sourceButton);
       if(!actionable&&sources.length)li.append(sources[0]);
-      if(actionable)details.append(disclosure(r.title,element("p",r.rationale),element("p",r.completion_criteria+" · "+r.resolution_criteria),element("p","Потенциал: "+effect(r.delta)+". Дополнительно: "+effect(r.additional_delta),"rec-meta"),...sources));
+      if(actionable)actionDetails.append(disclosure(r.title,element("p",r.rationale),element("p",r.completion_criteria+" · "+r.resolution_criteria),element("p","Потенциал: "+effect(r.delta)+". Дополнительно: "+effect(r.additional_delta),"rec-meta"),...sources));
     }
     const count=list.children.length;
+    if(count)details.append(actionDetails);
     if(count)box.append(element("h4","Что можно улучшить"),element("p","Выберите мероприятия, чтобы оценить возможное снижение риска при устранении выявленных проблем.","subtle"),list);
-    if(count>3){const rest=element("ul",null,"recs");while(list.children.length>3)rest.prepend(list.lastElementChild);box.append(disclosure("Все рекомендации ("+count+")",rest));}
+    if(count>3){const rest=element("ul",null,"recs");while(list.children.length>3)rest.prepend(list.lastElementChild);box.append(disclosure("Ещё мероприятий: "+rest.children.length,rest));}
     if(discuss.children.length)box.append(disclosure("Что обсудить",discuss));
     if(!count) box.append(element("p","Значимых проблем для устранения не выявлено","muted"));
   }else box.append(element("p","Значимых проблем для устранения не выявлено","muted"));
@@ -278,7 +300,7 @@ function render(){
   const present=cells.flatMap(m=>[m.x,m.y]).filter(s=>s.source_id);
   $("refresh-time").textContent=data.updated_at?"Анализ от "+stamp(data.updated_at):"";
   $("view-label").textContent=analysisLabel(present);
-  $("compare").hidden=!selected.length;$("compare").textContent=previewFact?"Показать план улучшений":"Показать текущие баллы";
+  $("compare").hidden=!selected.length;$("compare").textContent=previewFact?"Показать прогноз":"Показать текущие баллы";
   $("reset").hidden=!selected.length;
   const textMode=data.matrix.flatMap(r=>r.months).flatMap(m=>[m.x,m.y]).find(s=>s.nlp_audit?.mode)?.nlp_audit.mode;
   $("methodology").textContent=`Методика ${data.methodology.version} · порог покрытия ${percent(data.methodology.min_coverage)}. Зона внимания от ${data.methodology.thresholds.yellow}, высокая от ${data.methodology.thresholds.red} баллов. Тексты: ${({local_encoder:"локальная нейромодель и правила",local_rules:"локальные правила",deepseek:"DeepSeek"}[textMode]??"нет наблюдений")}.`;
@@ -313,29 +335,9 @@ function render(){
   $("sections").replaceChildren(...["pair","mentor","intern"].map(section));
   if(data.summary.critical_cases.length)$("summary-extra").prepend(element("p","Требуется конфиденциальное уточнение · "+data.summary.critical_cases.map(c=>(data.matrix.find(p=>p.pair_id===c.pair_id)?.intern_id??c.pair_id)+" М"+c.month).join(", "),"flag"));
   if(!data.matrix.length)notice("История пока пуста. Загрузите обе книги командой импорта из README.");
-  else if(present.some(s=>s.text_analysis_status==="error"))notice("Текстовый анализ завершился с ошибкой. Откройте исходные ответы или повторите пересчёт.",true);
+  else if(present.some(s=>s.text_analysis_status==="error"))notice("Текстовый анализ завершился с ошибкой. Исходные ответы доступны в детализации.",true);
   else notice("");
 }
-async function scenarios(){
-  dialog("План улучшений",element("p","Загрузка…"));const id=dialogSeq;
-  try{const items=await api("scenarios");if(id!==dialogSeq)return;
-    const pane=element("div"),actions=element("div",null,"actions"),input=element("input");input.value=scenarioName;input.maxLength=140;input.setAttribute("aria-label","Название сценария");
-    const action=(label,fn)=>button(label,async()=>{try{await fn();}catch(e){notice(e.message,true);$("dialog").close();}});
-    actions.append(input,action("Сохранить",async()=>{if(await changeChoices(selected,input.value.trim()||"Сохранённый сценарий",true))scenarios();}),
-      action("Сбросить область",async()=>{await changeChoices(selected.filter(a=>!same(a.scope,scope)));$("dialog").close();}),
-      action("Сбросить весь сценарий",async()=>{await changeChoices([]);$("dialog").close();}));
-    pane.append(element("p",`Отмечено мероприятий: ${selected.length}. Изменения моделируют полное устранение факторов, включая исторические периоды.`),actions);
-    const list=element("div",null,"saved");
-    for(const item of items){const row=element("div",null,"actions");const restore=action("Восстановить",async()=>{
-      const v=await api("scenarios/"+encodeURIComponent(item.scenario_id)+"/restore",{});selected=v.state.selected;scope=v.state.scope;mode=scope.type;scenarioId=null;savedBaseId=v.scenario_id;scenarioName=v.name;base=v.data_version;method=v.result.methodology_cache_version;anchor=null;remember();$("dialog").close();await refresh();});
-      const stale=item.stale||(method&&item.methodology_cache_version!==method);
-      restore.disabled=!!stale;row.append(element("span",item.name+" · "+stamp(item.updated_at)+(stale?" · устарел":"")),restore,action("История",async()=>{
-        const v=await api("scenarios/"+encodeURIComponent(item.scenario_id));const labels={created:"Создан",updated:"Сохранён",selected:"Выбор",removed:"Снятие",restored:"Восстановлен",invalidated:"Новые данные"};
-        dialog("История · "+v.name,table(["Время","Событие","Мероприятие"],v.history.map(h=>[stamp(h.created_at),labels[h.kind]??h.kind,h.state.selection?.action_id??"—"])));}));list.append(row);}
-    pane.append(list);dialog("План улучшений",pane);
-  }catch{if(id===dialogSeq)dialog("План улучшений",element("p","История сохранённых планов недоступна."));}
-}
-$("manage").onclick=scenarios;
 $("compare").onclick=()=>{if(!busy){previewFact=!previewFact;refresh();}};
 $("reset").onclick=()=>changeChoices([]);
 const formErrors={
@@ -364,27 +366,23 @@ async function formStatus(showDetails=false){
   $("update").title=result.forms.map(f=>names[f.role]+": "+(f.last_error?"ошибка":f.last_success?"ответ получен":"ожидаем доставку")).join(" · ");
 }
 $("update").onclick=async()=>{
-  if(busy||recalculating)return;
+  if(busy)return;
   $("update").disabled=true;
   try{await refresh();await formStatus(true);}
   catch{updateStatus("Не удалось проверить доставку из Яндекс Форм.");}
   finally{$("update").disabled=false;}
 };
-$("recalculate").onclick=async()=>{
-  if(busy||recalculating)return;
-  recalculating=true;$("recalculate").disabled=true;controller?.abort();
-  conn("Анализ выполняется…","loading");$("view-label").textContent="Анализ выполняется";
-  updateStatus("Пересчитываем сохранённые анкеты…");
-  const progress=element("progress");progress.setAttribute("aria-label","Пересчёт выполняется");
-  $("update-result").append(" ",progress);
+async function poll(){
+  if(busy||refreshing||polling)return;
+  polling=true;
   try{
-    const result=await api("recalculate",{});
-    const sides=result.matrix.flatMap(r=>r.months.flatMap(m=>[m.x,m.y])).filter(s=>s.source_id);
-    await refresh();
-    updateStatus(`Пересчёт завершён. Анкет: ${sides.length}. ${analysisLabel(sides)}.`);
-  }catch{updateStatus("Пересчёт не завершён. Проверьте сервис или попробуйте снова.");await refresh();}
-  finally{recalculating=false;$("recalculate").disabled=false;}
-};
-async function poll(){try{const r=await api("revision");if(revision!==null&&revision!==r.revision&&!busy&&!recalculating){revision=r.revision;await refresh();await formStatus();}else if(revision===null)revision=r.revision;}catch{/* Keep the visible last status until an analysis is requested. */}}
-await poll();await refresh();setInterval(poll,2500);
+    const r=await api("revision");
+    if(!busy&&!refreshing&&r.revision!==revision&&await refresh()){
+      revision=r.revision;
+      await formStatus();
+    }
+  }catch{/* Retry the next time the dashboard checks for updates. */}
+  finally{polling=false;}
+}
+await poll();setInterval(poll,2500);
 formStatus().catch(()=>{});

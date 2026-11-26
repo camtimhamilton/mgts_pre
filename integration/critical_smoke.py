@@ -60,16 +60,13 @@ def run(mentor_path, intern_path):
             page.goto(url)
             expect(page.locator("#view-label")).to_have_text("Предварительный расчёт по оценкам")
             expect(page.locator(".cell")).to_have_count(30)
-            page.locator("#recalculate").click()
-            expect(page.locator("#update-result")).to_contain_text("Пересчёт завершён")
-            refreshed = api("analytics", {})
-            assert history["analysis_id"] != refreshed["analysis_id"]
-            assert api("analysis/" + history["analysis_id"])["indices"] == refreshed["indices"]
+            expect(page.locator("#recalculate, #manage")).to_have_count(0)
             mode("PAIR_MONTH")
             cell(row["pair_id"], 3).click()
             expect(page.locator('[data-index="z"] b')).to_have_text("44,25")
             page.locator('[data-index="z"]').click()
             expect(page.locator("#dialog-body")).to_contain_text("Z =")
+            expect(page.locator("#dialog-body .detail-tree > details > details > details")).to_have_count(2)
             page.locator("#close").click()
             expect(page.locator('[data-section="pair"] input[data-action="P04"]')).to_be_visible()
             expect(page.locator('[data-section="mentor"] input[data-action="M_A03"]')).to_be_visible()
@@ -118,9 +115,17 @@ def run(mentor_path, intern_path):
             cell(pair_id, 1).click()
             expect(page.locator("#view-label")).to_contain_text("AI-анализ")
             action = page.locator('[data-section="intern"] input[data-action="S_A02"]')
-            action.check()
+            with page.expect_response(lambda response: "/analytics?preview=true" in response.url) as pending:
+                action.check()
             expect(cell(pair_id, 1).locator(".half").nth(1)).to_have_class("half yellow")
             expect(page.locator('[data-index="y"]')).to_contain_text("снижение")
+            preview_id = pending.value.json()["analysis_id"]
+            assert client.get(url + "/api/v2/analysis/" + preview_id).status_code == 404
+            assert api("scenarios") == []
+            page.reload()
+            expect(cell(pair_id, 1).locator(".half").nth(1)).to_have_class("half red")
+            action.check()
+            expect(cell(pair_id, 1).locator(".half").nth(1)).to_have_class("half yellow")
             page.locator("#reset").click()
             expect(cell(pair_id, 1).locator(".half").nth(1)).to_have_class("half red")
             assert not errors, errors

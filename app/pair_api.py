@@ -26,7 +26,7 @@ def require_key(value: str | None) -> None:
         raise HTTPException(401, "invalid_ingest_key")
 
 
-def analytics(payload: AnalyticsRequest, *, generation: str | None = None) -> dict:
+def analytics(payload: AnalyticsRequest, *, generation: str | None = None, preview: bool = False) -> dict:
     started = perf_counter()
     recalculate = generation is not None
     with connect() as db:
@@ -56,10 +56,11 @@ def analytics(payload: AnalyticsRequest, *, generation: str | None = None) -> di
         raise HTTPException(409, "methodology_base_stale")
     cache_key = digest({"records": records, "pairs": registry, **state, "pipeline": "pair-dashboard-2.3",
                         "methodology": cache_version, "generation": generation})
-    with connect() as db:
-        cached = db.execute("SELECT result_json FROM pair_v2_cache WHERE cache_key=?", (cache_key,)).fetchone()
-    if cached:
-        return json.loads(cached[0])
+    if not preview:
+        with connect() as db:
+            cached = db.execute("SELECT result_json FROM pair_v2_cache WHERE cache_key=?", (cache_key,)).fetchone()
+        if cached:
+            return json.loads(cached[0])
     try:
         ml_payload = {"records": records, "pairs": registry, **state}
         if recalculate:
@@ -85,6 +86,10 @@ def analytics(payload: AnalyticsRequest, *, generation: str | None = None) -> di
         if data_version(current_records(db), registered_pairs(db)) != version:
             raise HTTPException(409, "analysis_inputs_changed_retry")
         timestamp = now()
+        result["methodology_cache_version"] = cache_version
+        if preview:
+            result["updated_at"] = timestamp if records else None
+            return result
         for record in records:
             db.execute("INSERT OR IGNORE INTO pair_v2_analysis_times VALUES (?,?,?)",
                        (record["source_id"], cache_version, timestamp))
@@ -97,7 +102,6 @@ def analytics(payload: AnalyticsRequest, *, generation: str | None = None) -> di
             db.executemany("UPDATE pair_v2_analysis_times SET analyzed_at=? WHERE source_id=? AND methodology=?",
                            ((timestamp, r["source_id"], cache_version) for r in records))
         result["updated_at"] = timestamp if recalculate and records else max(analysis_times, default=None)
-        result["methodology_cache_version"] = cache_version
         db.execute("INSERT OR REPLACE INTO pair_v2_cache VALUES (?,?,?)", (cache_key, encode(result), now()))
         db.execute("INSERT INTO pair_v2_audit VALUES (?,?,?,?)",
                    (result["analysis_id"], cache_key, encode(result), now()))
@@ -105,8 +109,8 @@ def analytics(payload: AnalyticsRequest, *, generation: str | None = None) -> di
 
 
 @router.post("/analytics", response_model=DashboardAnalysis)
-def analyze(payload: AnalyticsRequest) -> dict:
-    return analytics(payload)
+def analyze(payload: AnalyticsRequest, preview: bool = False) -> dict:
+    return analytics(payload, preview=preview)
 
 
 @router.post("/recalculate", response_model=DashboardAnalysis)

@@ -97,3 +97,40 @@ def test_score_four_contributes_without_problem_or_recommendation():
     assert result.indices.actual.model_dump() == {"x": 2, "y": 7, "z": 4.5}
     assert not result.summary["top_factors"] and not result.recommendations
     assert expert_policy(archive=True)["rating_levels"]["4"] == 0
+
+
+def test_low_ratings_support_pair_and_individual_actions_without_double_deduction():
+    mentor, intern = survey("mentor"), survey("intern")
+    mentor["ratings"]["autonomy"] = 2
+    intern["ratings"].update(clarity=2, support=2)
+    scope = {"type": "PAIR_MONTH", "pair_id": "pair", "start": 1, "end": 1}
+    policy = expert_policy()
+    actual = AnalyticsResponse.model_validate(analyze([mentor, intern], scope, policy=policy))
+    options = {item.action_id: item for item in actual.recommendations}
+    assert options["P04"].delta.model_dump() == {"x": 11.25, "y": 15, "z": 13.125}
+    assert len(options["P04"].evidence_refs) == 2
+    assert options["S_A01"].delta.model_dump() == {"x": 0, "y": 15, "z": 7.5}
+    assert "P02" not in options and "N01" not in options
+    choices = [{"action_id": action, "scope": scope} for action in ("P04", "M_A03", "S_A02")]
+    result = AnalyticsResponse.model_validate(analyze([mentor, intern], scope, choices, policy=policy))
+    assert result.indices.actual == actual.indices.actual
+    assert result.indices.scenario.model_dump() == {"x": 0, "y": 15, "z": 7.5}
+    assert all(r.additional_delta.z == 0 for r in result.recommendations if r.action_id in ("P04", "M_A03", "S_A02"))
+
+
+def test_repeated_three_respects_scope_and_single_review_question_has_its_source():
+    mentor = survey("mentor")
+    quote = "Мне кажется, что обратной связи недостаточно."
+    intern = survey("intern", {"barriers": quote})
+    intern["ratings"]["clarity"] = 3
+    intern["signals"] = [signal("S02", "S02_FEEDBACK", quote, temporal_status="uncertain", validation_status="review")]
+    second = dict(intern, month=2, source_id="source-intern-next")
+    scope = {"type": "PAIR_MONTH", "pair_id": "pair", "start": 1, "end": 1}
+    policy = expert_policy()
+    actual = AnalyticsResponse.model_validate(analyze([mentor, intern, second], scope, policy=policy))
+    options = {item.action_id: item for item in actual.recommendations}
+    assert options["S_A01"].delta.y == 7
+    assert {target.month for target in options["S_A01"].target_observations} == {1}
+    question = options["discuss_S02"]
+    assert question.assumption == "no_score_change" and question.delta.y == 0 and len(question.evidence_refs) == 1
+    assert any(e.id == question.evidence_refs[0] and e.quote == quote for e in actual.sections["intern"].evidence)

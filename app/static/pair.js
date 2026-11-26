@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const names = {mentor:"Наставник",intern:"Стажёр",pair:"Пара",hr:"HR",comment:"Комментарий о работе за период",attention:"Ситуации для внимания",difficulties:"Сложности за период",barriers:"Что мешает работать и развиваться"};
+const names = {mentor:"Наставник",intern:"Стажёр",pair:"Пара",hr:"HR",team_lead:"Руководитель команды",comment:"Комментарий о работе за период",attention:"Ситуации для внимания",difficulties:"Сложности за период",barriers:"Что мешает работать и развиваться"};
 const indicesNames={x:"По оценкам наставника",y:"По ответам стажёра",z:"Риск пары"};
 const bands = {green:"Низкий",yellow:"Внимание",red:"Высокий",gray:"Мало данных"};
 const states = {missing:"Анкета отсутствует",future:"Будущий период",insufficient_data:"Недостаточное покрытие",partial:"Частичный анализ",completed:"Анкета получена"};
@@ -199,21 +199,29 @@ function section(key){
   if(s.claims.length){const cl=element("div",null,"source-list"),refs=new Map(s.evidence.map(q=>[q.id,q]));for(const c of s.claims){const p=element("div",c.text);for(const ref of c.evidence_refs||[])if(refs.has(ref))p.append(" ",sourceButton(refs.get(ref)));cl.append(p);}details.append(disclosure("Основания характеристики",cl));}
   if(s.recommendations.length){
     const list=element("ul",null,"recs"), discuss=element("ul",null,"recs");
+    const evidence=new Map(s.evidence.map(q=>[q.id,q]));
     const ordered=[...s.recommendations].sort((a,b)=>Number(selectedHere(b))-Number(selectedHere(a)) || (b.delta[k]??0)-(a.delta[k]??0));
     for(const r of ordered){const actionable=r.assumption!=="no_score_change"&&(selectedHere(r)||r.delta[k]>0||r.additional_delta[k]>0);
       const li=element("li"),l=element(actionable?"label":"div",null,"rec"),chk=document.createElement("input");
       chk.type="checkbox";chk.checked=selectedHere(r)&&!previewFact;chk.disabled=previewFact;chk.dataset.action=r.action_id;
       chk.onchange=()=>{const next=selected.filter(a=>!(a.action_id===r.action_id&&same(a.scope,r.scope)));if(chk.checked)next.push({action_id:r.action_id,scope:r.scope});changeChoices(next);};
       if(actionable)l.append(chk);
-      l.append(element("span",r.title));if(actionable&&r.delta[k]>0)l.append(element("span","−"+number(r.delta[k])+" балл.","effect"));
+      const actionText=element("span",r.title);
+      const responsible=r.responsible.split(" · ").map(role=>names[role]??role).join(", ");
+      if(actionable)actionText.append(element("small","Ответственные: "+responsible,"rec-owner"));
+      l.append(actionText);if(actionable)l.append(element("span","−"+number(r.delta[k]??r.additional_delta[k]??0)+" балл.","effect"));
       li.append(l);(actionable?list:discuss).append(li);
-      details.append(disclosure(r.title,element("p",r.rationale),element("p","Ответственный — "+r.responsible.split(" · ").map(role=>names[role]??role).join(", ")),element("p",r.completion_criteria+" · "+r.resolution_criteria),element("p","Потенциал: "+effect(r.delta)+". Дополнительно: "+effect(r.additional_delta),"rec-meta")));
+      const sources=r.evidence_refs.map(id=>evidence.get(id)).filter(Boolean)
+        .sort((a,b)=>Number(b.kind==="text")-Number(a.kind==="text")).slice(0,2).map(sourceButton);
+      if(!actionable&&sources.length)li.append(sources[0]);
+      if(actionable)details.append(disclosure(r.title,element("p",r.rationale),element("p",r.completion_criteria+" · "+r.resolution_criteria),element("p","Потенциал: "+effect(r.delta)+". Дополнительно: "+effect(r.additional_delta),"rec-meta"),...sources));
     }
     const count=list.children.length;
     if(count)box.append(element("h4","Что можно улучшить"),element("p","Выберите мероприятия, чтобы оценить возможное снижение риска при устранении выявленных проблем.","subtle"),list);
     if(count>3){const rest=element("ul",null,"recs");while(list.children.length>3)rest.prepend(list.lastElementChild);box.append(disclosure("Все рекомендации ("+count+")",rest));}
     if(discuss.children.length)box.append(disclosure("Что обсудить",discuss));
-  }
+    if(!count) box.append(element("p","Значимых проблем для устранения не выявлено","muted"));
+  }else box.append(element("p","Значимых проблем для устранения не выявлено","muted"));
   if(key!=="pair")details.append(dyn(key));
   else if(data.discrepancies.length)details.append(disclosure("Расхождения оценок",...data.discrepancies.map(d=>element("p",`М${d.month} · ${data.dynamics.find(f=>f.factor_id===d.aspect)?.name??"Ясность задач"} · наставник ${d.mentor_rating}/5, стажёр ${d.intern_rating}/5. ${d.explanation}`))));
   if(key==="pair" && data.semantic_comparisons?.length) {

@@ -28,8 +28,7 @@ def main():
         pair = call("GET", backend+"/api/v2/pairs")[0]
         scope = {"type":"PAIR_MONTH","pair_id":pair["pair_id"],"start":1,"end":1}
         actual = call("POST", backend+"/api/v2/analytics", json={"scope":scope})
-        recommendation = next(r for r in actual["recommendations"] if (r["delta"]["z"] or 0) > 0)
-        scenario = {"scope":scope,"selected":[{"action_id":recommendation["action_id"],"scope":scope}]}
+        scenario = {"scope":scope,"selected":[]}
         expected = call("POST", backend+"/api/v2/analytics", json=scenario)
         write(destination / "pair_v2_form.json", form)
         write(destination / "pair_v2_request.json", {"scope":scope})

@@ -85,3 +85,15 @@ def test_joint_action_uses_current_evidence_on_both_sides_and_preserves_facts():
         [mentor, intern], selected=[{"action_id": "P01", "scope": {"type": "GLOBAL"}}], policy=expert_policy()))
     assert result.indices.actual.model_dump() == {"x": 10, "y": 10, "z": 10}
     assert result.indices.scenario.model_dump() == {"x": 0, "y": 0, "z": 0}
+
+
+def test_score_four_contributes_without_problem_or_recommendation():
+    mentor = survey("mentor")
+    mentor["ratings"]["clarity"] = 4
+    intern = survey("intern")
+    intern["ratings"]["support"] = 3
+    scope = {"type": "PAIR_MONTH", "pair_id": "pair", "start": 1, "end": 1}
+    result = AnalyticsResponse.model_validate(analyze([mentor, intern], scope=scope, policy=expert_policy()))
+    assert result.indices.actual.model_dump() == {"x": 2, "y": 7, "z": 4.5}
+    assert not result.summary["top_factors"] and not result.recommendations
+    assert expert_policy(archive=True)["rating_levels"]["4"] == 0

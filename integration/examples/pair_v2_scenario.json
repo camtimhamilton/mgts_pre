@@ -6,31 +6,21 @@
       "start": 1,
       "end": 1
     },
-    "selected": [
-      {
-        "action_id": "rating_M01",
-        "scope": {
-          "type": "PAIR_MONTH",
-          "pair_id": "pair-b79a76c6c1557104",
-          "start": 1,
-          "end": 1
-        }
-      }
-    ]
+    "selected": []
   },
   "indices": {
-    "x": 0.0,
-    "y": 10.0,
-    "z": 5.0,
+    "x": 23.25,
+    "y": 29.0,
+    "z": 26.125,
     "actual": {
-      "x": 10.0,
-      "y": 10.0,
-      "z": 10.0
+      "x": 23.25,
+      "y": 29.0,
+      "z": 26.125
     },
     "scenario": {
-      "x": 0.0,
-      "y": 10.0,
-      "z": 5.0
+      "x": 23.25,
+      "y": 29.0,
+      "z": 26.125
     },
     "bands": {
       "x": "green",
@@ -46,156 +36,156 @@
       }
     ],
     "side_statistics": {
-      "mentor": {
-        "mean": 0.0,
+      "intern": {
+        "mean": 29.0,
         "count": 1
       },
-      "intern": {
-        "mean": 10.0,
+      "mentor": {
+        "mean": 23.25,
         "count": 1
       }
     },
     "received_surveys": 2,
     "expected_surveys": 2,
     "risk_distribution": {
+      "gray": 0,
       "green": 1,
-      "yellow": 0,
       "red": 0,
-      "gray": 0
+      "yellow": 0
     },
     "factor_contributions": {
       "x": [
         {
+          "contribution": 15.0,
           "id": "M01",
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-c3c31dcbbe454cf48713158af081b05c"
+          ],
+          "known_count": 1,
           "name": "Недостаточное понимание задач и ожиданий",
-          "contribution": 10.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
-          "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
-          ]
+          "scenario_contribution": 15.0
         },
         {
+          "contribution": 1.5,
           "id": "M02",
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:M02:v1:survey-c3c31dcbbe454cf48713158af081b05c"
+          ],
+          "known_count": 1,
           "name": "Сложности с качеством выполнения задач",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
-          "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M02:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
-          ]
+          "scenario_contribution": 1.5
         },
         {
+          "contribution": 5.25,
           "id": "M03",
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:M03:v1:survey-c3c31dcbbe454cf48713158af081b05c"
+          ],
+          "known_count": 1,
           "name": "Сложности с самостоятельным выполнением задач",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
-          "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M03:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
-          ]
+          "scenario_contribution": 5.25
         },
         {
+          "contribution": 0.0,
           "id": "M04",
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:mentor:M04:v1:survey-c3c31dcbbe454cf48713158af081b05c"
+          ],
+          "known_count": 1,
           "name": "Сложности с соблюдением сроков и организацией работы",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
-          "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M04:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
-          ]
+          "scenario_contribution": 0.0
         },
         {
+          "contribution": 1.5,
           "id": "M05",
-          "name": "Недостаточная вовлечённость и инициативность",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M05:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
-          ]
+            "pair-b79a76c6c1557104:M1:mentor:M05:v1:survey-c3c31dcbbe454cf48713158af081b05c"
+          ],
+          "known_count": 1,
+          "name": "Недостаточная вовлечённость и инициативность",
+          "scenario_contribution": 1.5
         },
         {
-          "id": "M06",
-          "name": "Сложности взаимодействия с наставником и командой",
           "contribution": 0.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
+          "id": "M06",
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M06:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
-          ]
+            "pair-b79a76c6c1557104:M1:mentor:M06:v1:survey-c3c31dcbbe454cf48713158af081b05c"
+          ],
+          "known_count": 1,
+          "name": "Сложности взаимодействия с наставником и командой",
+          "scenario_contribution": 0.0
         }
       ],
       "y": [
         {
+          "contribution": 15.0,
           "id": "S01",
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
+          ],
+          "known_count": 1,
           "name": "Недостаточная понятность задач",
-          "contribution": 10.0,
-          "scenario_contribution": 10.0,
-          "known_count": 1,
-          "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
-          ]
+          "scenario_contribution": 15.0
         },
         {
+          "contribution": 7.0,
           "id": "S02",
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:S02:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
+          ],
+          "known_count": 1,
           "name": "Недостаток поддержки и обратной связи",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
-          "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S02:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
-          ]
+          "scenario_contribution": 7.0
         },
         {
+          "contribution": 1.5,
           "id": "S03",
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:S03:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
+          ],
+          "known_count": 1,
           "name": "Некомфортная рабочая нагрузка",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
-          "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S03:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
-          ]
+          "scenario_contribution": 1.5
         },
         {
+          "contribution": 1.0,
           "id": "S04",
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:S04:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
+          ],
+          "known_count": 1,
           "name": "Недостаточный интерес к задачам",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
-          "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S04:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
-          ]
+          "scenario_contribution": 1.0
         },
         {
+          "contribution": 0.0,
           "id": "S05",
+          "instance_ids": [
+            "pair-b79a76c6c1557104:M1:intern:S05:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
+          ],
+          "known_count": 1,
           "name": "Недостаток профессионального развития",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
-          "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S05:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
-          ]
+          "scenario_contribution": 0.0
         },
         {
+          "contribution": 1.0,
           "id": "S06",
-          "name": "Сложности взаимодействия с командой",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S06:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
-          ]
+            "pair-b79a76c6c1557104:M1:intern:S06:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
+          ],
+          "known_count": 1,
+          "name": "Сложности взаимодействия с командой",
+          "scenario_contribution": 1.0
         },
         {
+          "contribution": 3.5,
           "id": "S07",
-          "name": "Общая неудовлетворённость стажировкой",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
-          "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S07:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
-          ]
+            "pair-b79a76c6c1557104:M1:intern:S07:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
+          ],
+          "known_count": 1,
+          "name": "Общая неудовлетворённость стажировкой",
+          "scenario_contribution": 3.5
         }
       ]
     }

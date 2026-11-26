@@ -13,3 +13,6 @@ data/
 .DS_Store
 .uv-cache/
 ml_service/.venv/
+
+# Original expert pack and private historical baseline
+/pulse_kb_v1/

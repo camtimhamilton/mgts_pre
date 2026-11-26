@@ -128,6 +128,26 @@ def test_yandex_jsonrpc_replay_and_edit(client, monkeypatch):
     assert current_records()[0]["version"] == 2
 
 
+def test_form_status_scopes_delivery_and_never_persists_body_key(client, monkeypatch):
+    from app import pair_api
+
+    fake_ml(monkeypatch)
+    from types import SimpleNamespace
+    monkeypatch.setattr(pair_api, "get_settings", lambda: SimpleNamespace(
+        ingest_key="synthetic-form-key", yandex_mentor_form_id="mentor-form", yandex_intern_form_id="intern-form"))
+    payload = {"jsonrpc": "2.0", "method": "submit", "id": 1, "params": {
+        **mentor(), "response_id": 1, "month": "Месяц 1", "form_id": "mentor-form",
+        "key": "synthetic-form-key"}}
+    first = client.post("/api/v2/forms/yandex", json=payload).json()["result"]
+    assert client.post("/api/v2/forms/yandex", json=payload).json()["result"]["status"] == "duplicate"
+    assert "synthetic-form-key" not in client.get("/api/v2/source/" + first["source_id"]).text
+    payload["params"]["form_id"] = "wrong-form"
+    assert "error" in client.post("/api/v2/forms/yandex", json=payload).json()
+    by_role = {f["role"]: f for f in client.get("/api/v2/forms/status").json()["forms"]}
+    assert by_role["mentor"]["accepted"] == 1 and by_role["mentor"]["last_error"] == "wrong_form_id"
+    assert by_role["intern"]["accepted"] == 0 and by_role["intern"]["last_success"] is None
+
+
 def workbook(path, headers, rows):
     book = Workbook()
     book.active.append(headers)

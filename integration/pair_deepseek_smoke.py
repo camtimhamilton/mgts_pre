@@ -52,7 +52,8 @@ def run(live=False, screenshot=None):
         assert client.get(base + "/api/v2/analysis/" + data["analysis_id"]).json() == data
         assert client.get(base + "/api/v2/source/" + response.json()["result"]["source_id"]).status_code == 200
         if live:
-            assert cell["y"]["text_analysis_status"] == "completed", cell["y"]["nlp_audit"].get("error")
+            assert cell["y"]["text_analysis_status"] == "completed", {
+                key: cell["y"]["nlp_audit"].get(key) for key in ("error", "schema_errors")}
             assert cell["y"]["nlp_audit"]["calls"] and cell["eligible"]
         else:
             assert cell["y"]["status"] == "partial" and cell["y"]["score"] == 0

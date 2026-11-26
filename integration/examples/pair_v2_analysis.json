@@ -1,7 +1,7 @@
 {
-  "analysis_version": "5977e44e8be4f5be2b5f7e0fcfe7d0f725bc3ad169af848c8cfd6b8de08c2803",
+  "analysis_version": "94764116d5a15fb83294bf990fd5f0d33ed05403d31af0bc73e0f58d2a3abeaf",
   "methodology": {
-    "version": "1.0.0-draft",
+    "version": "1.1.0-draft",
     "status": "expert_draft",
     "source": "Экспертная база ПУЛЬС",
     "min_coverage": 0.7,
@@ -16,7 +16,7 @@
     "start": 1,
     "end": 1
   },
-  "updated_at": "2026-11-26T08:57:16.909530+00:00",
+  "updated_at": "2026-11-26T09:19:53.109576+00:00",
   "matrix": [
     {
       "pair_id": "pair-b79a76c6c1557104",
@@ -28,32 +28,32 @@
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
           "x": {
-            "score": 10.0,
-            "actual_score": 10.0,
+            "score": 23.25,
+            "actual_score": 23.25,
             "band": "green",
             "coverage": 1.0,
             "status": "completed",
             "factors": [
               {
                 "id": "M01",
-                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-c3c31dcbbe454cf48713158af081b05c",
                 "name": "Недостаточное понимание задач и ожиданий",
                 "weight": 20.0,
-                "severity": 0.5,
+                "severity": 0.75,
                 "state": "active",
-                "contribution": 10.0,
-                "scenario_contribution": 10.0,
+                "contribution": 15.0,
+                "scenario_contribution": 15.0,
                 "rating": 2,
                 "rule_id": "M01_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура анкеты наставника, Newcomer adjustment during organizational socialization: a meta-analytic review of antecedents, outcomes, and methods, New Horizons for Newcomer Organizational Socialization: A Review, Meta-Analysis, and Future Research Directions",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "e4201d4bb39061fcce4b",
-                    "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                    "id": "a73909d75225e2dab36d",
+                    "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -69,30 +69,30 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "e4201d4bb39061fcce4b"
+                  "a73909d75225e2dab36d"
                 ],
                 "active_rules": []
               },
               {
                 "id": "M02",
-                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M02:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M02:v1:survey-c3c31dcbbe454cf48713158af081b05c",
                 "name": "Сложности с качеством выполнения задач",
                 "weight": 15.0,
-                "severity": 0,
-                "state": "observed_no_signal",
-                "contribution": 0.0,
-                "scenario_contribution": 0.0,
+                "severity": 0.1,
+                "state": "active",
+                "contribution": 1.5,
+                "scenario_contribution": 1.5,
                 "rating": 4,
                 "rule_id": "M02_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура анкеты наставника, New Horizons for Newcomer Organizational Socialization: A Review, Meta-Analysis, and Future Research Directions, Unpacking the effects of socialization programs on newcomer retention: A meta-analytic review of field experiments",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "3c8fa8aa120a0dcf4edd",
-                    "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                    "id": "a3ed04acf8317121a70b",
+                    "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -108,30 +108,30 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "3c8fa8aa120a0dcf4edd"
+                  "a3ed04acf8317121a70b"
                 ],
                 "active_rules": []
               },
               {
                 "id": "M03",
-                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M03:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M03:v1:survey-c3c31dcbbe454cf48713158af081b05c",
                 "name": "Сложности с самостоятельным выполнением задач",
                 "weight": 15.0,
-                "severity": 0,
-                "state": "observed_no_signal",
-                "contribution": 0.0,
-                "scenario_contribution": 0.0,
+                "severity": 0.35,
+                "state": "active",
+                "contribution": 5.25,
+                "scenario_contribution": 5.25,
                 "rating": 3,
                 "rule_id": "M03_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура анкеты наставника, New Horizons for Newcomer Organizational Socialization: A Review, Meta-Analysis, and Future Research Directions, Job Demands–Resources Theory: Ten Years Later",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "6074b64b43c5f92101e8",
-                    "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                    "id": "02b631e95398f6009821",
+                    "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -146,8 +146,8 @@
                     "polarity": null
                   },
                   {
-                    "id": "7460b8e9fa6f0b27010f",
-                    "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                    "id": "95767688fcafe9de2789",
+                    "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -163,30 +163,30 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "6074b64b43c5f92101e8"
+                  "02b631e95398f6009821"
                 ],
                 "active_rules": []
               },
               {
                 "id": "M04",
-                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M04:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M04:v1:survey-c3c31dcbbe454cf48713158af081b05c",
                 "name": "Сложности с соблюдением сроков и организацией работы",
                 "weight": 15.0,
-                "severity": 0,
+                "severity": 0.0,
                 "state": "observed_no_signal",
                 "contribution": 0.0,
                 "scenario_contribution": 0.0,
                 "rating": 5,
                 "rule_id": "M04_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура анкеты наставника, Job Demands–Resources Theory: Ten Years Later",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "db94b1ed51eb54693250",
-                    "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                    "id": "489d5849cad972878612",
+                    "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -202,30 +202,30 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "db94b1ed51eb54693250"
+                  "489d5849cad972878612"
                 ],
                 "active_rules": []
               },
               {
                 "id": "M05",
-                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M05:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M05:v1:survey-c3c31dcbbe454cf48713158af081b05c",
                 "name": "Недостаточная вовлечённость и инициативность",
                 "weight": 15.0,
-                "severity": 0,
-                "state": "observed_no_signal",
-                "contribution": 0.0,
-                "scenario_contribution": 0.0,
+                "severity": 0.1,
+                "state": "active",
+                "contribution": 1.5,
+                "scenario_contribution": 1.5,
                 "rating": 4,
                 "rule_id": "M05_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура анкеты наставника, Job Demands–Resources Theory: Ten Years Later, Unpacking the effects of socialization programs on newcomer retention: A meta-analytic review of field experiments",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "86775ffd578daddd8116",
-                    "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                    "id": "b8fb75248bcd861be107",
+                    "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -241,30 +241,30 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "86775ffd578daddd8116"
+                  "b8fb75248bcd861be107"
                 ],
                 "active_rules": []
               },
               {
                 "id": "M06",
-                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M06:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "instance_id": "pair-b79a76c6c1557104:M1:mentor:M06:v1:survey-c3c31dcbbe454cf48713158af081b05c",
                 "name": "Сложности взаимодействия с наставником и командой",
                 "weight": 20.0,
-                "severity": 0,
+                "severity": 0.0,
                 "state": "observed_no_signal",
                 "contribution": 0.0,
                 "scenario_contribution": 0.0,
                 "rating": 5,
                 "rule_id": "M06_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура анкеты наставника, Newcomer adjustment during organizational socialization: a meta-analytic review of antecedents, outcomes, and methods, New Horizons for Newcomer Organizational Socialization: A Review, Meta-Analysis, and Future Research Directions, Developmental Relationships Matter: Examining the Joint Role of Supervisor Support and Mentor Status on Intern Outcomes",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "9cb72495a074f66c8a01",
-                    "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                    "id": "73266d6e112254fbf501",
+                    "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -280,7 +280,7 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "9cb72495a074f66c8a01"
+                  "73266d6e112254fbf501"
                 ],
                 "active_rules": []
               }
@@ -288,8 +288,8 @@
             "unknown_factors": [],
             "evidence": [
               {
-                "id": "e4201d4bb39061fcce4b",
-                "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "id": "a73909d75225e2dab36d",
+                "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -304,8 +304,8 @@
                 "polarity": null
               },
               {
-                "id": "3c8fa8aa120a0dcf4edd",
-                "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "id": "a3ed04acf8317121a70b",
+                "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -320,8 +320,8 @@
                 "polarity": null
               },
               {
-                "id": "6074b64b43c5f92101e8",
-                "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "id": "02b631e95398f6009821",
+                "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -336,8 +336,8 @@
                 "polarity": null
               },
               {
-                "id": "7460b8e9fa6f0b27010f",
-                "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "id": "95767688fcafe9de2789",
+                "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -352,8 +352,8 @@
                 "polarity": "positive"
               },
               {
-                "id": "db94b1ed51eb54693250",
-                "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "id": "489d5849cad972878612",
+                "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -368,8 +368,8 @@
                 "polarity": null
               },
               {
-                "id": "86775ffd578daddd8116",
-                "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "id": "b8fb75248bcd861be107",
+                "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -384,8 +384,8 @@
                 "polarity": null
               },
               {
-                "id": "9cb72495a074f66c8a01",
-                "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "id": "73266d6e112254fbf501",
+                "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -400,8 +400,8 @@
                 "polarity": null
               },
               {
-                "id": "8b82351d67e2955b021f",
-                "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "id": "90b963902cf5cbdeb1cf",
+                "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -430,8 +430,8 @@
                 "role": "mentor",
                 "rule_id": "local_review",
                 "severity": "none",
-                "signal_id": "cf4f8076c7aa2640f27b48fc",
-                "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+                "signal_id": "01d325abb9c8ec92b99bddbc",
+                "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
                 "temporal_status": "current",
                 "validation_status": "accepted",
                 "version": 1
@@ -440,50 +440,50 @@
             "text_analysis_status": "completed",
             "text_interpretation_status": "local_matched",
             "unclassified_fragments": [],
-            "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+            "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
             "version": 1,
             "nlp_audit": {
               "calls": [],
-              "config_hash": "213a2fcda69a57403dd3ae7de1d03c3c57df95551d10ca15b53be8d7a25a9841",
+              "config_hash": "e53ab06ab61f3d8477294a5ec68b094da173f032a5807deef26b805d2bfdf469",
               "mode": "local_rules",
-              "pipeline": "pair-text-2.2.0"
+              "pipeline": "pair-text-2.3.0"
             },
             "text_mode": "local_rules",
             "nlp_identity": {
-              "version": "213a2fcda69a57403dd3ae7de1d03c3c57df95551d10ca15b53be8d7a25a9841",
+              "version": "e53ab06ab61f3d8477294a5ec68b094da173f032a5807deef26b805d2bfdf469",
               "mode": "local_rules",
-              "pipeline": "pair-text-2.2.0",
-              "config_hash": "213a2fcda69a57403dd3ae7de1d03c3c57df95551d10ca15b53be8d7a25a9841",
+              "pipeline": "pair-text-2.3.0",
+              "config_hash": "e53ab06ab61f3d8477294a5ec68b094da173f032a5807deef26b805d2bfdf469",
               "encoder_versions": []
             }
           },
           "y": {
-            "score": 10.0,
-            "actual_score": 10.0,
+            "score": 29.0,
+            "actual_score": 29.0,
             "band": "green",
             "coverage": 1.0,
             "status": "partial",
             "factors": [
               {
                 "id": "S01",
-                "instance_id": "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-1630e3f59bb74925b3064adb9f718ae8",
                 "name": "Недостаточная понятность задач",
                 "weight": 20.0,
-                "severity": 0.5,
+                "severity": 0.75,
                 "state": "active",
-                "contribution": 10.0,
-                "scenario_contribution": 10.0,
+                "contribution": 15.0,
+                "scenario_contribution": 15.0,
                 "rating": 2,
                 "rule_id": "S01_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура пульс-опроса стажера, Newcomer adjustment during organizational socialization: a meta-analytic review of antecedents, outcomes, and methods, New Horizons for Newcomer Organizational Socialization: A Review, Meta-Analysis, and Future Research Directions",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "d646d07136a25257fbd5",
-                    "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                    "id": "edb8994889f61220c62c",
+                    "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -499,30 +499,30 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "d646d07136a25257fbd5"
+                  "edb8994889f61220c62c"
                 ],
                 "active_rules": []
               },
               {
                 "id": "S02",
-                "instance_id": "pair-b79a76c6c1557104:M1:intern:S02:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:S02:v1:survey-1630e3f59bb74925b3064adb9f718ae8",
                 "name": "Недостаток поддержки и обратной связи",
                 "weight": 20.0,
-                "severity": 0,
-                "state": "observed_no_signal",
-                "contribution": 0.0,
-                "scenario_contribution": 0.0,
+                "severity": 0.35,
+                "state": "active",
+                "contribution": 7.0,
+                "scenario_contribution": 7.0,
                 "rating": 3,
                 "rule_id": "S02_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура пульс-опроса стажера, Developmental Relationships Matter: Examining the Joint Role of Supervisor Support and Mentor Status on Intern Outcomes, New Horizons for Newcomer Organizational Socialization: A Review, Meta-Analysis, and Future Research Directions, Job Demands–Resources Theory: Ten Years Later",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "7412957031f6be198d02",
-                    "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                    "id": "972a428b60b3b63d5949",
+                    "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -537,8 +537,8 @@
                     "polarity": null
                   },
                   {
-                    "id": "ceeaaeecde50f30abf12",
-                    "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                    "id": "b8a322d06785bebaecc3",
+                    "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -554,30 +554,30 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "7412957031f6be198d02"
+                  "972a428b60b3b63d5949"
                 ],
                 "active_rules": []
               },
               {
                 "id": "S03",
-                "instance_id": "pair-b79a76c6c1557104:M1:intern:S03:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:S03:v1:survey-1630e3f59bb74925b3064adb9f718ae8",
                 "name": "Некомфортная рабочая нагрузка",
                 "weight": 15.0,
-                "severity": 0,
-                "state": "observed_no_signal",
-                "contribution": 0.0,
-                "scenario_contribution": 0.0,
+                "severity": 0.1,
+                "state": "active",
+                "contribution": 1.5,
+                "scenario_contribution": 1.5,
                 "rating": 4,
                 "rule_id": "S03_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура пульс-опроса стажера, Job Demands–Resources Theory: Ten Years Later",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "1a0fc5dab1d3b9f39b2c",
-                    "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                    "id": "335ed714f27a0ad8b8d9",
+                    "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -593,30 +593,30 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "1a0fc5dab1d3b9f39b2c"
+                  "335ed714f27a0ad8b8d9"
                 ],
                 "active_rules": []
               },
               {
                 "id": "S04",
-                "instance_id": "pair-b79a76c6c1557104:M1:intern:S04:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:S04:v1:survey-1630e3f59bb74925b3064adb9f718ae8",
                 "name": "Недостаточный интерес к задачам",
                 "weight": 10.0,
-                "severity": 0,
-                "state": "observed_no_signal",
-                "contribution": 0.0,
-                "scenario_contribution": 0.0,
+                "severity": 0.1,
+                "state": "active",
+                "contribution": 1.0,
+                "scenario_contribution": 1.0,
                 "rating": 4,
                 "rule_id": "S04_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура пульс-опроса стажера, Job Demands–Resources Theory: Ten Years Later, Developmental Relationships Matter: Examining the Joint Role of Supervisor Support and Mentor Status on Intern Outcomes",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "710f15ecbff810b6a3c0",
-                    "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                    "id": "d3e2e2d8dce4f74355bd",
+                    "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -632,30 +632,30 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "710f15ecbff810b6a3c0"
+                  "d3e2e2d8dce4f74355bd"
                 ],
                 "active_rules": []
               },
               {
                 "id": "S05",
-                "instance_id": "pair-b79a76c6c1557104:M1:intern:S05:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:S05:v1:survey-1630e3f59bb74925b3064adb9f718ae8",
                 "name": "Недостаток профессионального развития",
                 "weight": 15.0,
-                "severity": 0,
+                "severity": 0.0,
                 "state": "observed_no_signal",
                 "contribution": 0.0,
                 "scenario_contribution": 0.0,
                 "rating": 5,
                 "rule_id": "S05_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура пульс-опроса стажера, Developmental Relationships Matter: Examining the Joint Role of Supervisor Support and Mentor Status on Intern Outcomes, New Horizons for Newcomer Organizational Socialization: A Review, Meta-Analysis, and Future Research Directions",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "a688e4d7bd9e63520900",
-                    "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                    "id": "c6307d509837b387ee86",
+                    "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -671,30 +671,30 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "a688e4d7bd9e63520900"
+                  "c6307d509837b387ee86"
                 ],
                 "active_rules": []
               },
               {
                 "id": "S06",
-                "instance_id": "pair-b79a76c6c1557104:M1:intern:S06:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:S06:v1:survey-1630e3f59bb74925b3064adb9f718ae8",
                 "name": "Сложности взаимодействия с командой",
                 "weight": 10.0,
-                "severity": 0,
-                "state": "observed_no_signal",
-                "contribution": 0.0,
-                "scenario_contribution": 0.0,
+                "severity": 0.1,
+                "state": "active",
+                "contribution": 1.0,
+                "scenario_contribution": 1.0,
                 "rating": 4,
                 "rule_id": "S06_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура пульс-опроса стажера, Newcomer adjustment during organizational socialization: a meta-analytic review of antecedents, outcomes, and methods, New Horizons for Newcomer Organizational Socialization: A Review, Meta-Analysis, and Future Research Directions, Unpacking the effects of socialization programs on newcomer retention: A meta-analytic review of field experiments",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "a1f3a1c61a089ece6785",
-                    "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                    "id": "b6c99e99130451d05d0d",
+                    "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -710,30 +710,30 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "a1f3a1c61a089ece6785"
+                  "b6c99e99130451d05d0d"
                 ],
                 "active_rules": []
               },
               {
                 "id": "S07",
-                "instance_id": "pair-b79a76c6c1557104:M1:intern:S07:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "instance_id": "pair-b79a76c6c1557104:M1:intern:S07:v1:survey-1630e3f59bb74925b3064adb9f718ae8",
                 "name": "Общая неудовлетворённость стажировкой",
                 "weight": 10.0,
-                "severity": 0,
-                "state": "observed_no_signal",
-                "contribution": 0.0,
-                "scenario_contribution": 0.0,
+                "severity": 0.35,
+                "state": "active",
+                "contribution": 3.5,
+                "scenario_contribution": 3.5,
                 "rating": 3,
                 "rule_id": "S07_Q",
-                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.5, 3 → 0, 4 → 0, 5 → 0. Максимум подтверждённых текущих сигналов.",
+                "activation_rule": "Оценки переводятся в выраженность по схеме 1 → 1, 2 → 0.75, 3 → 0.35, 4 → 0.1, 5 → 0. Максимум подтверждённых текущих сигналов.",
                 "source": "Структура пульс-опроса стажера, Newcomer adjustment during organizational socialization: a meta-analytic review of antecedents, outcomes, and methods, Developmental Relationships Matter: Examining the Joint Role of Supervisor Support and Mentor Status on Intern Outcomes",
                 "rule_status": "expert_draft",
                 "validation_status": "deterministic_mapping",
                 "review_flags": [],
                 "evidence": [
                   {
-                    "id": "03889438725a7439b531",
-                    "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                    "id": "b1ea790b82519fe59878",
+                    "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                     "version": 1,
                     "pair_id": "pair-b79a76c6c1557104",
                     "month": 1,
@@ -749,7 +749,7 @@
                   }
                 ],
                 "score_evidence_refs": [
-                  "03889438725a7439b531"
+                  "b1ea790b82519fe59878"
                 ],
                 "active_rules": []
               }
@@ -757,8 +757,8 @@
             "unknown_factors": [],
             "evidence": [
               {
-                "id": "d646d07136a25257fbd5",
-                "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "id": "edb8994889f61220c62c",
+                "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -773,8 +773,8 @@
                 "polarity": null
               },
               {
-                "id": "7412957031f6be198d02",
-                "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "id": "972a428b60b3b63d5949",
+                "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -789,8 +789,8 @@
                 "polarity": null
               },
               {
-                "id": "ceeaaeecde50f30abf12",
-                "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "id": "b8a322d06785bebaecc3",
+                "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -805,8 +805,8 @@
                 "polarity": "negative"
               },
               {
-                "id": "1a0fc5dab1d3b9f39b2c",
-                "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "id": "335ed714f27a0ad8b8d9",
+                "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -821,8 +821,8 @@
                 "polarity": null
               },
               {
-                "id": "710f15ecbff810b6a3c0",
-                "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "id": "d3e2e2d8dce4f74355bd",
+                "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -837,8 +837,8 @@
                 "polarity": null
               },
               {
-                "id": "a688e4d7bd9e63520900",
-                "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "id": "c6307d509837b387ee86",
+                "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -853,8 +853,8 @@
                 "polarity": null
               },
               {
-                "id": "a1f3a1c61a089ece6785",
-                "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "id": "b6c99e99130451d05d0d",
+                "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -869,8 +869,8 @@
                 "polarity": null
               },
               {
-                "id": "03889438725a7439b531",
-                "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "id": "b1ea790b82519fe59878",
+                "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -885,8 +885,8 @@
                 "polarity": null
               },
               {
-                "id": "134ebb48cfa2206c0612",
-                "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "id": "dcef5c53f41dd3281d89",
+                "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                 "version": 1,
                 "pair_id": "pair-b79a76c6c1557104",
                 "month": 1,
@@ -915,8 +915,8 @@
                 "role": "intern",
                 "rule_id": "local_review",
                 "severity": "moderate",
-                "signal_id": "1a530e3734800b958cd88c89",
-                "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+                "signal_id": "71dba6e76ca83a8f6fa4db63",
+                "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
                 "temporal_status": "current",
                 "validation_status": "review",
                 "version": 1
@@ -925,34 +925,34 @@
             "text_analysis_status": "completed",
             "text_interpretation_status": "local_partial",
             "unclassified_fragments": [],
-            "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+            "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
             "version": 1,
             "nlp_audit": {
               "calls": [],
-              "config_hash": "213a2fcda69a57403dd3ae7de1d03c3c57df95551d10ca15b53be8d7a25a9841",
+              "config_hash": "e53ab06ab61f3d8477294a5ec68b094da173f032a5807deef26b805d2bfdf469",
               "mode": "local_rules",
-              "pipeline": "pair-text-2.2.0"
+              "pipeline": "pair-text-2.3.0"
             },
             "text_mode": "local_rules",
             "nlp_identity": {
-              "version": "213a2fcda69a57403dd3ae7de1d03c3c57df95551d10ca15b53be8d7a25a9841",
+              "version": "e53ab06ab61f3d8477294a5ec68b094da173f032a5807deef26b805d2bfdf469",
               "mode": "local_rules",
-              "pipeline": "pair-text-2.2.0",
-              "config_hash": "213a2fcda69a57403dd3ae7de1d03c3c57df95551d10ca15b53be8d7a25a9841",
+              "pipeline": "pair-text-2.3.0",
+              "config_hash": "e53ab06ab61f3d8477294a5ec68b094da173f032a5807deef26b805d2bfdf469",
               "encoder_versions": []
             }
           },
-          "z": 10.0,
+          "z": 26.125,
           "eligible": true,
           "actual": {
-            "x": 10.0,
-            "y": 10.0,
-            "z": 10.0
+            "x": 23.25,
+            "y": 29.0,
+            "z": 26.125
           },
           "scenario": {
-            "x": 10.0,
-            "y": 10.0,
-            "z": 10.0
+            "x": 23.25,
+            "y": 29.0,
+            "z": 26.125
           }
         },
         {
@@ -1314,18 +1314,18 @@
     }
   ],
   "indices": {
-    "x": 10.0,
-    "y": 10.0,
-    "z": 10.0,
+    "x": 23.25,
+    "y": 29.0,
+    "z": 26.125,
     "actual": {
-      "x": 10.0,
-      "y": 10.0,
-      "z": 10.0
+      "x": 23.25,
+      "y": 29.0,
+      "z": 26.125
     },
     "scenario": {
-      "x": 10.0,
-      "y": 10.0,
-      "z": 10.0
+      "x": 23.25,
+      "y": 29.0,
+      "z": 26.125
     },
     "bands": {
       "x": "green",
@@ -1342,11 +1342,11 @@
     ],
     "side_statistics": {
       "mentor": {
-        "mean": 10.0,
+        "mean": 23.25,
         "count": 1
       },
       "intern": {
-        "mean": 10.0,
+        "mean": 29.0,
         "count": 1
       }
     },
@@ -1363,31 +1363,31 @@
         {
           "id": "M01",
           "name": "Недостаточное понимание задач и ожиданий",
-          "contribution": 10.0,
-          "scenario_contribution": 10.0,
+          "contribution": 15.0,
+          "scenario_contribution": 15.0,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+            "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-c3c31dcbbe454cf48713158af081b05c"
           ]
         },
         {
           "id": "M02",
           "name": "Сложности с качеством выполнения задач",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
+          "contribution": 1.5,
+          "scenario_contribution": 1.5,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M02:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+            "pair-b79a76c6c1557104:M1:mentor:M02:v1:survey-c3c31dcbbe454cf48713158af081b05c"
           ]
         },
         {
           "id": "M03",
           "name": "Сложности с самостоятельным выполнением задач",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
+          "contribution": 5.25,
+          "scenario_contribution": 5.25,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M03:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+            "pair-b79a76c6c1557104:M1:mentor:M03:v1:survey-c3c31dcbbe454cf48713158af081b05c"
           ]
         },
         {
@@ -1397,17 +1397,17 @@
           "scenario_contribution": 0.0,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M04:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+            "pair-b79a76c6c1557104:M1:mentor:M04:v1:survey-c3c31dcbbe454cf48713158af081b05c"
           ]
         },
         {
           "id": "M05",
           "name": "Недостаточная вовлечённость и инициативность",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
+          "contribution": 1.5,
+          "scenario_contribution": 1.5,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M05:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+            "pair-b79a76c6c1557104:M1:mentor:M05:v1:survey-c3c31dcbbe454cf48713158af081b05c"
           ]
         },
         {
@@ -1417,7 +1417,7 @@
           "scenario_contribution": 0.0,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:mentor:M06:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+            "pair-b79a76c6c1557104:M1:mentor:M06:v1:survey-c3c31dcbbe454cf48713158af081b05c"
           ]
         }
       ],
@@ -1425,41 +1425,41 @@
         {
           "id": "S01",
           "name": "Недостаточная понятность задач",
-          "contribution": 10.0,
-          "scenario_contribution": 10.0,
+          "contribution": 15.0,
+          "scenario_contribution": 15.0,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
           ]
         },
         {
           "id": "S02",
           "name": "Недостаток поддержки и обратной связи",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
+          "contribution": 7.0,
+          "scenario_contribution": 7.0,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S02:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "pair-b79a76c6c1557104:M1:intern:S02:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
           ]
         },
         {
           "id": "S03",
           "name": "Некомфортная рабочая нагрузка",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
+          "contribution": 1.5,
+          "scenario_contribution": 1.5,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S03:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "pair-b79a76c6c1557104:M1:intern:S03:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
           ]
         },
         {
           "id": "S04",
           "name": "Недостаточный интерес к задачам",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
+          "contribution": 1.0,
+          "scenario_contribution": 1.0,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S04:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "pair-b79a76c6c1557104:M1:intern:S04:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
           ]
         },
         {
@@ -1469,27 +1469,27 @@
           "scenario_contribution": 0.0,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S05:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "pair-b79a76c6c1557104:M1:intern:S05:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
           ]
         },
         {
           "id": "S06",
           "name": "Сложности взаимодействия с командой",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
+          "contribution": 1.0,
+          "scenario_contribution": 1.0,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S06:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "pair-b79a76c6c1557104:M1:intern:S06:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
           ]
         },
         {
           "id": "S07",
           "name": "Общая неудовлетворённость стажировкой",
-          "contribution": 0.0,
-          "scenario_contribution": 0.0,
+          "contribution": 3.5,
+          "scenario_contribution": 3.5,
           "known_count": 1,
           "instance_ids": [
-            "pair-b79a76c6c1557104:M1:intern:S07:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "pair-b79a76c6c1557104:M1:intern:S07:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
           ]
         }
       ]
@@ -1498,34 +1498,34 @@
   "sections": {
     "pair": {
       "title": "Взаимодействие пары",
-      "characteristic": "Области внимания по сохранённым ответам — Недостаточное понимание задач и ожиданий, Недостаточная понятность задач. Фактический индекс М1: 10 балла. «Работает самостоятельно.» — Наставник, М1. В выбранной области 1 наблюдений «пара × месяц». Сопоставимые оценки расходятся в 0 случаях. Явные текстовые сопоставления доступны в 0 случаях.",
+      "characteristic": "Области внимания по сохранённым ответам — Недостаточное понимание задач и ожиданий, Недостаточная понятность задач. Фактический индекс М1: 26.125 балла. «Работает самостоятельно.» — Наставник, М1. В выбранной области 1 наблюдений «пара × месяц». Сопоставимые оценки расходятся в 0 случаях. Явные текстовые сопоставления доступны в 0 случаях.",
       "generation": "deterministic_evidence_summary",
       "claims": [
         {
-          "text": "М1, Недостаточное понимание задач и ожиданий — оценка 2/5, вклад 10 балла.",
+          "text": "М1, Недостаточное понимание задач и ожиданий — оценка 2/5, вклад 15 балла.",
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "evidence_refs": [
-            "e4201d4bb39061fcce4b"
+            "a73909d75225e2dab36d"
           ],
-          "factor_instance_id": "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-c3c31dcbbe454cf48713158af081b05c"
         },
         {
-          "text": "М1, Недостаточная понятность задач — оценка 2/5, вклад 10 балла.",
+          "text": "М1, Недостаточная понятность задач — оценка 2/5, вклад 15 балла.",
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "evidence_refs": [
-            "d646d07136a25257fbd5"
+            "edb8994889f61220c62c"
           ],
-          "factor_instance_id": "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
         }
       ],
       "evidence": [
         {
-          "id": "e4201d4bb39061fcce4b",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "a73909d75225e2dab36d",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1540,8 +1540,8 @@
           "polarity": null
         },
         {
-          "id": "3c8fa8aa120a0dcf4edd",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "a3ed04acf8317121a70b",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1556,8 +1556,8 @@
           "polarity": null
         },
         {
-          "id": "6074b64b43c5f92101e8",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "02b631e95398f6009821",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1572,8 +1572,8 @@
           "polarity": null
         },
         {
-          "id": "7460b8e9fa6f0b27010f",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "95767688fcafe9de2789",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1588,8 +1588,8 @@
           "polarity": "positive"
         },
         {
-          "id": "db94b1ed51eb54693250",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "489d5849cad972878612",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1604,8 +1604,8 @@
           "polarity": null
         },
         {
-          "id": "86775ffd578daddd8116",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "b8fb75248bcd861be107",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1620,8 +1620,8 @@
           "polarity": null
         },
         {
-          "id": "9cb72495a074f66c8a01",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "73266d6e112254fbf501",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1636,8 +1636,8 @@
           "polarity": null
         },
         {
-          "id": "8b82351d67e2955b021f",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "90b963902cf5cbdeb1cf",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1652,8 +1652,8 @@
           "polarity": null
         },
         {
-          "id": "d646d07136a25257fbd5",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "edb8994889f61220c62c",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1668,8 +1668,8 @@
           "polarity": null
         },
         {
-          "id": "7412957031f6be198d02",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "972a428b60b3b63d5949",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1684,8 +1684,8 @@
           "polarity": null
         },
         {
-          "id": "ceeaaeecde50f30abf12",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "b8a322d06785bebaecc3",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1700,8 +1700,8 @@
           "polarity": "negative"
         },
         {
-          "id": "1a0fc5dab1d3b9f39b2c",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "335ed714f27a0ad8b8d9",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1716,8 +1716,8 @@
           "polarity": null
         },
         {
-          "id": "710f15ecbff810b6a3c0",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "d3e2e2d8dce4f74355bd",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1732,8 +1732,8 @@
           "polarity": null
         },
         {
-          "id": "a688e4d7bd9e63520900",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "c6307d509837b387ee86",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1748,8 +1748,8 @@
           "polarity": null
         },
         {
-          "id": "a1f3a1c61a089ece6785",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "b6c99e99130451d05d0d",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1764,8 +1764,8 @@
           "polarity": null
         },
         {
-          "id": "03889438725a7439b531",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "b1ea790b82519fe59878",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1780,8 +1780,8 @@
           "polarity": null
         },
         {
-          "id": "134ebb48cfa2206c0612",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "dcef5c53f41dd3281d89",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -1837,111 +1837,111 @@
       "history_summary": {
         "first": {
           "month": 1,
-          "score": 10.0,
+          "score": 26.125,
           "observation_count": 1,
           "pair_ids": [
             "pair-b79a76c6c1557104"
           ],
           "source_ids": [
-            "survey-5db0b130ffc04ba0a0cd3c86314dca70",
-            "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "survey-1630e3f59bb74925b3064adb9f718ae8",
+            "survey-c3c31dcbbe454cf48713158af081b05c"
           ],
           "evidence_refs": [
-            "03889438725a7439b531",
-            "1a0fc5dab1d3b9f39b2c",
-            "3c8fa8aa120a0dcf4edd",
-            "6074b64b43c5f92101e8",
-            "710f15ecbff810b6a3c0",
-            "7412957031f6be198d02",
-            "86775ffd578daddd8116",
-            "9cb72495a074f66c8a01",
-            "a1f3a1c61a089ece6785",
-            "a688e4d7bd9e63520900",
-            "d646d07136a25257fbd5",
-            "db94b1ed51eb54693250",
-            "e4201d4bb39061fcce4b"
+            "02b631e95398f6009821",
+            "335ed714f27a0ad8b8d9",
+            "489d5849cad972878612",
+            "73266d6e112254fbf501",
+            "972a428b60b3b63d5949",
+            "a3ed04acf8317121a70b",
+            "a73909d75225e2dab36d",
+            "b1ea790b82519fe59878",
+            "b6c99e99130451d05d0d",
+            "b8fb75248bcd861be107",
+            "c6307d509837b387ee86",
+            "d3e2e2d8dce4f74355bd",
+            "edb8994889f61220c62c"
           ]
         },
         "last": {
           "month": 1,
-          "score": 10.0,
+          "score": 26.125,
           "observation_count": 1,
           "pair_ids": [
             "pair-b79a76c6c1557104"
           ],
           "source_ids": [
-            "survey-5db0b130ffc04ba0a0cd3c86314dca70",
-            "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "survey-1630e3f59bb74925b3064adb9f718ae8",
+            "survey-c3c31dcbbe454cf48713158af081b05c"
           ],
           "evidence_refs": [
-            "03889438725a7439b531",
-            "1a0fc5dab1d3b9f39b2c",
-            "3c8fa8aa120a0dcf4edd",
-            "6074b64b43c5f92101e8",
-            "710f15ecbff810b6a3c0",
-            "7412957031f6be198d02",
-            "86775ffd578daddd8116",
-            "9cb72495a074f66c8a01",
-            "a1f3a1c61a089ece6785",
-            "a688e4d7bd9e63520900",
-            "d646d07136a25257fbd5",
-            "db94b1ed51eb54693250",
-            "e4201d4bb39061fcce4b"
+            "02b631e95398f6009821",
+            "335ed714f27a0ad8b8d9",
+            "489d5849cad972878612",
+            "73266d6e112254fbf501",
+            "972a428b60b3b63d5949",
+            "a3ed04acf8317121a70b",
+            "a73909d75225e2dab36d",
+            "b1ea790b82519fe59878",
+            "b6c99e99130451d05d0d",
+            "b8fb75248bcd861be107",
+            "c6307d509837b387ee86",
+            "d3e2e2d8dce4f74355bd",
+            "edb8994889f61220c62c"
           ]
         },
         "max": {
           "month": 1,
-          "score": 10.0,
+          "score": 26.125,
           "observation_count": 1,
           "pair_ids": [
             "pair-b79a76c6c1557104"
           ],
           "source_ids": [
-            "survey-5db0b130ffc04ba0a0cd3c86314dca70",
-            "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "survey-1630e3f59bb74925b3064adb9f718ae8",
+            "survey-c3c31dcbbe454cf48713158af081b05c"
           ],
           "evidence_refs": [
-            "03889438725a7439b531",
-            "1a0fc5dab1d3b9f39b2c",
-            "3c8fa8aa120a0dcf4edd",
-            "6074b64b43c5f92101e8",
-            "710f15ecbff810b6a3c0",
-            "7412957031f6be198d02",
-            "86775ffd578daddd8116",
-            "9cb72495a074f66c8a01",
-            "a1f3a1c61a089ece6785",
-            "a688e4d7bd9e63520900",
-            "d646d07136a25257fbd5",
-            "db94b1ed51eb54693250",
-            "e4201d4bb39061fcce4b"
+            "02b631e95398f6009821",
+            "335ed714f27a0ad8b8d9",
+            "489d5849cad972878612",
+            "73266d6e112254fbf501",
+            "972a428b60b3b63d5949",
+            "a3ed04acf8317121a70b",
+            "a73909d75225e2dab36d",
+            "b1ea790b82519fe59878",
+            "b6c99e99130451d05d0d",
+            "b8fb75248bcd861be107",
+            "c6307d509837b387ee86",
+            "d3e2e2d8dce4f74355bd",
+            "edb8994889f61220c62c"
           ]
         },
         "timeline": [
           {
             "month": 1,
-            "score": 10.0,
+            "score": 26.125,
             "observation_count": 1,
             "pair_ids": [
               "pair-b79a76c6c1557104"
             ],
             "source_ids": [
-              "survey-5db0b130ffc04ba0a0cd3c86314dca70",
-              "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+              "survey-1630e3f59bb74925b3064adb9f718ae8",
+              "survey-c3c31dcbbe454cf48713158af081b05c"
             ],
             "evidence_refs": [
-              "03889438725a7439b531",
-              "1a0fc5dab1d3b9f39b2c",
-              "3c8fa8aa120a0dcf4edd",
-              "6074b64b43c5f92101e8",
-              "710f15ecbff810b6a3c0",
-              "7412957031f6be198d02",
-              "86775ffd578daddd8116",
-              "9cb72495a074f66c8a01",
-              "a1f3a1c61a089ece6785",
-              "a688e4d7bd9e63520900",
-              "d646d07136a25257fbd5",
-              "db94b1ed51eb54693250",
-              "e4201d4bb39061fcce4b"
+              "02b631e95398f6009821",
+              "335ed714f27a0ad8b8d9",
+              "489d5849cad972878612",
+              "73266d6e112254fbf501",
+              "972a428b60b3b63d5949",
+              "a3ed04acf8317121a70b",
+              "a73909d75225e2dab36d",
+              "b1ea790b82519fe59878",
+              "b6c99e99130451d05d0d",
+              "b8fb75248bcd861be107",
+              "c6307d509837b387ee86",
+              "d3e2e2d8dce4f74355bd",
+              "edb8994889f61220c62c"
             ]
           },
           {
@@ -2007,8 +2007,8 @@
         "rule_limitations": "Локальные правила выделяют явно заданные формулировки. Остальные фрагменты сохраняются для ручного просмотра."
       },
       "highlighted_evidence": {
-        "id": "7460b8e9fa6f0b27010f",
-        "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+        "id": "95767688fcafe9de2789",
+        "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
         "version": 1,
         "pair_id": "pair-b79a76c6c1557104",
         "month": 1,
@@ -2023,12 +2023,12 @@
         "polarity": "positive"
       },
       "characteristic_evidence_refs": [
-        "7460b8e9fa6f0b27010f"
+        "95767688fcafe9de2789"
       ],
       "source_facets": {
         "source_ids": [
-          "survey-5db0b130ffc04ba0a0cd3c86314dca70",
-          "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+          "survey-1630e3f59bb74925b3064adb9f718ae8",
+          "survey-c3c31dcbbe454cf48713158af081b05c"
         ],
         "months": [
           1
@@ -2044,24 +2044,24 @@
     },
     "mentor": {
       "title": "Наставник",
-      "characteristic": "Области внимания по сохранённым ответам — Недостаточное понимание задач и ожиданий. Фактический индекс М1: 10 балла. «Работает самостоятельно.» — Наставник, М1.",
+      "characteristic": "Области внимания по сохранённым ответам — Недостаточное понимание задач и ожиданий. Фактический индекс М1: 23.25 балла. «Работает самостоятельно.» — Наставник, М1.",
       "generation": "deterministic_evidence_summary",
       "claims": [
         {
-          "text": "М1, Недостаточное понимание задач и ожиданий — оценка 2/5, вклад 10 балла.",
+          "text": "М1, Недостаточное понимание задач и ожиданий — оценка 2/5, вклад 15 балла.",
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "evidence_refs": [
-            "e4201d4bb39061fcce4b"
+            "a73909d75225e2dab36d"
           ],
-          "factor_instance_id": "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-c3c31dcbbe454cf48713158af081b05c"
         }
       ],
       "evidence": [
         {
-          "id": "e4201d4bb39061fcce4b",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "a73909d75225e2dab36d",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2076,8 +2076,8 @@
           "polarity": null
         },
         {
-          "id": "3c8fa8aa120a0dcf4edd",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "a3ed04acf8317121a70b",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2092,8 +2092,8 @@
           "polarity": null
         },
         {
-          "id": "6074b64b43c5f92101e8",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "02b631e95398f6009821",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2108,8 +2108,8 @@
           "polarity": null
         },
         {
-          "id": "7460b8e9fa6f0b27010f",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "95767688fcafe9de2789",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2124,8 +2124,8 @@
           "polarity": "positive"
         },
         {
-          "id": "db94b1ed51eb54693250",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "489d5849cad972878612",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2140,8 +2140,8 @@
           "polarity": null
         },
         {
-          "id": "86775ffd578daddd8116",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "b8fb75248bcd861be107",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2156,8 +2156,8 @@
           "polarity": null
         },
         {
-          "id": "9cb72495a074f66c8a01",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "73266d6e112254fbf501",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2172,8 +2172,8 @@
           "polarity": null
         },
         {
-          "id": "8b82351d67e2955b021f",
-          "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+          "id": "90b963902cf5cbdeb1cf",
+          "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2188,132 +2188,86 @@
           "polarity": null
         }
       ],
-      "recommendations": [
-        {
-          "id": "rating_M01_3a43facd062f",
-          "action_id": "rating_M01",
-          "scope": {
-            "type": "PAIR_MONTH",
-            "pair_id": "pair-b79a76c6c1557104",
-            "start": 1,
-            "end": 1
-          },
-          "impact_scope": "MENTOR",
-          "title": "Условно устранить фактор «недостаточное понимание задач и ожиданий»",
-          "name": "Условно устранить фактор «недостаточное понимание задач и ожиданий»",
-          "rationale": "Низкая оценка без подтверждённого текстового механизма. Причину нужно уточнить.",
-          "responsible": "hr · mentor",
-          "target_factors": [
-            "M01"
-          ],
-          "targets": [
-            "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
-          ],
-          "target_observations": [
-            {
-              "pair_id": "pair-b79a76c6c1557104",
-              "month": 1,
-              "role": "mentor"
-            }
-          ],
-          "evidence_refs": [
-            "e4201d4bb39061fcce4b"
-          ],
-          "delta": {
-            "x": 10.0,
-            "y": 0.0,
-            "z": 5.0
-          },
-          "additional_delta": {
-            "x": 10.0,
-            "y": 0.0,
-            "z": 5.0
-          },
-          "completion_criteria": "Уточнить причину отдельно с респондентом.",
-          "resolution_criteria": "Включение в сценарий предполагает полное устранение этого фактора.",
-          "status": "expert_draft",
-          "assumption": "full_resolution"
-        }
-      ],
+      "recommendations": [],
       "critical_flags": [],
       "coverage": 1.0,
       "review_flags": [],
       "history_summary": {
         "first": {
           "month": 1,
-          "score": 10.0,
+          "score": 23.25,
           "observation_count": 1,
           "pair_ids": [
             "pair-b79a76c6c1557104"
           ],
           "source_ids": [
-            "survey-5db0b130ffc04ba0a0cd3c86314dca70"
+            "survey-c3c31dcbbe454cf48713158af081b05c"
           ],
           "evidence_refs": [
-            "3c8fa8aa120a0dcf4edd",
-            "6074b64b43c5f92101e8",
-            "86775ffd578daddd8116",
-            "9cb72495a074f66c8a01",
-            "db94b1ed51eb54693250",
-            "e4201d4bb39061fcce4b"
+            "02b631e95398f6009821",
+            "489d5849cad972878612",
+            "73266d6e112254fbf501",
+            "a3ed04acf8317121a70b",
+            "a73909d75225e2dab36d",
+            "b8fb75248bcd861be107"
           ]
         },
         "last": {
           "month": 1,
-          "score": 10.0,
+          "score": 23.25,
           "observation_count": 1,
           "pair_ids": [
             "pair-b79a76c6c1557104"
           ],
           "source_ids": [
-            "survey-5db0b130ffc04ba0a0cd3c86314dca70"
+            "survey-c3c31dcbbe454cf48713158af081b05c"
           ],
           "evidence_refs": [
-            "3c8fa8aa120a0dcf4edd",
-            "6074b64b43c5f92101e8",
-            "86775ffd578daddd8116",
-            "9cb72495a074f66c8a01",
-            "db94b1ed51eb54693250",
-            "e4201d4bb39061fcce4b"
+            "02b631e95398f6009821",
+            "489d5849cad972878612",
+            "73266d6e112254fbf501",
+            "a3ed04acf8317121a70b",
+            "a73909d75225e2dab36d",
+            "b8fb75248bcd861be107"
           ]
         },
         "max": {
           "month": 1,
-          "score": 10.0,
+          "score": 23.25,
           "observation_count": 1,
           "pair_ids": [
             "pair-b79a76c6c1557104"
           ],
           "source_ids": [
-            "survey-5db0b130ffc04ba0a0cd3c86314dca70"
+            "survey-c3c31dcbbe454cf48713158af081b05c"
           ],
           "evidence_refs": [
-            "3c8fa8aa120a0dcf4edd",
-            "6074b64b43c5f92101e8",
-            "86775ffd578daddd8116",
-            "9cb72495a074f66c8a01",
-            "db94b1ed51eb54693250",
-            "e4201d4bb39061fcce4b"
+            "02b631e95398f6009821",
+            "489d5849cad972878612",
+            "73266d6e112254fbf501",
+            "a3ed04acf8317121a70b",
+            "a73909d75225e2dab36d",
+            "b8fb75248bcd861be107"
           ]
         },
         "timeline": [
           {
             "month": 1,
-            "score": 10.0,
+            "score": 23.25,
             "observation_count": 1,
             "pair_ids": [
               "pair-b79a76c6c1557104"
             ],
             "source_ids": [
-              "survey-5db0b130ffc04ba0a0cd3c86314dca70"
+              "survey-c3c31dcbbe454cf48713158af081b05c"
             ],
             "evidence_refs": [
-              "3c8fa8aa120a0dcf4edd",
-              "6074b64b43c5f92101e8",
-              "86775ffd578daddd8116",
-              "9cb72495a074f66c8a01",
-              "db94b1ed51eb54693250",
-              "e4201d4bb39061fcce4b"
+              "02b631e95398f6009821",
+              "489d5849cad972878612",
+              "73266d6e112254fbf501",
+              "a3ed04acf8317121a70b",
+              "a73909d75225e2dab36d",
+              "b8fb75248bcd861be107"
             ]
           },
           {
@@ -2378,8 +2332,8 @@
         "rule_limitations": "Локальные правила выделяют явно заданные формулировки. Остальные фрагменты сохраняются для ручного просмотра."
       },
       "highlighted_evidence": {
-        "id": "7460b8e9fa6f0b27010f",
-        "source_id": "survey-5db0b130ffc04ba0a0cd3c86314dca70",
+        "id": "95767688fcafe9de2789",
+        "source_id": "survey-c3c31dcbbe454cf48713158af081b05c",
         "version": 1,
         "pair_id": "pair-b79a76c6c1557104",
         "month": 1,
@@ -2394,11 +2348,11 @@
         "polarity": "positive"
       },
       "characteristic_evidence_refs": [
-        "7460b8e9fa6f0b27010f"
+        "95767688fcafe9de2789"
       ],
       "source_facets": {
         "source_ids": [
-          "survey-5db0b130ffc04ba0a0cd3c86314dca70"
+          "survey-c3c31dcbbe454cf48713158af081b05c"
         ],
         "months": [
           1
@@ -2413,24 +2367,24 @@
     },
     "intern": {
       "title": "Стажёр",
-      "characteristic": "Области внимания по сохранённым ответам — Недостаточная понятность задач. Фактический индекс М1: 10 балла.",
+      "characteristic": "Области внимания по сохранённым ответам — Недостаточная понятность задач. Фактический индекс М1: 29 балла.",
       "generation": "deterministic_evidence_summary",
       "claims": [
         {
-          "text": "М1, Недостаточная понятность задач — оценка 2/5, вклад 10 балла.",
+          "text": "М1, Недостаточная понятность задач — оценка 2/5, вклад 15 балла.",
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "evidence_refs": [
-            "d646d07136a25257fbd5"
+            "edb8994889f61220c62c"
           ],
-          "factor_instance_id": "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+          "factor_instance_id": "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
         }
       ],
       "evidence": [
         {
-          "id": "d646d07136a25257fbd5",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "edb8994889f61220c62c",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2445,8 +2399,8 @@
           "polarity": null
         },
         {
-          "id": "7412957031f6be198d02",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "972a428b60b3b63d5949",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2461,8 +2415,8 @@
           "polarity": null
         },
         {
-          "id": "ceeaaeecde50f30abf12",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "b8a322d06785bebaecc3",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2477,8 +2431,8 @@
           "polarity": "negative"
         },
         {
-          "id": "1a0fc5dab1d3b9f39b2c",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "335ed714f27a0ad8b8d9",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2493,8 +2447,8 @@
           "polarity": null
         },
         {
-          "id": "710f15ecbff810b6a3c0",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "d3e2e2d8dce4f74355bd",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2509,8 +2463,8 @@
           "polarity": null
         },
         {
-          "id": "a688e4d7bd9e63520900",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "c6307d509837b387ee86",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2525,8 +2479,8 @@
           "polarity": null
         },
         {
-          "id": "a1f3a1c61a089ece6785",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "b6c99e99130451d05d0d",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2541,8 +2495,8 @@
           "polarity": null
         },
         {
-          "id": "03889438725a7439b531",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "b1ea790b82519fe59878",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2557,8 +2511,8 @@
           "polarity": null
         },
         {
-          "id": "134ebb48cfa2206c0612",
-          "source_id": "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91",
+          "id": "dcef5c53f41dd3281d89",
+          "source_id": "survey-1630e3f59bb74925b3064adb9f718ae8",
           "version": 1,
           "pair_id": "pair-b79a76c6c1557104",
           "month": 1,
@@ -2573,136 +2527,90 @@
           "polarity": null
         }
       ],
-      "recommendations": [
-        {
-          "id": "rating_S01_3a43facd062f",
-          "action_id": "rating_S01",
-          "scope": {
-            "type": "PAIR_MONTH",
-            "pair_id": "pair-b79a76c6c1557104",
-            "start": 1,
-            "end": 1
-          },
-          "impact_scope": "INTERN",
-          "title": "Условно устранить фактор «недостаточная понятность задач»",
-          "name": "Условно устранить фактор «недостаточная понятность задач»",
-          "rationale": "Низкая оценка без подтверждённого текстового механизма. Причину нужно уточнить.",
-          "responsible": "hr · intern",
-          "target_factors": [
-            "S01"
-          ],
-          "targets": [
-            "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
-          ],
-          "target_observations": [
-            {
-              "pair_id": "pair-b79a76c6c1557104",
-              "month": 1,
-              "role": "intern"
-            }
-          ],
-          "evidence_refs": [
-            "d646d07136a25257fbd5"
-          ],
-          "delta": {
-            "x": 0.0,
-            "y": 10.0,
-            "z": 5.0
-          },
-          "additional_delta": {
-            "x": 0.0,
-            "y": 10.0,
-            "z": 5.0
-          },
-          "completion_criteria": "Уточнить причину отдельно с респондентом.",
-          "resolution_criteria": "Включение в сценарий предполагает полное устранение этого фактора.",
-          "status": "expert_draft",
-          "assumption": "full_resolution"
-        }
-      ],
+      "recommendations": [],
       "critical_flags": [],
       "coverage": 1.0,
       "review_flags": [],
       "history_summary": {
         "first": {
           "month": 1,
-          "score": 10.0,
+          "score": 29.0,
           "observation_count": 1,
           "pair_ids": [
             "pair-b79a76c6c1557104"
           ],
           "source_ids": [
-            "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "survey-1630e3f59bb74925b3064adb9f718ae8"
           ],
           "evidence_refs": [
-            "03889438725a7439b531",
-            "1a0fc5dab1d3b9f39b2c",
-            "710f15ecbff810b6a3c0",
-            "7412957031f6be198d02",
-            "a1f3a1c61a089ece6785",
-            "a688e4d7bd9e63520900",
-            "d646d07136a25257fbd5"
+            "335ed714f27a0ad8b8d9",
+            "972a428b60b3b63d5949",
+            "b1ea790b82519fe59878",
+            "b6c99e99130451d05d0d",
+            "c6307d509837b387ee86",
+            "d3e2e2d8dce4f74355bd",
+            "edb8994889f61220c62c"
           ]
         },
         "last": {
           "month": 1,
-          "score": 10.0,
+          "score": 29.0,
           "observation_count": 1,
           "pair_ids": [
             "pair-b79a76c6c1557104"
           ],
           "source_ids": [
-            "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "survey-1630e3f59bb74925b3064adb9f718ae8"
           ],
           "evidence_refs": [
-            "03889438725a7439b531",
-            "1a0fc5dab1d3b9f39b2c",
-            "710f15ecbff810b6a3c0",
-            "7412957031f6be198d02",
-            "a1f3a1c61a089ece6785",
-            "a688e4d7bd9e63520900",
-            "d646d07136a25257fbd5"
+            "335ed714f27a0ad8b8d9",
+            "972a428b60b3b63d5949",
+            "b1ea790b82519fe59878",
+            "b6c99e99130451d05d0d",
+            "c6307d509837b387ee86",
+            "d3e2e2d8dce4f74355bd",
+            "edb8994889f61220c62c"
           ]
         },
         "max": {
           "month": 1,
-          "score": 10.0,
+          "score": 29.0,
           "observation_count": 1,
           "pair_ids": [
             "pair-b79a76c6c1557104"
           ],
           "source_ids": [
-            "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "survey-1630e3f59bb74925b3064adb9f718ae8"
           ],
           "evidence_refs": [
-            "03889438725a7439b531",
-            "1a0fc5dab1d3b9f39b2c",
-            "710f15ecbff810b6a3c0",
-            "7412957031f6be198d02",
-            "a1f3a1c61a089ece6785",
-            "a688e4d7bd9e63520900",
-            "d646d07136a25257fbd5"
+            "335ed714f27a0ad8b8d9",
+            "972a428b60b3b63d5949",
+            "b1ea790b82519fe59878",
+            "b6c99e99130451d05d0d",
+            "c6307d509837b387ee86",
+            "d3e2e2d8dce4f74355bd",
+            "edb8994889f61220c62c"
           ]
         },
         "timeline": [
           {
             "month": 1,
-            "score": 10.0,
+            "score": 29.0,
             "observation_count": 1,
             "pair_ids": [
               "pair-b79a76c6c1557104"
             ],
             "source_ids": [
-              "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+              "survey-1630e3f59bb74925b3064adb9f718ae8"
             ],
             "evidence_refs": [
-              "03889438725a7439b531",
-              "1a0fc5dab1d3b9f39b2c",
-              "710f15ecbff810b6a3c0",
-              "7412957031f6be198d02",
-              "a1f3a1c61a089ece6785",
-              "a688e4d7bd9e63520900",
-              "d646d07136a25257fbd5"
+              "335ed714f27a0ad8b8d9",
+              "972a428b60b3b63d5949",
+              "b1ea790b82519fe59878",
+              "b6c99e99130451d05d0d",
+              "c6307d509837b387ee86",
+              "d3e2e2d8dce4f74355bd",
+              "edb8994889f61220c62c"
             ]
           },
           {
@@ -2770,7 +2678,7 @@
       "characteristic_evidence_refs": [],
       "source_facets": {
         "source_ids": [
-          "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+          "survey-1630e3f59bb74925b3064adb9f718ae8"
         ],
         "months": [
           1
@@ -2785,96 +2693,6 @@
     }
   },
   "recommendations": [
-    {
-      "id": "rating_M01_3a43facd062f",
-      "action_id": "rating_M01",
-      "scope": {
-        "type": "PAIR_MONTH",
-        "pair_id": "pair-b79a76c6c1557104",
-        "start": 1,
-        "end": 1
-      },
-      "impact_scope": "MENTOR",
-      "title": "Условно устранить фактор «недостаточное понимание задач и ожиданий»",
-      "name": "Условно устранить фактор «недостаточное понимание задач и ожиданий»",
-      "rationale": "Низкая оценка без подтверждённого текстового механизма. Причину нужно уточнить.",
-      "responsible": "hr · mentor",
-      "target_factors": [
-        "M01"
-      ],
-      "targets": [
-        "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
-      ],
-      "target_observations": [
-        {
-          "pair_id": "pair-b79a76c6c1557104",
-          "month": 1,
-          "role": "mentor"
-        }
-      ],
-      "evidence_refs": [
-        "e4201d4bb39061fcce4b"
-      ],
-      "delta": {
-        "x": 10.0,
-        "y": 0.0,
-        "z": 5.0
-      },
-      "additional_delta": {
-        "x": 10.0,
-        "y": 0.0,
-        "z": 5.0
-      },
-      "completion_criteria": "Уточнить причину отдельно с респондентом.",
-      "resolution_criteria": "Включение в сценарий предполагает полное устранение этого фактора.",
-      "status": "expert_draft",
-      "assumption": "full_resolution"
-    },
-    {
-      "id": "rating_S01_3a43facd062f",
-      "action_id": "rating_S01",
-      "scope": {
-        "type": "PAIR_MONTH",
-        "pair_id": "pair-b79a76c6c1557104",
-        "start": 1,
-        "end": 1
-      },
-      "impact_scope": "INTERN",
-      "title": "Условно устранить фактор «недостаточная понятность задач»",
-      "name": "Условно устранить фактор «недостаточная понятность задач»",
-      "rationale": "Низкая оценка без подтверждённого текстового механизма. Причину нужно уточнить.",
-      "responsible": "hr · intern",
-      "target_factors": [
-        "S01"
-      ],
-      "targets": [
-        "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
-      ],
-      "target_observations": [
-        {
-          "pair_id": "pair-b79a76c6c1557104",
-          "month": 1,
-          "role": "intern"
-        }
-      ],
-      "evidence_refs": [
-        "d646d07136a25257fbd5"
-      ],
-      "delta": {
-        "x": 0.0,
-        "y": 10.0,
-        "z": 5.0
-      },
-      "additional_delta": {
-        "x": 0.0,
-        "y": 10.0,
-        "z": 5.0
-      },
-      "completion_criteria": "Уточнить причину отдельно с респондентом.",
-      "resolution_criteria": "Включение в сценарий предполагает полное устранение этого фактора.",
-      "status": "expert_draft",
-      "assumption": "full_resolution"
-    },
     {
       "id": "N01_3a43facd062f",
       "action_id": "N01",
@@ -3164,18 +2982,18 @@
     "text_interpretation_local_partial"
   ],
   "versions": {
-    "knowledge": "1.0.0-draft",
-    "pipeline": "pair-2.1.0",
+    "knowledge": "1.1.0-draft",
+    "pipeline": "pair-2.2.0",
     "mapping": "mgts-official-v2",
     "prompt": "pair-signals-v2",
     "semantic_rules": "2.0.1-project-semantic-rules",
     "nlp_identities": [
       {
-        "config_hash": "213a2fcda69a57403dd3ae7de1d03c3c57df95551d10ca15b53be8d7a25a9841",
+        "config_hash": "e53ab06ab61f3d8477294a5ec68b094da173f032a5807deef26b805d2bfdf469",
         "encoder_versions": [],
         "mode": "local_rules",
-        "pipeline": "pair-text-2.2.0",
-        "version": "213a2fcda69a57403dd3ae7de1d03c3c57df95551d10ca15b53be8d7a25a9841"
+        "pipeline": "pair-text-2.3.0",
+        "version": "e53ab06ab61f3d8477294a5ec68b094da173f032a5807deef26b805d2bfdf469"
       }
     ]
   },
@@ -3187,14 +3005,14 @@
         "factor_id": "S01",
         "name": "Недостаточная понятность задач",
         "observation_count": 1,
-        "contribution_sum": 10.0
+        "contribution_sum": 15.0
       },
       {
         "role": "mentor",
         "factor_id": "M01",
         "name": "Недостаточное понимание задач и ожиданий",
         "observation_count": 1,
-        "contribution_sum": 10.0
+        "contribution_sum": 15.0
       }
     ],
     "critical_cases": [],
@@ -3218,111 +3036,111 @@
     "trend": {
       "first": {
         "month": 1,
-        "score": 10.0,
+        "score": 26.125,
         "observation_count": 1,
         "pair_ids": [
           "pair-b79a76c6c1557104"
         ],
         "source_ids": [
-          "survey-5db0b130ffc04ba0a0cd3c86314dca70",
-          "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+          "survey-1630e3f59bb74925b3064adb9f718ae8",
+          "survey-c3c31dcbbe454cf48713158af081b05c"
         ],
         "evidence_refs": [
-          "03889438725a7439b531",
-          "1a0fc5dab1d3b9f39b2c",
-          "3c8fa8aa120a0dcf4edd",
-          "6074b64b43c5f92101e8",
-          "710f15ecbff810b6a3c0",
-          "7412957031f6be198d02",
-          "86775ffd578daddd8116",
-          "9cb72495a074f66c8a01",
-          "a1f3a1c61a089ece6785",
-          "a688e4d7bd9e63520900",
-          "d646d07136a25257fbd5",
-          "db94b1ed51eb54693250",
-          "e4201d4bb39061fcce4b"
+          "02b631e95398f6009821",
+          "335ed714f27a0ad8b8d9",
+          "489d5849cad972878612",
+          "73266d6e112254fbf501",
+          "972a428b60b3b63d5949",
+          "a3ed04acf8317121a70b",
+          "a73909d75225e2dab36d",
+          "b1ea790b82519fe59878",
+          "b6c99e99130451d05d0d",
+          "b8fb75248bcd861be107",
+          "c6307d509837b387ee86",
+          "d3e2e2d8dce4f74355bd",
+          "edb8994889f61220c62c"
         ]
       },
       "last": {
         "month": 1,
-        "score": 10.0,
+        "score": 26.125,
         "observation_count": 1,
         "pair_ids": [
           "pair-b79a76c6c1557104"
         ],
         "source_ids": [
-          "survey-5db0b130ffc04ba0a0cd3c86314dca70",
-          "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+          "survey-1630e3f59bb74925b3064adb9f718ae8",
+          "survey-c3c31dcbbe454cf48713158af081b05c"
         ],
         "evidence_refs": [
-          "03889438725a7439b531",
-          "1a0fc5dab1d3b9f39b2c",
-          "3c8fa8aa120a0dcf4edd",
-          "6074b64b43c5f92101e8",
-          "710f15ecbff810b6a3c0",
-          "7412957031f6be198d02",
-          "86775ffd578daddd8116",
-          "9cb72495a074f66c8a01",
-          "a1f3a1c61a089ece6785",
-          "a688e4d7bd9e63520900",
-          "d646d07136a25257fbd5",
-          "db94b1ed51eb54693250",
-          "e4201d4bb39061fcce4b"
+          "02b631e95398f6009821",
+          "335ed714f27a0ad8b8d9",
+          "489d5849cad972878612",
+          "73266d6e112254fbf501",
+          "972a428b60b3b63d5949",
+          "a3ed04acf8317121a70b",
+          "a73909d75225e2dab36d",
+          "b1ea790b82519fe59878",
+          "b6c99e99130451d05d0d",
+          "b8fb75248bcd861be107",
+          "c6307d509837b387ee86",
+          "d3e2e2d8dce4f74355bd",
+          "edb8994889f61220c62c"
         ]
       },
       "max": {
         "month": 1,
-        "score": 10.0,
+        "score": 26.125,
         "observation_count": 1,
         "pair_ids": [
           "pair-b79a76c6c1557104"
         ],
         "source_ids": [
-          "survey-5db0b130ffc04ba0a0cd3c86314dca70",
-          "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+          "survey-1630e3f59bb74925b3064adb9f718ae8",
+          "survey-c3c31dcbbe454cf48713158af081b05c"
         ],
         "evidence_refs": [
-          "03889438725a7439b531",
-          "1a0fc5dab1d3b9f39b2c",
-          "3c8fa8aa120a0dcf4edd",
-          "6074b64b43c5f92101e8",
-          "710f15ecbff810b6a3c0",
-          "7412957031f6be198d02",
-          "86775ffd578daddd8116",
-          "9cb72495a074f66c8a01",
-          "a1f3a1c61a089ece6785",
-          "a688e4d7bd9e63520900",
-          "d646d07136a25257fbd5",
-          "db94b1ed51eb54693250",
-          "e4201d4bb39061fcce4b"
+          "02b631e95398f6009821",
+          "335ed714f27a0ad8b8d9",
+          "489d5849cad972878612",
+          "73266d6e112254fbf501",
+          "972a428b60b3b63d5949",
+          "a3ed04acf8317121a70b",
+          "a73909d75225e2dab36d",
+          "b1ea790b82519fe59878",
+          "b6c99e99130451d05d0d",
+          "b8fb75248bcd861be107",
+          "c6307d509837b387ee86",
+          "d3e2e2d8dce4f74355bd",
+          "edb8994889f61220c62c"
         ]
       },
       "timeline": [
         {
           "month": 1,
-          "score": 10.0,
+          "score": 26.125,
           "observation_count": 1,
           "pair_ids": [
             "pair-b79a76c6c1557104"
           ],
           "source_ids": [
-            "survey-5db0b130ffc04ba0a0cd3c86314dca70",
-            "survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+            "survey-1630e3f59bb74925b3064adb9f718ae8",
+            "survey-c3c31dcbbe454cf48713158af081b05c"
           ],
           "evidence_refs": [
-            "03889438725a7439b531",
-            "1a0fc5dab1d3b9f39b2c",
-            "3c8fa8aa120a0dcf4edd",
-            "6074b64b43c5f92101e8",
-            "710f15ecbff810b6a3c0",
-            "7412957031f6be198d02",
-            "86775ffd578daddd8116",
-            "9cb72495a074f66c8a01",
-            "a1f3a1c61a089ece6785",
-            "a688e4d7bd9e63520900",
-            "d646d07136a25257fbd5",
-            "db94b1ed51eb54693250",
-            "e4201d4bb39061fcce4b"
+            "02b631e95398f6009821",
+            "335ed714f27a0ad8b8d9",
+            "489d5849cad972878612",
+            "73266d6e112254fbf501",
+            "972a428b60b3b63d5949",
+            "a3ed04acf8317121a70b",
+            "a73909d75225e2dab36d",
+            "b1ea790b82519fe59878",
+            "b6c99e99130451d05d0d",
+            "b8fb75248bcd861be107",
+            "c6307d509837b387ee86",
+            "d3e2e2d8dce4f74355bd",
+            "edb8994889f61220c62c"
           ]
         },
         {
@@ -3381,18 +3199,18 @@
   "index_dynamics": [
     {
       "month": 1,
-      "x": 10.0,
-      "y": 10.0,
-      "z": 10.0,
+      "x": 23.25,
+      "y": 29.0,
+      "z": 26.125,
       "actual": {
-        "x": 10.0,
-        "y": 10.0,
-        "z": 10.0
+        "x": 23.25,
+        "y": 29.0,
+        "z": 26.125
       },
       "scenario": {
-        "x": 10.0,
-        "y": 10.0,
-        "z": 10.0
+        "x": 23.25,
+        "y": 29.0,
+        "z": 26.125
       },
       "bands": {
         "x": "green",
@@ -3409,11 +3227,11 @@
       ],
       "side_statistics": {
         "mentor": {
-          "mean": 10.0,
+          "mean": 23.25,
           "count": 1
         },
         "intern": {
-          "mean": 10.0,
+          "mean": 29.0,
           "count": 1
         }
       },
@@ -3430,31 +3248,31 @@
           {
             "id": "M01",
             "name": "Недостаточное понимание задач и ожиданий",
-            "contribution": 10.0,
-            "scenario_contribution": 10.0,
+            "contribution": 15.0,
+            "scenario_contribution": 15.0,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+              "pair-b79a76c6c1557104:M1:mentor:M01:v1:survey-c3c31dcbbe454cf48713158af081b05c"
             ]
           },
           {
             "id": "M02",
             "name": "Сложности с качеством выполнения задач",
-            "contribution": 0.0,
-            "scenario_contribution": 0.0,
+            "contribution": 1.5,
+            "scenario_contribution": 1.5,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:mentor:M02:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+              "pair-b79a76c6c1557104:M1:mentor:M02:v1:survey-c3c31dcbbe454cf48713158af081b05c"
             ]
           },
           {
             "id": "M03",
             "name": "Сложности с самостоятельным выполнением задач",
-            "contribution": 0.0,
-            "scenario_contribution": 0.0,
+            "contribution": 5.25,
+            "scenario_contribution": 5.25,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:mentor:M03:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+              "pair-b79a76c6c1557104:M1:mentor:M03:v1:survey-c3c31dcbbe454cf48713158af081b05c"
             ]
           },
           {
@@ -3464,17 +3282,17 @@
             "scenario_contribution": 0.0,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:mentor:M04:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+              "pair-b79a76c6c1557104:M1:mentor:M04:v1:survey-c3c31dcbbe454cf48713158af081b05c"
             ]
           },
           {
             "id": "M05",
             "name": "Недостаточная вовлечённость и инициативность",
-            "contribution": 0.0,
-            "scenario_contribution": 0.0,
+            "contribution": 1.5,
+            "scenario_contribution": 1.5,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:mentor:M05:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+              "pair-b79a76c6c1557104:M1:mentor:M05:v1:survey-c3c31dcbbe454cf48713158af081b05c"
             ]
           },
           {
@@ -3484,7 +3302,7 @@
             "scenario_contribution": 0.0,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:mentor:M06:v1:survey-5db0b130ffc04ba0a0cd3c86314dca70"
+              "pair-b79a76c6c1557104:M1:mentor:M06:v1:survey-c3c31dcbbe454cf48713158af081b05c"
             ]
           }
         ],
@@ -3492,41 +3310,41 @@
           {
             "id": "S01",
             "name": "Недостаточная понятность задач",
-            "contribution": 10.0,
-            "scenario_contribution": 10.0,
+            "contribution": 15.0,
+            "scenario_contribution": 15.0,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+              "pair-b79a76c6c1557104:M1:intern:S01:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
             ]
           },
           {
             "id": "S02",
             "name": "Недостаток поддержки и обратной связи",
-            "contribution": 0.0,
-            "scenario_contribution": 0.0,
+            "contribution": 7.0,
+            "scenario_contribution": 7.0,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:intern:S02:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+              "pair-b79a76c6c1557104:M1:intern:S02:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
             ]
           },
           {
             "id": "S03",
             "name": "Некомфортная рабочая нагрузка",
-            "contribution": 0.0,
-            "scenario_contribution": 0.0,
+            "contribution": 1.5,
+            "scenario_contribution": 1.5,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:intern:S03:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+              "pair-b79a76c6c1557104:M1:intern:S03:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
             ]
           },
           {
             "id": "S04",
             "name": "Недостаточный интерес к задачам",
-            "contribution": 0.0,
-            "scenario_contribution": 0.0,
+            "contribution": 1.0,
+            "scenario_contribution": 1.0,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:intern:S04:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+              "pair-b79a76c6c1557104:M1:intern:S04:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
             ]
           },
           {
@@ -3536,27 +3354,27 @@
             "scenario_contribution": 0.0,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:intern:S05:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+              "pair-b79a76c6c1557104:M1:intern:S05:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
             ]
           },
           {
             "id": "S06",
             "name": "Сложности взаимодействия с командой",
-            "contribution": 0.0,
-            "scenario_contribution": 0.0,
+            "contribution": 1.0,
+            "scenario_contribution": 1.0,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:intern:S06:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+              "pair-b79a76c6c1557104:M1:intern:S06:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
             ]
           },
           {
             "id": "S07",
             "name": "Общая неудовлетворённость стажировкой",
-            "contribution": 0.0,
-            "scenario_contribution": 0.0,
+            "contribution": 3.5,
+            "scenario_contribution": 3.5,
             "known_count": 1,
             "instance_ids": [
-              "pair-b79a76c6c1557104:M1:intern:S07:v1:survey-c3f9831c6ebb4d70ad3b7ecee1e91c91"
+              "pair-b79a76c6c1557104:M1:intern:S07:v1:survey-1630e3f59bb74925b3064adb9f718ae8"
             ]
           }
         ]
@@ -3794,10 +3612,10 @@
     }
   ],
   "semantic_comparisons": [],
-  "ml_analysis_version": "ca5739dbd2a160e2903d93d277367b09b08c23c0a718938b6df04269c043db60",
-  "analysis_id": "analysis-b850266702e24dd18a1b9c8c1e9391f2",
-  "trace_id": "trace-ad1092974f6c47d087c8a4fbf436aa5c",
-  "processing_ms": 392.15,
-  "data_version": "63adeb10c556459107b5906ec37255510e39128fe946a2339e2bb9eae34bc86d",
-  "methodology_cache_version": "f14400f4110d237d7f6aca8289851527ad4977b305335c9fa7a61ef9a5a1d0d9"
+  "ml_analysis_version": "99a8fa4835730f82df64a8a178bf1c52c28646d2625ec08252a0d0b345665719",
+  "analysis_id": "analysis-51d518862f6242a5a7ac99894e26595d",
+  "trace_id": "trace-a09810e9459e4167aba157a37bc61313",
+  "processing_ms": 350.98,
+  "data_version": "6873b0227df9892dab426f30bfe6abb8bac3b54369d4b59a7f9a97fcdf72586f",
+  "methodology_cache_version": "81df046dfbfa3d2d79c9b30d6fce87bc92d982c8fe90d31f7c278c55a006dd1c"
 }

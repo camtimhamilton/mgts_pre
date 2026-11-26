@@ -1,5 +1,6 @@
 const $ = id => document.getElementById(id);
 const names = {mentor:"Наставник",intern:"Стажёр",pair:"Пара",hr:"HR",comment:"Комментарий о работе за период",attention:"Ситуации для внимания",difficulties:"Сложности за период",barriers:"Что мешает работать и развиваться"};
+const indicesNames={x:"По оценкам наставника",y:"По ответам стажёра",z:"Риск пары"};
 const bands = {green:"Низкий",yellow:"Внимание",red:"Высокий",gray:"Мало данных"};
 const states = {missing:"Анкета отсутствует",future:"Будущий период",insufficient_data:"Недостаточное покрытие",partial:"Частичный анализ",completed:"Анкета получена"};
 const modes = {GLOBAL:"Общая аналитика",PAIR_MONTH:"Пара за месяц",PAIR_RANGE:"Пара за период"};
@@ -40,7 +41,7 @@ let selected=draft.selected??[], scope=draft.scope??globalScope, mode=scope.type
 let scenarioId=draft.scenarioId??null,scenarioName=draft.scenarioName??"Рабочий сценарий";
 let savedBaseId=draft.savedBaseId??null;
 let previewFact=false;
-let data=null,anchor=null,seq=0,controller=null,busy=false,revision=null,dialogSeq=0;
+let data=null,anchor=null,seq=0,controller=null,busy=false,revision=null,dialogSeq=0,recalculating=false;
 function remember(){sessionStorage.setItem("pulse-pair-session",JSON.stringify({selected,scope,base,method,scenarioId,scenarioName,savedBaseId}));}
 function same(a,b){return a.type===b.type&&a.pair_id==b.pair_id&&a.start==b.start&&a.end==b.end;}
 function selectedHere(r){return selected.some(s=>s.action_id===r.action_id && same(s.scope,r.scope));}
@@ -50,8 +51,16 @@ function title(s){if(s.type==="GLOBAL")return modes.GLOBAL;const p=data?.matrix.
 function dialog(titleText,...children){dialogSeq++;$("dialog-title").textContent=titleText;$("dialog-body").replaceChildren(...children);if(!$("dialog").open)$("dialog").showModal();}
 $("close").onclick=()=>$("dialog").close();$("dialog").onclose=()=>dialogSeq++;
 function swatch(left,right){const span=element("span",null,"swatch");span.append(element("i",null,"half "+left));if(right)span.append(element("i",null,"half "+right));span.title=[bands[left],bands[right]].filter(Boolean).join(" / ");return span;}
+function analysisLabel(sides){
+  if(!sides.length)return "Данных нет";
+  if(sides.some(s=>s.text_analysis_status==="error"))return "Ошибка AI-анализа · доступны оценки";
+  const ai=sides.filter(s=>s.text_mode==="deepseek"&&s.text_analysis_status==="completed").length;
+  if(ai===sides.length)return "Полный AI-анализ";
+  if(ai)return `Частичный AI-анализ · ${ai} из ${sides.length} анкет`;
+  return "Предварительный расчёт по оценкам";
+}
 async function refresh(){
-  const id=++seq;controller?.abort();controller=new AbortController();conn("Обновление…","loading");
+  const id=++seq;controller?.abort();controller=new AbortController();conn("Анализ выполняется…","loading");
   try{
     const result=await api("analytics",{scope,selected:previewFact?[]:selected,expected_data_version:selected.length?base:undefined,expected_methodology_version:selected.length?method:undefined},controller.signal);
     if(seq!==id)return;
@@ -75,19 +84,20 @@ async function refresh(){
     }
     data=null;$("sections").replaceChildren();$("metrics").replaceChildren();$("matrix").replaceChildren();
     $("summary-extra").replaceChildren();$("refresh-time").textContent="";$("scope-title").textContent=modes[mode];
-    conn("Нет связи с аналитикой","error");notice("Не удалось получить актуальные индексы. Проверьте доступность ML-сервиса.",true);
+    $("view-label").textContent="Ошибка анализа";
+    conn("Нет связи с аналитикой","error");notice("Не удалось получить актуальные индексы. Проверьте, запущен ли сервис аналитики.",true);
     $("message").append(button("Повторить",()=>{notice("");refresh();}));
   }
 }
 async function invalidate(){selected=[];scenarioId=null;savedBaseId=null;previewFact=false;remember();await refresh();notice("Анкеты или методология обновились. Предыдущий сценарий доступен в истории. Выберите мероприятия по актуальным данным.");}
-function setMode(next){if(busy)return;mode=next;anchor=null;
+function setMode(next){if(busy||recalculating)return;mode=next;anchor=null;
   if(next==="GLOBAL")scope=globalScope;
   else {const row=data?.matrix.find(x=>x.pair_id===scope.pair_id)??data?.matrix[0];if(!row){mode="GLOBAL";return;}
     const month=scope.start??1;scope={type:next,pair_id:row.pair_id,start:month,end:month};}
   notice("");remember();refresh();
 }
 document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
-function pick(row,month){if(mode==="GLOBAL"||busy)return;
+function pick(row,month){if(mode==="GLOBAL"||busy||recalculating)return;
   if(mode==="PAIR_RANGE"&&anchor&&anchor.pair_id===row.pair_id){scope={type:mode,pair_id:row.pair_id,start:Math.min(anchor.month,month),end:Math.max(anchor.month,month)};anchor=null;}
   else{scope={type:mode,pair_id:row.pair_id,start:month,end:month};anchor=mode==="PAIR_RANGE"?{pair_id:row.pair_id,month}:null;}
   notice("");remember();refresh();
@@ -100,7 +110,7 @@ function matrix(){
     for(const m of row.months){const cell=button("",()=>pick(row,m.month),"cell");
       cell.dataset.pair=row.pair_id;cell.dataset.month=m.month;cell.dataset.active=mode!=="GLOBAL"&&belongs(row,m.month);
       cell.disabled=mode==="GLOBAL";cell.title=`${row.mentor_id} — ${row.intern_id}, М${m.month}. `+
-        [["Наставник",m.x],["Стажёр",m.y]].map(([n,s])=>`${n} ${number(s.score)}, ${bands[s.band]}, ${states[s.status]??s.status}`).join(". ");
+        [[indicesNames.x,m.x],[indicesNames.y,m.y]].map(([n,s])=>`${n} ${number(s.score)} балл. · ${s.source_id?analysisLabel([s]):"Анкета отсутствует"}`).join(". ");
       const attention=[m.x,m.y].some(s=>s.critical_flags.length||s.factors.some(f=>f.severity===1));
       if(attention){cell.dataset.attention="true";cell.title+=" · Есть сигнал внимания";}
       cell.setAttribute("aria-label",cell.title);cell.append(element("i",null,"half "+m.x.band),element("i",null,"half "+m.y.band));tr.insertCell().append(cell);
@@ -158,24 +168,22 @@ function dyn(key){const series=data.dynamics.filter(d=>d.role===key);const rows=
 }
 function effect(d){return ["x","y","z"].map(k=>k.toUpperCase()+" "+number(d[k])).join(" · ");}
 async function changeChoices(next,name=scenarioName,snapshot=false){
-  if(busy||!data)return false;busy=true;conn("Сохранение сценария…","loading");
+  if(busy||recalculating||!data)return false;busy=true;conn("Сохранение плана…","loading");
   document.querySelectorAll(".rec input").forEach(c=>c.disabled=true);
   try{const result=await api("scenarios",{scenario_id:snapshot?null:scenarioId,name:snapshot?name:"Рабочий сценарий",scope,selected:next,expected_data_version:base, ...(method?{expected_methodology_version:method}:{})});
     if(!snapshot)scenarioId=result.scenario_id;scenarioName=name;selected=next;previewFact=false;remember();notice("");await refresh();return true;
   }catch(e){notice(e.message,true);if(e.status===409)await invalidate();else if(data){render();conn("Сбой сохранения","error");}return false;}finally{busy=false;}
 }
-function section(key, usedSources){
+function section(key){
   const s=data.sections[key],i=data.indices,k={mentor:"x",intern:"y",pair:"z"}[key];
   const box=element("article",null,"section");box.dataset.section=key;
   const details=disclosure("Подробнее",element("p",s.characteristic),element("p","Покрытие "+percent(s.coverage),"muted"));
   const active=data.summary.top_factors.filter(f=>key==="pair"||f.role===key);
-  const firstClaim=s.characteristic.match(/^.*?[.!?](?=\s+[А-ЯЁA-Z]|$)/u)?.[0]??s.characteristic;
-  const summary=scope.type==="GLOBAL"
-    ? key==="pair" ? `Расхождения в оценках ясности задач: ${data.discrepancies.filter(d=>["M01","clarity"].includes(d.aspect)).length}.`
-      : active.length ? `Активных факторов: ${active.length}. Чаще всего отмечают: ${active[0].name.toLowerCase()}.` : "Активных факторов в этой секции нет."
-    : firstClaim.length<=180 ? firstClaim : (active.length ? "Основные наблюдения отмечены ниже." : "Подтверждённых проблем пока нет.");
-  box.append(element("h3",s.title),element("p",summary,"characteristic"));
-  if(active.length){
+  const summary=key==="pair"
+    ? `Расхождения оценок: ${data.discrepancies.length} ${data.discrepancies.length===1?"случай":"случ."}.`
+    : active.length ? "Темы для уточнения по ответам." : s.evidence.length?"По этим ответам нет отдельных сигналов внимания.":"Ответов пока нет.";
+  box.append(element("h3",key==="pair"?"Взаимодействие пары":indicesNames[k]),element("p",summary,"characteristic"));
+  if(active.length&&key!=="pair"){
     const tags=element("ul",null,"factor-tags");
     for(const f of active.slice(0,3))tags.append(element("li",f.name));
     box.append(tags);
@@ -184,42 +192,30 @@ function section(key, usedSources){
     const t=s.history_summary;
     if(t.trend.warning)details.append(element("p",t.trend.warning,"muted"));
   }
-  if(s.critical_flags.length)box.append(element("p","Требуется конфиденциальное уточнение · "+s.critical_flags.length,"flag"));
   const texts=s.evidence.filter(q=>q.quote);if(texts.length){
     const qlist=element("div",null,"source-list");texts.forEach(q=>qlist.append(sourceButton(q)));
-    const relevant=new Set(active.slice(0,3).map(f=>f.factor_id));
-    const sideKeys=key==="pair"?["x","y"]:[k];
-    const candidates=data.matrix.flatMap(row=>row.months.filter(m=>belongs(row,m.month)).flatMap(m=>
-      sideKeys.flatMap(side=>m[side].factors.filter(f=>relevant.has(f.id)&&f.contribution>0).flatMap(f=>f.evidence))));
-    const sourceKey=q=>q.source_id+"/"+q.question_id;
-    const unique=q=>q.quote&&!usedSources.has(sourceKey(q));
-    const supporting=candidates.find(q=>unique(q)&&q.validation_status==="accepted"&&q.polarity==="negative"&&q.temporal_status==="current");
-    const review=candidates.find(q=>unique(q)&&q.validation_status==="review"&&q.polarity==="negative");
-    const fallback=key==="pair"&&scope.type==="GLOBAL"?null:[s.highlighted_evidence,...texts].filter(Boolean).find(unique);
-    const featured=supporting??review??fallback;
-    if(featured){
-      if(!supporting)box.append(element("small",review?"Комментарий к фактору · требует уточнения":"Комментарий анкеты"));
-      box.append(sourceButton(featured));usedSources.add(sourceKey(featured));
-    }
-    details.append(disclosure(`Все подтверждения (${texts.length})`,qlist));
+    details.append(disclosure(`Цитаты из анкет (${texts.length})`,qlist));
   }
   if(s.claims.length){const cl=element("div",null,"source-list"),refs=new Map(s.evidence.map(q=>[q.id,q]));for(const c of s.claims){const p=element("div",c.text);for(const ref of c.evidence_refs||[])if(refs.has(ref))p.append(" ",sourceButton(refs.get(ref)));cl.append(p);}details.append(disclosure("Основания характеристики",cl));}
   if(s.recommendations.length){
-    const list=element("ul",null,"recs");
+    const list=element("ul",null,"recs"), discuss=element("ul",null,"recs");
     const ordered=[...s.recommendations].sort((a,b)=>Number(selectedHere(b))-Number(selectedHere(a)) || (b.delta[k]??0)-(a.delta[k]??0));
-    for(const r of ordered){const li=element("li"),l=element(r.assumption==="no_score_change"?"div":"label",null,"rec"),chk=document.createElement("input");
+    for(const r of ordered){const actionable=r.assumption!=="no_score_change"&&(selectedHere(r)||r.delta[k]>0||r.additional_delta[k]>0);
+      const li=element("li"),l=element(actionable?"label":"div",null,"rec"),chk=document.createElement("input");
       chk.type="checkbox";chk.checked=selectedHere(r)&&!previewFact;chk.disabled=previewFact;chk.dataset.action=r.action_id;
       chk.onchange=()=>{const next=selected.filter(a=>!(a.action_id===r.action_id&&same(a.scope,r.scope)));if(chk.checked)next.push({action_id:r.action_id,scope:r.scope});changeChoices(next);};
-      if(r.assumption!=="no_score_change")l.append(chk);
-      const delta=r.delta[k];
-      l.append(element("span",r.title),element("span",delta>0?"−"+number(delta)+" балл.":delta==null?"—":"0 балл.","effect"));li.append(l);list.append(li);
+      if(actionable)l.append(chk);
+      l.append(element("span",r.title));if(actionable&&r.delta[k]>0)l.append(element("span","−"+number(r.delta[k])+" балл.","effect"));
+      li.append(l);(actionable?list:discuss).append(li);
       details.append(disclosure(r.title,element("p",r.rationale),element("p","Ответственный — "+r.responsible.split(" · ").map(role=>names[role]??role).join(", ")),element("p",r.completion_criteria+" · "+r.resolution_criteria),element("p","Потенциал: "+effect(r.delta)+". Дополнительно: "+effect(r.additional_delta),"rec-meta")));
     }
-    if(list.children.length>3){const rest=element("ul",null,"recs");while(list.children.length>3)rest.prepend(list.lastElementChild);box.append(list,disclosure("Все рекомендации ("+ordered.length+")",rest));}
-    else box.append(list);
-  }else box.append(element("p","Мероприятий по активным факторам нет.","muted"));
+    const count=list.children.length;
+    if(count)box.append(element("h4","Что можно улучшить"),element("p","Выберите мероприятия, чтобы оценить возможное снижение риска при устранении выявленных проблем.","subtle"),list);
+    if(count>3){const rest=element("ul",null,"recs");while(list.children.length>3)rest.prepend(list.lastElementChild);box.append(disclosure("Все рекомендации ("+count+")",rest));}
+    if(discuss.children.length)box.append(disclosure("Что обсудить",discuss));
+  }
   if(key!=="pair")details.append(dyn(key));
-  else if(data.discrepancies.length)details.append(disclosure("Расхождения · "+data.discrepancies.length,...data.discrepancies.map(d=>element("p",`М${d.month} · ${data.dynamics.find(f=>f.factor_id===d.aspect)?.name??d.aspect} · наставник ${d.mentor_rating}/5, стажёр ${d.intern_rating}/5. ${d.explanation}`))));
+  else if(data.discrepancies.length)details.append(disclosure("Расхождения оценок",...data.discrepancies.map(d=>element("p",`М${d.month} · ${data.dynamics.find(f=>f.factor_id===d.aspect)?.name??"Ясность задач"} · наставник ${d.mentor_rating}/5, стажёр ${d.intern_rating}/5. ${d.explanation}`))));
   if(key==="pair" && data.semantic_comparisons?.length) {
     const types={AGREEMENT:"Согласие",CONTRADICTION:"Противоречие",AWARENESS_GAP:"Требуется уточнение осведомлённости",COMPLEMENTARY:"Дополняющие наблюдения",NOT_COMPARABLE:"Нет сопоставимых оснований"};
     const items=data.semantic_comparisons.filter(c=>c.evidence.length);
@@ -246,14 +242,14 @@ function trend(){
   const entries=scope.type==="GLOBAL"?data.index_dynamics:row?.months.filter(m=>
     scope.type==="PAIR_MONTH"||m.month>=scope.start&&m.month<=scope.end).map(m=>({month:m.month,...m.scenario}))??[];
   const chart=element("div",null,"trend");
-  chart.append(element("h3",scope.type==="PAIR_MONTH"?"История пары":"Динамика индексов"));
+  chart.append(element("h3",scope.type==="PAIR_MONTH"?"История пары":"Динамика риска"));
   const graph=element("div",null,"trend-grid");
   const max=Math.max(0,...entries.flatMap(m=>[m.x??0,m.y??0,m.z??0]));
   const scale=Math.max(10,Math.ceil(max/10)*10);
   for(const m of entries){
     const date="М"+m.month, bars=element("div",null,"trend-month");
     bars.dataset.active=String(scope.type==="PAIR_MONTH"&&scope.start===m.month);
-    const label=date+" · "+effect(m);bars.setAttribute("role","img");bars.setAttribute("aria-label",label);bars.title=label;
+    const label=date+" · "+["x","y","z"].map(k=>indicesNames[k]+" "+number(m[k])+" балл.").join(" · ");bars.setAttribute("role","img");bars.setAttribute("aria-label",label);bars.title=label;
     const plot=element("div",null,"trend-bars");
     for(const k of ["x","y","z"]){
       const bar=element("i",null,"trend-"+k+(m[k]==null?" unavailable":""));
@@ -261,49 +257,59 @@ function trend(){
     }
     bars.append(plot,element("small",date));graph.append(bars);
   }
-  chart.append(graph,element("small",`X Наставник · Y Стажёр · Z Пара · шкала 0–${scale} баллов`));
+  const legend=element("div",null,"chart-legend");
+  for(const k of ["x","y","z"]){const item=element("span");item.append(element("i",null,"trend-"+k),element("small",indicesNames[k]));legend.append(item);}
+  legend.append(element("small",`Шкала 0–${scale} баллов`));chart.append(graph,legend);
   return chart;
 }
 function render(){
   document.querySelectorAll("[data-mode]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.mode===mode)));
   $("hint").textContent=mode==="GLOBAL"?"Все пары за шесть контрольных месяцев.":mode==="PAIR_MONTH"?"Выберите ячейку пары и месяца.":anchor?"Выберите конец диапазона в этой же строке.":"Выберите первый и последний месяцы одной пары.";
   matrix();const i=data.indices;$("scope-title").textContent=title(scope);
-  $("refresh-time").textContent="Обновлено "+stamp(data.updated_at);$("view-label").textContent=selected.length&&!previewFact?"Сценарий · условное устранение факторов":"Фактические показатели";
-  $("compare").hidden=!selected.length;$("compare").textContent=previewFact?"Вернуться к сценарию":"Показать факт";
+  const cells=data.matrix.flatMap(r=>r.months.filter(m=>belongs(r,m.month)));
+  const present=cells.flatMap(m=>[m.x,m.y]).filter(s=>s.source_id);
+  $("refresh-time").textContent=data.updated_at?"Анализ от "+stamp(data.updated_at):"";
+  $("view-label").textContent=analysisLabel(present);
+  $("compare").hidden=!selected.length;$("compare").textContent=previewFact?"Показать план улучшений":"Показать текущие баллы";
   $("reset").hidden=!selected.length;
   const textMode=data.matrix.flatMap(r=>r.months).flatMap(m=>[m.x,m.y]).find(s=>s.nlp_audit?.mode)?.nlp_audit.mode;
   $("methodology").textContent=`Методика ${data.methodology.version} · порог покрытия ${percent(data.methodology.min_coverage)}. Зона внимания от ${data.methodology.thresholds.yellow}, высокая от ${data.methodology.thresholds.red} баллов. Тексты: ${({local_encoder:"локальная нейромодель и правила",local_rules:"локальные правила",deepseek:"DeepSeek"}[textMode]??"нет наблюдений")}.`;
-  const cards=[["z","Пара"],["x","Наставник"],["y","Стажёр"]];
-  $("metrics").replaceChildren(...cards.map(([k,n])=>{
+  const cards=["z","x","y"];
+  $("metrics").replaceChildren(...cards.map(k=>{
     const b=button("",()=>showIndex(k),"metric");b.dataset.index=k;
     const value=element("div",null,"metric-value");
     value.append(swatch(k==="y"?i.bands.y:i.bands.x,k==="z"?i.bands.y:null),element("b",number(i[k])));
-    b.append(element("span",n),value,element("small",selected.length&&!previewFact?"Факт "+number(i.actual[k]):k.toUpperCase()+" · из 100"));return b;
+    b.append(element("span",indicesNames[k]),value);
+    if(selected.length&&!previewFact&&i.scenario[k]!=null&&i.actual[k]!=null){
+      b.append(element("small","После улучшений, условно"),
+        element("small",`Сейчас ${number(i.actual[k])} · снижение ${number(i.actual[k]-i.scenario[k])} балл.`));
+    }else b.append(element("small","Баллы из 100"));
+    return b;
   }));
   const stats=element("div"),counter=element("div",null,"counters"),distribution=element("div",null,"distribution");
-  for(const [label,value] of [["Анкеты",`${i.received_surveys}/${i.expected_surveys}`],["Критические случаи",data.summary.critical_cases.length],["Парные наблюдения",`${i.eligible_count}/${i.observation_count}`]]){
+  const both=cells.filter(m=>m.x.source_id&&m.y.source_id).length;
+  const attention=cells.filter(m=>[m.x,m.y].some(side=>side.actual_score>=30||side.critical_flags.length)).length;
+  for(const [label,value] of [["Анкеты",`${i.received_surveys}/${i.expected_surveys}`],["Месяцы с обеими анкетами",`${both}/${i.observation_count}`],["Наблюдения от 30 баллов или с критическим сигналом",attention],["Критические случаи",data.summary.critical_cases.length]]){
     const item=element("span");item.append(element("b",value),element("small",label));counter.append(item);
   }
   for(const [color,value] of Object.entries(i.risk_distribution)){
     const item=element("span");item.append(swatch(color),element("span",bands[color]+" "+value));distribution.append(item);
   }
-  stats.append(table(["Месяц","Наставник X","Стажёр Y","Пара Z","Пригодны"],data.index_dynamics.map(m=>["М"+m.month,number(m.x),number(m.y),number(m.z),m.eligible_count])));
+  stats.append(table(["Месяц","Наставник, баллы","Стажёр, баллы","Риск пары, баллы","Пар в расчёте"],data.index_dynamics.map(m=>["М"+m.month,number(m.x),number(m.y),number(m.z),m.eligible_count])));
   const top=data.summary.top_factors.slice(0,5);
-  if(top.length)stats.append(element("strong","Частые факторы"),...top.map(f=>element("p",names[f.role]+" · "+f.name+" · "+f.observation_count+" набл.")));
+  if(top.length)stats.append(element("strong","Что требует внимания"),...top.map(f=>element("p",names[f.role]+" · "+f.name+" · "+f.observation_count+" набл.")));
   const list=element("div",null,"source-list");
   for(const p of data.patterns)list.append(element("p",`${data.matrix.find(r=>r.pair_id===p.pair_id)?.intern_id??""} · ${names[p.role]??""} · М${(p.months??[p.month]).join(", М")} · ${data.dynamics.find(d=>d.factor_id===p.factor_id&&d.role===p.role)?.name??p.factor_id}. ${p.explanation}`));
   stats.append(list);for(const st of ["mentor","intern"]){const a=i.side_statistics[st];stats.append(element("p",`${names[st]} · по всем пригодным анкетам ${number(a.mean)} (${a.count})`));}
-  $("summary-extra").replaceChildren(counter,trend(),...(scope.type==="GLOBAL"?[distribution]:[]),disclosure("Числа по месяцам и сигналы внимания",stats));
-  const usedSources=new Set(), mentor=section("mentor",usedSources), intern=section("intern",usedSources);
-  $("sections").replaceChildren(section("pair",usedSources),mentor,intern);
+  $("summary-extra").replaceChildren(counter,trend(),...(scope.type==="GLOBAL"?[distribution]:[]),disclosure("Подробная динамика",stats));
+  $("sections").replaceChildren(...["pair","mentor","intern"].map(section));
   if(data.summary.critical_cases.length)$("summary-extra").prepend(element("p","Требуется конфиденциальное уточнение · "+data.summary.critical_cases.map(c=>(data.matrix.find(p=>p.pair_id===c.pair_id)?.intern_id??c.pair_id)+" М"+c.month).join(", "),"flag"));
   if(!data.matrix.length)notice("История пока пуста. Загрузите обе книги командой импорта из README.");
-  else if(data.warnings.some(w=>w.includes("error")))notice("Текстовый анализ завершился с ошибкой. Доступны исходные ответы и количественные наблюдения.",true);
-  else if(data.warnings.length)notice("Часть комментариев требует уточнения. Основания доступны в разделах наставника и стажёра.");
+  else if(present.some(s=>s.text_analysis_status==="error"))notice("Текстовый анализ завершился с ошибкой. Откройте исходные ответы или повторите пересчёт.",true);
   else notice("");
 }
 async function scenarios(){
-  dialog("Сценарии",element("p","Загрузка…"));const id=dialogSeq;
+  dialog("План улучшений",element("p","Загрузка…"));const id=dialogSeq;
   try{const items=await api("scenarios");if(id!==dialogSeq)return;
     const pane=element("div"),actions=element("div",null,"actions"),input=element("input");input.value=scenarioName;input.maxLength=140;input.setAttribute("aria-label","Название сценария");
     const action=(label,fn)=>button(label,async()=>{try{await fn();}catch(e){notice(e.message,true);$("dialog").close();}});
@@ -314,14 +320,63 @@ async function scenarios(){
     const list=element("div",null,"saved");
     for(const item of items){const row=element("div",null,"actions");const restore=action("Восстановить",async()=>{
       const v=await api("scenarios/"+encodeURIComponent(item.scenario_id)+"/restore",{});selected=v.state.selected;scope=v.state.scope;mode=scope.type;scenarioId=null;savedBaseId=v.scenario_id;scenarioName=v.name;base=v.data_version;method=v.result.methodology_cache_version;anchor=null;remember();$("dialog").close();await refresh();});
-      restore.disabled=!!item.stale;row.append(element("span",item.name+" · "+stamp(item.updated_at)+(item.stale?" · устарел":"")),restore,action("История",async()=>{
+      const stale=item.stale||(method&&item.methodology_cache_version!==method);
+      restore.disabled=!!stale;row.append(element("span",item.name+" · "+stamp(item.updated_at)+(stale?" · устарел":"")),restore,action("История",async()=>{
         const v=await api("scenarios/"+encodeURIComponent(item.scenario_id));const labels={created:"Создан",updated:"Сохранён",selected:"Выбор",removed:"Снятие",restored:"Восстановлен",invalidated:"Новые данные"};
         dialog("История · "+v.name,table(["Время","Событие","Мероприятие"],v.history.map(h=>[stamp(h.created_at),labels[h.kind]??h.kind,h.state.selection?.action_id??"—"])));}));list.append(row);}
-    pane.append(list);dialog("Сценарии",pane);
-  }catch{if(id===dialogSeq)dialog("Сценарии",element("p","Хранилище сценариев недоступно."));}
+    pane.append(list);dialog("План улучшений",pane);
+  }catch{if(id===dialogSeq)dialog("План улучшений",element("p","История сохранённых планов недоступна."));}
 }
 $("manage").onclick=scenarios;
 $("compare").onclick=()=>{if(!busy){previewFact=!previewFact;refresh();}};
 $("reset").onclick=()=>changeChoices([]);
-async function poll(){try{const r=await api("revision");if(revision!==null&&revision!==r.revision&&!busy){revision=r.revision;await refresh();}else if(revision===null)revision=r.revision;}catch{/* Keep the visible last status until an analysis is requested. */}}
+const formErrors={
+  wrong_form_id:"ID формы не соответствует настройкам.",
+  intern_pair_not_registered:"Сначала нужна анкета наставника или запись о паре.",
+  delivery_id_content_conflict:"Ответ изменился без нового номера редакции.",
+  response_id_required:"Не передан ID ответа.",
+  invalid_rpc_method:"Укажите метод submit.",
+  invalid_or_conflicting_survey:"Проверьте параметры анкеты и соответствие пары.",
+};
+function updateStatus(text){$("update-result").textContent=text;$("update-result").hidden=false;}
+async function formStatus(showDetails=false){
+  const result=await api("forms/status");
+  if(showDetails){
+    const rows=result.forms.map(f=>{
+      const cacheKey="pulse-yandex-seen-"+f.role;
+      const seen=Number(localStorage.getItem(cacheKey)||0);
+      localStorage.setItem(cacheKey,String(f.accepted));
+      return [names[f.role],f.last_error?formErrors[f.last_error] :
+        f.last_success?"Ответ получен":f.configured?"Ожидаем первый ответ":"ID формы не задан",
+        stamp(f.last_success),Math.max(0,f.accepted-seen),f.accepted];
+    });
+    dialog("Яндекс Формы",element("p","Новые анкеты поступают автоматически. Обновление показывает принятые ответы и проверяет доставку."),
+      table(["Анкета","Статус","Последний приём","Новых с прошлого просмотра","Всего принято"],rows));
+  }
+  $("update").title=result.forms.map(f=>names[f.role]+": "+(f.last_error?"ошибка":f.last_success?"ответ получен":"ожидаем доставку")).join(" · ");
+}
+$("update").onclick=async()=>{
+  if(busy||recalculating)return;
+  $("update").disabled=true;
+  try{await refresh();await formStatus(true);}
+  catch{updateStatus("Не удалось проверить доставку из Яндекс Форм.");}
+  finally{$("update").disabled=false;}
+};
+$("recalculate").onclick=async()=>{
+  if(busy||recalculating)return;
+  recalculating=true;$("recalculate").disabled=true;controller?.abort();
+  conn("Анализ выполняется…","loading");$("view-label").textContent="Анализ выполняется";
+  updateStatus("Пересчитываем сохранённые анкеты…");
+  const progress=element("progress");progress.setAttribute("aria-label","Пересчёт выполняется");
+  $("update-result").append(" ",progress);
+  try{
+    const result=await api("recalculate",{});
+    const sides=result.matrix.flatMap(r=>r.months.flatMap(m=>[m.x,m.y])).filter(s=>s.source_id);
+    await refresh();
+    updateStatus(`Пересчёт завершён. Анкет: ${sides.length}. ${analysisLabel(sides)}.`);
+  }catch{updateStatus("Пересчёт не завершён. Проверьте сервис или попробуйте снова.");await refresh();}
+  finally{recalculating=false;$("recalculate").disabled=false;}
+};
+async function poll(){try{const r=await api("revision");if(revision!==null&&revision!==r.revision&&!busy&&!recalculating){revision=r.revision;await refresh();await formStatus();}else if(revision===null)revision=r.revision;}catch{/* Keep the visible last status until an analysis is requested. */}}
 await poll();await refresh();setInterval(poll,2500);
+formStatus().catch(()=>{});

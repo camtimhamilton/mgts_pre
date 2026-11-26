@@ -21,7 +21,7 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules", expert_b
         raise ValueError("confidential screenshots must stay under ignored data/")
     destination.mkdir(parents=True, exist_ok=True)
     checks = []
-    with running_stack(text_mode=text_mode, timeout=60, pair_policy="expert" if expert_baseline else "legacy") as stack:
+    with running_stack(text_mode=text_mode, timeout=60, pair_policy="expert_v1" if expert_baseline else "legacy") as stack:
         client, base, ml_base, temp, processes = stack
         env = dict(os.environ, DB_PATH=str(temp / "backend.sqlite3"), PYTHONIOENCODING="utf-8")
         command = [sys.executable, "-m", "tools.import_pair_history", "--mentor", str(mentor_path), "--intern", str(intern_path)]
@@ -118,12 +118,15 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules", expert_b
                 if key == "z":
                     expect(page.locator("#dialog-body")).to_contain_text("Z =")
                 page.locator("#close").click()
+            page.locator('[data-section="intern"] > details > summary').filter(has_text="Подробнее").click()
+            page.locator('[data-section="intern"] summary').filter(has_text="Цитаты из анкет").click()
             page.locator('[data-section="intern"] .quote').first.click()
             expect(page.locator("#dialog mark")).to_be_visible()
             expect(page.locator("#dialog-title")).to_contain_text("Стажёр")
             page.locator("#close").click()
             for role in ("mentor", "intern"):
-                page.locator(f'[data-section="{role}"] > details > summary').filter(has_text="Подробнее").click()
+                if role=="mentor":
+                    page.locator(f'[data-section="{role}"] > details > summary').filter(has_text="Подробнее").click()
                 page.locator(f'[data-section="{role}"] summary').filter(has_text="Динамика исходных оценок").click()
                 expect(page.locator(f'[data-section="{role}"] table.data')).to_be_visible()
             screenshot("pair-month.png")
@@ -157,7 +160,7 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules", expert_b
             expect(checkbox).to_be_visible()
             action_id = checkbox.get_attribute("data-action")
             checkbox.check()
-            expect(page.locator("#view-label")).to_contain_text("Сценарий")
+            expect(page.locator('#metrics .metric').first).to_contain_text("После улучшений")
             ready()
             assert len(session()["selected"]) == 1
             scenario = client.post(base + "/api/v2/analytics", json={"scope": session()["scope"], "selected": session()["selected"]}).json()
@@ -185,10 +188,10 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules", expert_b
             assert len(session()["selected"]) == 1
             screenshot("pair-scenario.png")
             page.locator("#compare").click()
-            expect(page.locator("#view-label")).to_contain_text("Фактические")
+            expect(page.locator('#metrics .metric').first).to_contain_text("Баллы из 100")
             assert len(session()["selected"]) == 1
             page.locator("#compare").click()
-            expect(page.locator("#view-label")).to_contain_text("Сценарий")
+            expect(page.locator('#metrics .metric').first).to_contain_text("После улучшений")
             checks.append("factual preview and return preserve scenario selections")
             mode("GLOBAL")
             assert len(session()["selected"]) == 1
@@ -202,7 +205,7 @@ def run(mentor_path, intern_path, destination, text_mode="local_rules", expert_b
             page.get_by_role("button", name="Сбросить весь сценарий").click()
             expect(page.locator("#dialog")).not_to_be_visible()
             ready()
-            expect(page.locator("#view-label")).to_contain_text("Фактические")
+            expect(page.locator('#metrics .metric').first).to_contain_text("Баллы из 100")
             assert not session()["selected"]
             page.locator("#manage").click()
             saved_row = page.locator("#dialog .saved .actions").filter(has=page.locator("span", has_text="Browser saved")).first

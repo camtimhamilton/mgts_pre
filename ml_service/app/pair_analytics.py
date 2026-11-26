@@ -15,12 +15,13 @@ from app.pair_schemas import AnalyticsScope
 from app.pair_semantics import compare_texts, load_semantic_rules
 from .pair_expert import action_matches, expert_policy
 
-PIPELINE_VERSION = "pair-2.1.0"
+PIPELINE_VERSION = "pair-2.2.0"
 
 
 def load_policy(mode: str | None = None) -> dict:
-    if (mode or os.getenv("PULSE_PAIR_POLICY")) == "expert":
-        return expert_policy()
+    mode = mode or os.getenv("PULSE_PAIR_POLICY")
+    if mode in ("expert", "expert_v1"):
+        return expert_policy(archive=mode == "expert_v1")
     policy = json.loads((Path(__file__).resolve().parents[1] / "knowledge_base/v2/policy.json").read_text(encoding="utf-8"))
     try:
         return validate_policy(policy)
@@ -88,6 +89,12 @@ def band(score: float | None, coverage: float, policy: dict) -> str:
     if score >= policy["thresholds"]["yellow"]:
         return "yellow"
     return "green"
+
+
+def requires_attention(factor, policy):
+    if not policy.get("expert") or policy.get("archive"):
+        return factor["contribution"] > 0
+    return bool(factor["active_rules"]) or factor["rating"] in (1, 2)
 
 
 def in_scope(pair_id: str, month: int, scope: dict) -> bool:
@@ -361,7 +368,7 @@ def apply_scenario(cells: list[dict], selected: list[dict], policy: dict) -> lis
                                if in_scope(cell["pair_id"], cell["month"], selection["scope"])
                                and (action := policy["actions"].get(selection["action_id"]))
                                and action_matches(cell, side, factor, action) for rule in action["target_rules"]}
-                    rating_resolved = any(selection["action_id"] == f'rating_{factor["id"]}'
+                    rating_resolved = policy.get("archive") and any(selection["action_id"] == f'rating_{factor["id"]}'
                                           and in_scope(cell["pair_id"], cell["month"], selection["scope"])
                                           and factor["rating"] in (1, 2) and not rules for selection in selected)
                     resolved = rating_resolved or bool(rules) and rules <= covered and (
@@ -432,12 +439,14 @@ def recommendations(cells: list[dict], scope: dict, policy: dict) -> list[dict]:
 def expert_recommendations(cells, actual_cells, scope, scope_key, policy):
     current = aggregate(cells, policy)
     actions = list(policy["actions"].values())
-    actions.extend(rating_actions(policy).values())
+    if policy.get("archive"):
+        actions.extend(rating_actions(policy).values())
     sides = [cell[side] for cell in cells for side in ("x", "y")]
     topics = {s["factor_id"] for side in sides for s in side["signals"]
               if s.get("validation_status") in ("accepted", "review")}
     zero_conditions = {
-        "N01": any(s["status"] == "partial" for s in sides),
+        "N01": any(any(f["rating"] in (1, 2) and not f["active_rules"] for f in s["factors"])
+                   or s["text_interpretation_status"] in ("partial", "local_partial") for s in sides),
         "N02": "AD_RESOURCE" in topics,
         "N03": "DEVELOPMENT_REQUEST" in topics,
         "N04": any(s["critical_flags"] for s in sides),
@@ -530,7 +539,7 @@ def analyze(records: list[dict], scope: dict | None = None, selected: list[dict]
     allowed_actions = {f"action_pair_{factor}" for factor in policy["actions"]}
     allowed_actions.update(f"action_{role}_{factor}" for role, factors in policy["roles"].items() for factor in factors)
     if policy.get("expert"):
-        available_actions = policy["actions"] | rating_actions(policy)
+        available_actions = policy["actions"] | (rating_actions(policy) if policy.get("archive") else {})
         allowed_actions = available_actions.keys()
     if any(selection["action_id"] not in allowed_actions for selection in selected):
         raise KeyError("action_not_found")
@@ -567,7 +576,8 @@ def analyze(records: list[dict], scope: dict | None = None, selected: list[dict]
     for key, title, sides in (("pair", "Взаимодействие пары", ("x", "y")),
                               ("mentor", "Наставник", ("x",)), ("intern", "Стажёр", ("y",))):
         evidence = [quote for cell in chosen for side in sides for quote in cell[side]["evidence"]]
-        active = [(cell, side, factor) for cell in chosen for side in sides for factor in cell[side]["factors"] if factor["contribution"] > 0]
+        active = [(cell, side, factor) for cell in chosen for side in sides for factor in cell[side]["factors"]
+                  if requires_attention(factor, policy)]
         names = list(dict.fromkeys(factor["name"] for _, _, factor in active))
         coverage = _average([cell[side]["coverage"] for cell in chosen for side in sides]) or 0
         review_flags = sorted({flag for cell in chosen for side in sides for factor in cell[side]["factors"] for flag in factor["review_flags"]})
@@ -660,7 +670,7 @@ def analyze(records: list[dict], scope: dict | None = None, selected: list[dict]
                 side_key = "x" if role == "mentor" else "y"
                 factor_history = {month: next((factor for factor in cell_lookup[(pair_id, month)][side_key]["factors"]
                                               if factor["id"] == factor_id), None) for month in range(1, 7)}
-                active_months = [month for month, factor in factor_history.items() if factor and factor["contribution"] > 0
+                active_months = [month for month, factor in factor_history.items() if factor and requires_attention(factor, policy)
                                  and in_scope(pair_id, month, scope)]
                 if len(active_months) >= 2:
                     patterns.append({"pair_id": pair_id, "role": role, "factor_id": factor_id, "type": "recurring_problem", "months": active_months,
@@ -678,8 +688,8 @@ def analyze(records: list[dict], scope: dict | None = None, selected: list[dict]
                     if not current:
                         continue
                     previous_factor, current_factor = factor_history[month - 1], factor_history[month]
-                    if (previous_factor and current_factor and previous_factor["severity"] == 0
-                            and current_factor["contribution"] > 0):
+                    if (previous_factor and current_factor and previous_factor["severity"] is not None
+                            and not requires_attention(previous_factor, policy) and requires_attention(current_factor, policy)):
                         patterns.append({"pair_id": pair_id, "role": role, "factor_id": factor_id, "month": month,
                                          "type": "new_problem", "status": "validated_observations",
                                          "explanation": "После непроблемного наблюдения обнаружен активный фактор по тому же показателю."})
@@ -719,7 +729,7 @@ def analyze(records: list[dict], scope: dict | None = None, selected: list[dict]
     for cell in chosen:
         for role, side in (("mentor", "x"), ("intern", "y")):
             for factor in cell[side]["factors"]:
-                if factor["contribution"] <= 0:
+                if not requires_attention(factor, policy):
                     continue
                 item = top_factors.setdefault((role, factor["id"]), {"role": role, "factor_id": factor["id"],
                     "name": factor["name"], "observation_count": 0, "contribution_sum": 0})

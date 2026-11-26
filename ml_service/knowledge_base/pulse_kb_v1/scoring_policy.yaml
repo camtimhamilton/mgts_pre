@@ -1,4 +1,4 @@
-version: 1.0.0-draft
+version: 1.1.0-draft
 status: expert_draft
 purpose: Приоритизация поддержки; не вероятность оттока и не оценка пригодности к работе.
 orientation: higher_is_worse
@@ -20,9 +20,9 @@ role_weights:
     S07: 10
 rating_severity:
   1: 1
-  2: 0.5
-  3: 0
-  4: 0
+  2: 0.75
+  3: 0.35
+  4: 0.10
   5: 0
 text_severity:
   none: 0

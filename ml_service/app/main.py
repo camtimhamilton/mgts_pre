@@ -125,7 +125,7 @@ def create_app(database: Path | None = None, provider=None) -> FastAPI:
     @api.post("/v2/analytics", response_model=AnalyticsResponse)
     async def pair_analytics(body: AnalyticsRequest):
         from app.pulse_nlp import enrich
-        records = [await enrich(record.model_dump()) for record in body.records]
+        records = [await enrich(record.model_dump(), retry_errors=body.retry_errors) for record in body.records]
         return analyze_pairs(records, body.scope.model_dump(),
                              [selection.model_dump() for selection in body.selected], body.current_month,
                              pairs=[pair.model_dump() for pair in body.pairs])

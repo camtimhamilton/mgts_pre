@@ -74,10 +74,7 @@ class DeepSeekProvider:
 
     def _body(self, system_prompt: str, user_prompt: str, response_schema: dict):
         # JSON Output is not strict-schema output. Pydantic validates the result later.
-        example = '{"response_id":"response_001","signals":[],"unclassified_fragments":[],"requires_review":false}'
-        suffix = ("\nВерни только JSON-объект, соответствующий JSON Schema ниже. "
-                  "Пример формы для Signal Extractor (значения не являются ответом): " + example +
-                  "\nДля других компонентов следуй их схеме, а не примеру.\nJSON Schema:\n" + canonical(response_schema))
+        suffix = "\nВерни только JSON-объект по указанной схеме.\nJSON Schema:\n" + canonical(response_schema)
         body = {"model": self.profile.model, "messages": [
             {"role": "system", "content": system_prompt + suffix}, {"role": "user", "content": user_prompt}],
             "response_format": {"type": "json_object"}, "stream": False,

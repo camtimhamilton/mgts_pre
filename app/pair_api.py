@@ -2,6 +2,7 @@
 import hmac
 import json
 import uuid
+from threading import Lock
 from time import perf_counter
 
 from fastapi import APIRouter, BackgroundTasks, Header, HTTPException, Request
@@ -13,22 +14,27 @@ from .db import write_lock
 from .ml_client import MLClient, MLUnavailable
 from .pair_models import AnalyticsRequest, AnalyticsResponse, DashboardAnalysis, PairRegistration, ScenarioSave, SurveyInput
 from .pair_wire import validate_analysis
-from .pair_store import connect, current_records, data_version, digest, encode, ingest, now, register_pair, registered_pairs, scenario_dependencies_changed, source
+from .pair_store import accept, connect, current_records, data_version, digest, encode, ingest, now, register_pair, registered_pairs, scenario_dependencies_changed, source
 
 router = APIRouter(prefix="/api/v2", tags=["pair analytics v2"])
+refresh_lock = Lock()
 
 
 def require_key(value: str | None) -> None:
     expected = get_settings().ingest_key
-    if expected and not hmac.compare_digest(value or "", expected):
+    if expected and not hmac.compare_digest((value or "").encode(), expected.encode()):
         raise HTTPException(401, "invalid_ingest_key")
 
 
-def analytics(payload: AnalyticsRequest) -> dict:
+def analytics(payload: AnalyticsRequest, *, generation: str | None = None) -> dict:
     started = perf_counter()
+    recalculate = generation is not None
     with connect() as db:
         records = current_records(db)
         registry = registered_pairs(db)
+        if not recalculate:
+            row = db.execute("SELECT generation FROM pair_v2_refresh_state WHERE id=1").fetchone()
+            generation = row["generation"] if row else None
     registered_ids = {pair["pair_id"] for pair in registry}
     scopes = [payload.scope, *(selection.scope for selection in payload.selected)]
     if any(scope.type != "GLOBAL" and scope.pair_id not in registered_ids for scope in scopes):
@@ -48,13 +54,17 @@ def analytics(payload: AnalyticsRequest) -> dict:
         raise HTTPException(502, "ml_invalid_methodology")
     if payload.expected_methodology_version is not None and payload.expected_methodology_version != cache_version:
         raise HTTPException(409, "methodology_base_stale")
-    cache_key = digest({"records": records, "pairs": registry, **state, "pipeline": "pair-dashboard-2.2", "methodology": cache_version})
+    cache_key = digest({"records": records, "pairs": registry, **state, "pipeline": "pair-dashboard-2.3",
+                        "methodology": cache_version, "generation": generation})
     with connect() as db:
         cached = db.execute("SELECT result_json FROM pair_v2_cache WHERE cache_key=?", (cache_key,)).fetchone()
     if cached:
         return json.loads(cached[0])
     try:
-        result = MLClient()._request("POST", "/v2/analytics", {"records": records, "pairs": registry, **state})
+        ml_payload = {"records": records, "pairs": registry, **state}
+        if recalculate:
+            ml_payload["retry_errors"] = True
+        result = MLClient()._request("POST", "/v2/analytics", ml_payload)
     except MLUnavailable as exc:
         if exc.code in ("ml_http_400", "ml_http_404", "ml_http_422"):
             raise HTTPException(int(exc.code.rsplit("_", 1)[1]), "invalid_analytics_scope_or_action") from None
@@ -82,7 +92,11 @@ def analytics(payload: AnalyticsRequest) -> dict:
                   if r["pair_id"] == payload.scope.pair_id and payload.scope.start <= r["month"] <= payload.scope.end]
         analysis_times = [db.execute("SELECT analyzed_at FROM pair_v2_analysis_times WHERE source_id=? AND methodology=?",
                                     (r["source_id"], cache_version)).fetchone()[0] for r in chosen]
-        result["updated_at"] = max(analysis_times, default=None)
+        if recalculate:
+            db.execute("INSERT OR REPLACE INTO pair_v2_refresh_state VALUES (1,?)", (generation,))
+            db.executemany("UPDATE pair_v2_analysis_times SET analyzed_at=? WHERE source_id=? AND methodology=?",
+                           ((timestamp, r["source_id"], cache_version) for r in records))
+        result["updated_at"] = timestamp if recalculate and records else max(analysis_times, default=None)
         result["methodology_cache_version"] = cache_version
         db.execute("INSERT OR REPLACE INTO pair_v2_cache VALUES (?,?,?)", (cache_key, encode(result), now()))
         db.execute("INSERT INTO pair_v2_audit VALUES (?,?,?,?)",
@@ -93,6 +107,16 @@ def analytics(payload: AnalyticsRequest) -> dict:
 @router.post("/analytics", response_model=DashboardAnalysis)
 def analyze(payload: AnalyticsRequest) -> dict:
     return analytics(payload)
+
+
+@router.post("/recalculate", response_model=DashboardAnalysis)
+def recalculate() -> dict:
+    if not refresh_lock.acquire(blocking=False):
+        raise HTTPException(409, "recalculation_in_progress")
+    try:
+        return analytics(AnalyticsRequest(), generation=uuid.uuid4().hex)
+    finally:
+        refresh_lock.release()
 
 
 @router.get("/analysis/{analysis_id}")
@@ -115,7 +139,8 @@ def revision() -> dict:
     with connect() as db:
         row = db.execute("SELECT COUNT(*), MAX(received_at) FROM pair_v2_surveys").fetchone()
         registry_count = db.execute("SELECT COUNT(*) FROM pair_v2_registry").fetchone()[0]
-    return {"revision": digest([*row, registry_count])}
+        generation = db.execute("SELECT generation FROM pair_v2_refresh_state WHERE id=1").fetchone()
+    return {"revision": digest([*row, registry_count, generation[0] if generation else None])}
 
 
 @router.get("/pairs")
@@ -185,42 +210,108 @@ def normalize_form(payload: dict) -> SurveyInput:
         from .pair_import import RATINGS, TEXTS
         ratings = {key: form_integer(params[key]) for key in RATINGS.get(role, []) if params.get(key) not in (None, "")}
         texts = {key: params[key] for key in TEXTS.get(role, []) if params.get(key) not in (None, "")}
+    month = params.get("month")
+    if isinstance(month, str) and month.startswith("Месяц "):
+        month = month.removeprefix("Месяц ")
+    elif isinstance(month, str) and month.startswith(("M", "М")):
+        month = month[1:]
+    response_id = params.get("response_id")
+    if type(response_id) is int:
+        response_id = str(response_id)
     return SurveyInput(
         intern_id=params.get("intern_id"), mentor_id=params.get("mentor_id") or None,
-        department=params.get("department"), role=role, month=form_integer(params.get("month")),
-        ratings=ratings, texts=texts or {}, external_id=params.get("response_id"),
+        department=params.get("department"), role=role, month=form_integer(month),
+        ratings=ratings, texts=texts or {}, external_id=response_id,
     )
+
+
+def yandex_form_ids():
+    cfg = get_settings()
+    return {"mentor": cfg.yandex_mentor_form_id, "intern": cfg.yandex_intern_form_id}
+
+
+def note_yandex(db, role, form_id, *, accepted=0, error=None):
+    timestamp = now()
+    db.execute("""
+        INSERT INTO pair_v2_yandex_status VALUES (?,?,?,?,?,?)
+        ON CONFLICT(role,form_id) DO UPDATE SET accepted=accepted+excluded.accepted,
+        last_success=coalesce(excluded.last_success,last_success),
+        last_error=excluded.last_error,updated_at=excluded.updated_at
+        """, (role, form_id, accepted, None if error else timestamp, error, timestamp))
+
+
+@router.get("/forms/status")
+def yandex_status() -> dict:
+    forms = []
+    with connect() as db:
+        for role, expected in yandex_form_ids().items():
+            row = db.execute("""
+                SELECT accepted,last_success,last_error FROM pair_v2_yandex_status
+                WHERE role=? AND (?='' OR form_id=?) ORDER BY updated_at DESC LIMIT 1
+                """, (role, expected, expected)).fetchone()
+            forms.append({"role": role, "configured": bool(expected), **(dict(row) if row else
+                         {"accepted": 0, "last_success": None, "last_error": None})})
+    return {"mode": "webhook", "forms": forms}
 
 
 @router.post("/forms/yandex")
 async def yandex(request: Request, background: BackgroundTasks,
                  x_ingest_key: str | None = Header(default=None)) -> dict:
-    require_key(x_ingest_key)
     body = await request.body()
     if len(body) > 200000:
         raise HTTPException(413, "event_too_large")
     payload = None
+    role = form_id = None
     try:
         payload = json.loads(body)
         if not isinstance(payload, dict):
             raise ValueError("object_required")
-        survey = normalize_form(payload)
         params = payload.get("params", payload)
-        response_id = params.get("response_id")
+        if not isinstance(params, dict):
+            raise ValueError("params_object_required")
+        supplied = params.pop("key", None)
+        require_key(x_ingest_key or (supplied if isinstance(supplied, str) else None))
+        payload.pop("key", None)
+        role, form_id = params.get("role"), params.get("form_id")
+        if type(form_id) is int:
+            form_id = str(form_id)
+        allowed = yandex_form_ids()
+        if not isinstance(role, str) or role not in allowed:
+            raise ValueError("unknown_form_role")
+        if form_id is None and not allowed[role]:
+            form_id = role
+        if not isinstance(form_id, str) or not 0 < len(form_id) <= 200 or (allowed[role] and form_id != allowed[role]):
+            raise ValueError("wrong_form_id")
+        if "jsonrpc" in payload and (payload["jsonrpc"] != "2.0" or payload.get("method") != "submit"):
+            raise ValueError("invalid_rpc_method")
+        survey = normalize_form(payload)
+        response_id = survey.external_id
         revision_id = params.get("revision_id")
         if not response_id:
             raise ValueError("response_id_required")
         # Response ID identifies the submission, content/revision identifies its edition.
-        event_id = "yandex:" + digest([params.get("form_id", survey.role), response_id,
+        event_id = "yandex:" + digest([form_id, response_id,
                                        revision_id or digest(survey.model_dump(mode="json"))])
-        result = ingest(survey, event_id, payload)
+        with write_lock, connect() as db:
+            result = accept(db, survey, event_id, payload)
+            note_yandex(db, role, form_id, accepted=int(result["status"] == "accepted"))
         if result["status"] == "accepted":
             broker.publish({"type": "pair_survey_received", "source_id": result["source_id"]})
             background.add_task(refresh)
         if payload.get("jsonrpc") == "2.0":
             return {"jsonrpc": "2.0", "id": payload.get("id"), "result": result}
         return result
-    except (ValueError, TypeError, ValidationError):
+    except (ValueError, TypeError, ValidationError) as exc:
+        if isinstance(role, str) and role in yandex_form_ids():
+            expected = yandex_form_ids()[role]
+            logged_id = expected or (form_id if isinstance(form_id, str) and 0 < len(form_id) <= 200 else None)
+            if logged_id:
+                reason = str(exc) if type(exc) is ValueError else ""
+                error = reason if reason in ("wrong_form_id", "intern_pair_not_registered",
+                                             "delivery_id_content_conflict", "response_id_required",
+                                             "invalid_rpc_method") else "invalid_or_conflicting_survey"
+                with write_lock, connect() as db:
+                    note_yandex(db, role, logged_id, error=error)
         if isinstance(payload, dict) and payload.get("jsonrpc") == "2.0":
             return {"jsonrpc": "2.0", "id": payload.get("id"),
                     "error": {"code": -32602, "message": "invalid_or_conflicting_survey"}}
@@ -231,7 +322,9 @@ async def yandex(request: Request, background: BackgroundTasks,
 def scenarios() -> list[dict]:
     with connect() as db:
         return [dict(row) for row in db.execute(
-            "SELECT scenario_id,name,stale,updated_at FROM pair_v2_scenarios ORDER BY updated_at DESC")]
+            """SELECT scenario_id,name,stale,updated_at,
+               json_extract(result_json,'$.methodology_cache_version') AS methodology_cache_version
+               FROM pair_v2_scenarios ORDER BY updated_at DESC""")]
 
 
 @router.get("/scenarios/{scenario_id}")

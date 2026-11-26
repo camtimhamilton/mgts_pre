@@ -541,6 +541,27 @@
         }
       }
     },
+    "/api/v2/recalculate": {
+      "post": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Recalculate",
+        "operationId": "recalculate_api_v2_recalculate_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardAnalysis"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v2/analysis/{analysis_id}": {
       "get": {
         "tags": [
@@ -825,6 +846,29 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/forms/status": {
+      "get": {
+        "tags": [
+          "pair analytics v2"
+        ],
+        "summary": "Yandex Status",
+        "operationId": "yandex_status_api_v2_forms_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Yandex Status Api V2 Forms Status Get"
                 }
               }
             }
@@ -2096,11 +2140,9 @@
           "severity": {
             "anyOf": [
               {
-                "enum": [
-                  0,
-                  0.5,
-                  1
-                ]
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
               },
               {
                 "type": "null"

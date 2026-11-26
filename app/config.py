@@ -33,6 +33,8 @@ class Settings(BaseSettings):
     llm_retries: int = 2
 
     ingest_key: str = ""
+    yandex_mentor_form_id: str = ""
+    yandex_intern_form_id: str = ""
 
     db_path: str = "./data/pair-v2.db"
     program_start: str = "2026-02-01"

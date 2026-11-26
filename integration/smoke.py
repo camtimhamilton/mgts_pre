@@ -40,7 +40,8 @@ def wait_until(check, timeout=20):
 
 
 @contextmanager
-def running_stack(*, text_mode="local_rules", timeout=3, pair_policy="legacy", live_deepseek=False):
+def running_stack(*, text_mode="local_rules", timeout=3, pair_policy="legacy", live_deepseek=False,
+                  browser_fixture=False):
     ml_python = ROOT / "ml_service/.venv/Scripts/python.exe"
     if not ml_python.exists():
         ml_python = ROOT / "ml_service/.venv/bin/python"
@@ -63,6 +64,7 @@ def running_stack(*, text_mode="local_rules", timeout=3, pair_policy="legacy", l
             ML_PROGRAM_ID="synthetic_dashboard", INGEST_KEY="")
         if live_deepseek:
             env["DEEPSEEK_API_KEY"] = os.environ["DEEPSEEK_API_KEY"]
+            env["MGTS_ALLOW_SYNTHETIC_LLM"] = "1"
         handles = []
         try:
             for name, executable, cwd, target, service_port in (
@@ -73,6 +75,9 @@ def running_stack(*, text_mode="local_rules", timeout=3, pair_policy="legacy", l
                 args = [str(executable), "-m", "uvicorn", target, "--host", "127.0.0.1", "--port", str(service_port), "--log-level", "warning"]
                 if name == "ml":
                     args.append("--factory")
+                    if browser_fixture:
+                        args[3] = "browser_pair_provider:create_app"
+                        args.extend(("--app-dir", "tests"))
                 processes.append(subprocess.Popen(args, cwd=cwd, env=env, stdout=log, stderr=log,
                     creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0))
             with httpx.Client(timeout=timeout+3, trust_env=False) as client:

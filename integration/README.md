@@ -58,7 +58,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File integration/run.ps1
 
 При пустой базе передайте обе книги через `-MentorXlsx` и `-InternXlsx`. Дашборд доступен на `http://127.0.0.1:8000`. Для проверки старой методики используйте `-PairPolicy legacy`.
 
-Для изолированной живой проверки добавьте `DEEPSEEK_API_KEY` в `ml_service/.env` и выполните `.\.venv\Scripts\python.exe -m integration.pair_deepseek_smoke --live`. Smoke создаёт отдельную SQLite и отправляет один заранее разрешённый синтетический набор текстов в [DeepSeek Flash](https://api-docs.deepseek.com/). Параметр `-TextMode deepseek` в launcher использует тот же ключ и пропускает к провайдеру только этот набор. Методология и конфигурация доступны в `GET /v2/methodology`. Для независимого повторного анализа задайте новый `PULSE_NLP_RUN_ID`.
+Для DeepSeek добавьте `DEEPSEEK_API_KEY=<ваш ключ>` в `ml_service/.env`. Изолированная проверка запускается командой `.\.venv\Scripts\python.exe -m integration.pair_deepseek_smoke --live` и отправляет разрешённую синтетику в [DeepSeek Flash](https://api-docs.deepseek.com/). Для запуска приложения с провайдером добавьте `-TextMode deepseek` к команде запуска выше. Исторические тексты по-прежнему остаются локально. «Пересчитать аналитику» создаёт свежий снимок истории, переиспользует успешный текстовый анализ и повторяет неудачные разрешённые вызовы. Из командной строки ту же операцию выполняет `Invoke-RestMethod http://127.0.0.1:8000/api/v2/recalculate -Method Post`.
+
+Рабочая политика `1.1.0-draft` задаёт выраженность от 1 до 5 как 1,00 / 0,75 / 0,35 / 0,10 / 0,00. Для воспроизведения прежнего расчёта используйте `-PairPolicy expert_v1`. Старый контрольный расчёт находится в исходном локальном пакете `pulse_kb_v1/evaluation/rating_baseline.json`. Порядок подключения форм и настройки корневого `.env` описаны в [forms-v2.md](forms-v2.md).
 
 Интерфейс использует логотип и палитру [МГТС для бизнеса](https://business.mgts.ru/), адаптированные под ПУЛЬС, и системный Segoe UI.
 

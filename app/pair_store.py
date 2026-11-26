@@ -53,6 +53,12 @@ def init_store() -> None:
         CREATE TABLE IF NOT EXISTS pair_v2_analysis_times (
           source_id TEXT NOT NULL, methodology TEXT NOT NULL, analyzed_at TEXT NOT NULL,
           PRIMARY KEY(source_id,methodology));
+        CREATE TABLE IF NOT EXISTS pair_v2_refresh_state (
+          id INTEGER PRIMARY KEY CHECK(id=1), generation TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS pair_v2_yandex_status (
+          role TEXT NOT NULL, form_id TEXT NOT NULL, accepted INTEGER NOT NULL DEFAULT 0,
+          last_success TEXT, last_error TEXT, updated_at TEXT NOT NULL,
+          PRIMARY KEY(role,form_id));
         CREATE TABLE IF NOT EXISTS pair_v2_scenarios (
           scenario_id TEXT PRIMARY KEY, name TEXT NOT NULL, state_json TEXT NOT NULL,
           data_version TEXT NOT NULL, result_json TEXT NOT NULL,

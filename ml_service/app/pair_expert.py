@@ -9,7 +9,7 @@ WIRE = {
 
 
 @lru_cache
-def expert_policy():
+def expert_policy(archive=False):
     import yaml
 
     root = Path(__file__).resolve().parents[1] / "knowledge_base/pulse_kb_v1"
@@ -17,7 +17,7 @@ def expert_policy():
     def read(name):
         return yaml.safe_load((root / f"{name}.yaml").read_text(encoding="utf-8"))
 
-    scoring = read("scoring_policy")
+    scoring = read("scoring_policy_v1" if archive else "scoring_policy")
     mapping = read("question_mapping")["roles"]
     roles, rules = {}, {}
     for role, wire_keys in WIRE.items():
@@ -40,7 +40,7 @@ def expert_policy():
     sources = {s["id"]: s["title"] for s in read("sources")["sources"]}
     zones = {zone["id"]: zone["min_inclusive"] for zone in scoring["zones"] if "min_inclusive" in zone}
     return {
-        "expert": True, "version": scoring["version"], "status": scoring["status"],
+        "expert": True, "archive": archive, "version": scoring["version"], "status": scoring["status"],
         "source": "Экспертная база ПУЛЬС", "roles": roles, "rules": rules, "actions": actions,
         "sources": sources,
         "unscored": {a["id"]: a for a in action_config["non_scoring_actions"]},

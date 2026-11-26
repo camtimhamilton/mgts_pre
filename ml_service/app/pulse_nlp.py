@@ -10,7 +10,7 @@ from typing import Literal
 from weakref import WeakKeyDictionary
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from app.config import DeepSeekConfig
 from app.deepseek import DeepSeekProvider
@@ -18,7 +18,7 @@ from app.knowledge import ROOT
 from app.llm import ProviderError
 from app.serialization import canonical, digest
 
-PIPELINE = "pair-text-2.2.0"
+PIPELINE = "pair-text-2.3.0"
 _work_locks = WeakKeyDictionary()
 
 
@@ -32,9 +32,10 @@ def _resources(policy_mode):
     prompts = [(ROOT / f"prompts/pair_{kind}_v2.md").read_text("utf-8")
                for kind in ("signals", "validation")]
     allowed = json.loads((ROOT / "tests/fixtures/pair_synthetic_text.json").read_text("utf-8"))
+    expert_allowed = json.loads((ROOT / "tests/fixtures/pair_expert_synthetic_text.json").read_text("utf-8"))
     from app.pair_analytics import load_policy
     policy = load_policy(policy_mode)
-    return rules, prompts, digest(allowed), policy
+    return rules, prompts, {digest(allowed), digest(expert_allowed)}, policy
 
 
 class Schema(BaseModel):
@@ -240,7 +241,7 @@ def configuration():
     return mode, cfg, version
 
 
-async def enrich(record: dict) -> dict:
+async def enrich(record: dict, retry_errors=False) -> dict:
     mode, cfg, version = configuration()
     rules, prompts, allowlisted, policy = resources()
     payload = {"role": record["role"], "texts": record["texts"]}
@@ -250,16 +251,17 @@ async def enrich(record: dict) -> dict:
     if loop not in _work_locks:
         _work_locks[loop] = [asyncio.Lock() for _ in range(32)]
     async with _work_locks[loop][int(key[:2], 16) % 32]:
-        return await _cached_extract(record, key, mode, cfg, version, payload, rules, prompts, allowlisted, policy)
+        return await _cached_extract(record, key, mode, cfg, version, payload, rules, prompts, allowlisted, policy, retry_errors)
 
 
-async def _cached_extract(record, key, mode, cfg, version, payload, rules, prompts, allowlisted, policy):
+async def _cached_extract(record, key, mode, cfg, version, payload, rules, prompts, allowlisted, policy, retry_errors):
     path = Path(os.getenv("MGTS_DATABASE", "data/demo.sqlite3"))
     path.parent.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(path, timeout=10) as conn:
         conn.execute("CREATE TABLE IF NOT EXISTS pair_text_cache(key TEXT PRIMARY KEY,result TEXT NOT NULL)")
         saved = conn.execute("SELECT result FROM pair_text_cache WHERE key=?", (key,)).fetchone()
-    if saved:
+    retry = bool(saved and retry_errors and json.loads(saved[0])["text_analysis_status"] == "error")
+    if saved and not retry:
         return {**record, **json.loads(saved[0])}
     audit = {"mode": mode, "calls": [], "pipeline": PIPELINE, "config_hash": version}
     signals = []
@@ -287,14 +289,21 @@ async def _cached_extract(record, key, mode, cfg, version, payload, rules, promp
                 signals.extend(topic for topic in topics
                                if (topic["question_id"], topic["factor_id"], topic["quote"]) not in validated)
                 audit["topic_candidates"] = len(topics)
-        elif digest(payload) != allowlisted:
-            raise ProviderError("external_processing_not_authorized")
+        elif digest(payload) not in allowlisted:
+            if policy.get("expert") and not policy.get("archive"):
+                status = "not_run"
+                audit["reason"] = "external_processing_not_authorized"
+            else:
+                raise ProviderError("external_processing_not_authorized")
         else:
             signals = (await expert_deepseek_signals(payload, policy, cfg, audit) if policy.get("expert")
                        else await deepseek_signals(payload, prompts, list(policy["roles"][record["role"]]), cfg, audit))
     except (ProviderError, ValueError) as exc:
         status = "error"
         audit["error"] = exc.code if isinstance(exc, ProviderError) else "invalid_provider_output_or_config"
+        if isinstance(exc, ValidationError):
+            audit["schema_errors"] = [{"type": item["type"], "path": list(item["loc"])}
+                                      for item in exc.errors(include_input=False, include_url=False)[:8]]
         if getattr(exc, "telemetry", None):
             audit["calls"].append(exc.telemetry.model_dump(mode="json"))
     for i, signal in enumerate(signals):
@@ -304,6 +313,9 @@ async def _cached_extract(record, key, mode, cfg, version, payload, rules, promp
         signal["signal_id"] = digest([key, i, signal])[:24]
     result = {"signals": signals, "nlp_version": version, "text_analysis_status": status, "nlp_audit": audit}
     with sqlite3.connect(path, timeout=10) as conn:
+        if retry:
+            conn.execute("UPDATE pair_text_cache SET result=? WHERE key=? AND result=?",
+                         (canonical(result), key, saved[0]))
         conn.execute("INSERT OR IGNORE INTO pair_text_cache VALUES(?,?)", (key, canonical(result)))
         winner = conn.execute("SELECT result FROM pair_text_cache WHERE key=?", (key,)).fetchone()
     return {**record, **json.loads(winner[0])}

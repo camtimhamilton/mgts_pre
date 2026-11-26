@@ -74,6 +74,7 @@ class AnalyticsRequest(Contract):
     scope: AnalyticsScope = Field(default_factory=AnalyticsScope)
     selected: list[ActionSelection] = Field(default_factory=list, max_length=500)
     current_month: int = Field(default=6, ge=1, le=6)
+    retry_errors: bool = False
 
     @model_validator(mode="after")
     def unique_current_records(self):
@@ -121,7 +122,7 @@ class PairFactor(Contract):
     instance_id: str
     name: str
     weight: Score
-    severity: Literal[0, .5, 1] | None
+    severity: Coverage | None
     state: Literal["unknown", "active", "observed_no_signal"]
     contribution: Score
     scenario_contribution: Score

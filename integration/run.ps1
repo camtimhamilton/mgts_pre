@@ -1,7 +1,7 @@
 param([int]$DashboardPort = 8000, [int]$MLPort = 8001, [switch]$Seed, [int]$RunSeconds = 0,
       [string]$MentorXlsx, [string]$InternXlsx,
       [ValidateSet('local_rules','local_encoder','deepseek')][string]$TextMode,
-      [ValidateSet('expert','legacy')][string]$PairPolicy = 'expert')
+      [ValidateSet('expert','expert_v1','legacy')][string]$PairPolicy = 'expert')
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $logsPath = Join-Path $projectRoot 'data/integration'
@@ -44,7 +44,8 @@ if ($env:PULSE_TEXT_MODE -eq 'deepseek' -and !$env:DEEPSEEK_API_KEY) {
 }
 if (!$env:ML_API_TIMEOUT) { $env:ML_API_TIMEOUT = if ($env:PULSE_TEXT_MODE -eq 'deepseek') { '100' } else { '60' } }
 $env:MGTS_PROVIDER = 'mock'
-if (!$env:MGTS_ALLOW_SYNTHETIC_LLM) { $env:MGTS_ALLOW_SYNTHETIC_LLM = '0' }
+if ($env:PULSE_TEXT_MODE -eq 'deepseek') { $env:MGTS_ALLOW_SYNTHETIC_LLM = '1' }
+else { $env:MGTS_ALLOW_SYNTHETIC_LLM = '0' }
 $env:MGTS_DATABASE = Join-Path $logsPath 'ml.sqlite3'
 $env:MGTS_MAPPING_PATH = Join-Path $projectRoot 'ml_service/mappings/dashboard-demo.yaml'
 $env:MGTS_FIXTURE_CATALOG = Join-Path $projectRoot 'ml_service/tests/fixtures/dashboard_mock_extractions.json'

@@ -723,6 +723,11 @@
             "minimum": 1.0,
             "title": "Current Month",
             "default": 6
+          },
+          "retry_errors": {
+            "type": "boolean",
+            "title": "Retry Errors",
+            "default": false
           }
         },
         "additionalProperties": false,
@@ -1815,11 +1820,9 @@
           "severity": {
             "anyOf": [
               {
-                "enum": [
-                  0,
-                  0.5,
-                  1
-                ]
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
               },
               {
                 "type": "null"

@@ -400,6 +400,12 @@ async def yandex(request: Request, background: BackgroundTasks,
             return {"jsonrpc": "2.0", "id": payload.get("id"), "result": result}
         return result
     except (ValueError, TypeError, ValidationError) as exc:
+        # Диагностика: без сырого тела непонятно, какое поле не прошло.
+        try:
+            print("yandex_reject", type(exc).__name__, str(exc)[:300],
+                  "body=" + body[:1200].decode("utf-8", "replace"), flush=True)
+        except Exception:
+            pass
         if isinstance(role, str) and role in yandex_form_ids():
             expected = yandex_form_ids()[role]
             logged_id = expected or (form_id if isinstance(form_id, str) and 0 < len(form_id) <= 200 else None)

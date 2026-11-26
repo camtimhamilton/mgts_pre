@@ -69,6 +69,13 @@ async function refresh(retry=true){
   }catch(e){
     if(id!==seq||e.name==="AbortError")return false;
     if(retry&&e.detail==="analysis_inputs_changed_retry")return refresh(false);
+    if(e.status===404&&e.detail==="pair_not_found"&&scope.type!=="GLOBAL"){
+      // Сессия помнит пару, которой больше нет в реестре: возвращаемся к обзору.
+      scope=globalScope;selected=[];previewFact=false;remember();
+      const ok=await refresh(false);
+      if(ok)notice("Эта пара больше не в реестре — открыли обзор программы.");
+      return ok;
+    }
     if(choices.length&&(e.detail==="methodology_base_stale"||[400,404,422].includes(e.status))){
       selected=[];previewFact=false;
       const ok=await refresh();
